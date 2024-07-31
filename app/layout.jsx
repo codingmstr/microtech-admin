@@ -1,7 +1,9 @@
 "use client";
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'react-toastify/dist/ReactToastify.css';
 import "@/public/sass/layout/tailwind.css";
 import "@/public/sass/main.scss";
+import { ToastContainer } from 'react-toastify';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import Layout from "@/components/layout";
@@ -27,6 +29,7 @@ export default function RootLayout ({ children }) {
                     <Layout>
                         {children}
                     </Layout>
+                    <ToastContainer />
                 </Provider>
             </body>
         </html>

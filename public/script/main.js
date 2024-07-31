@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 export const host = "http://127.0.0.1:8000";
 export const storage = "http://127.0.0.1:8000/storage";
 
@@ -466,8 +466,19 @@ export function scroll_to ( id ) {
 }
 export function alert_msg ( msg, type ) {
 
-    const toast = Swal.mixin({toast: true, position: 'top', showConfirmButton: false, timer: 3000, customClass: {container: 'no-select toast'}});
+    const options = {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
 
-    toast.fire({icon: type || 'success', title: msg || ''});
+    }
 
-};
+    const message = msg || '';
+    if ( type === 'error' ) toast.error(message, options);
+    else toast.success(message, options);
+
+}

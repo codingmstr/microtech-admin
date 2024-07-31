@@ -15,6 +15,7 @@
 @import './dragndrop.css';
 @import './form-elements.css';
 @import './select2.css';
+@import './toastify.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

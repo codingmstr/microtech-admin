@@ -57,10 +57,9 @@
         "react-simplemde-editor": "^5.2.0",
         "react-sortablejs": "^6.1.4",
         "react-text-mask": "^5.5.0",
-        "sass": "^1.77.6",
+        "react-toastify": "^10.0.5",
+        "sass": "^1.77.8",
         "sortablejs": "^1.15.0",
-        "sweetalert2": "^11.12.2",
-        "sweetalert2-react-content": "^5.0.7",
         "swiper": "^11.0.7"
     },
     "devDependencies": {
@@ -77,7 +76,7 @@
         "postcss": "^8.4.38",
         "prettier": "^2.8.0",
         "prettier-plugin-tailwindcss": "^0.2.0",
-        "tailwindcss": "^3.4.4",
+        "tailwindcss": "^3.4.7",
         "typescript": "5.5.2"
     }
 }

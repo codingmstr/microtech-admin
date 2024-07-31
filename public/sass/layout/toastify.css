@@ -1,0 +1,40 @@
+
+.Toastify__toast-container{
+    @apply left-[50%] translate-x-[-50%] w-[25rem];
+}
+
+.Toastify .Toastify__toast{
+    @apply bg-white dark:bg-[#3b3f5c] select-none text-dark/75 dark:text-white/75 tracking-wide p-3 pb-4 w-full left-0;
+}
+
+.Toastify .Toastify__toast-body{
+    @apply rtl:text-right gap-3 items-start;
+}
+
+.Toastify .Toastify__toast-body .Toastify__toast-icon{
+    @apply rtl:order-2 m-0 w-6 bg-white rounded-full;
+}
+
+.Toastify .Toastify__toast-body .Toastify__toast-icon path{
+    @apply fill-success;
+}
+
+.Toastify .Toastify__toast--error .Toastify__toast-icon path{
+    @apply fill-danger;
+}
+
+.Toastify .Toastify__progress-bar--success{
+    @apply bg-success;
+}
+
+.Toastify .Toastify__progress-bar--error{
+    @apply bg-danger;
+}
+
+.Toastify .Toastify__close-button{
+    @apply text-dark/75 dark:text-white/75 opacity-[1] duration-0 rtl:left-3 rtl:absolute;
+}
+
+.Toastify .Toastify__close-button:hover{
+    @apply opacity-[.7];
+}
