@@ -78,7 +78,7 @@ export default function Header () {
             
             <div className="shadow-sm bg-white dark:bg-black select-none">
 
-                <div className={`relative flex w-full items-center py-2.5 px-5 ${config.layout}`}>
+                <div className={`relative flex w-full items-center justify-between py-2.5 px-5 ${config.layout}`}>
 
                     <div className="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
 
@@ -92,21 +92,24 @@ export default function Header () {
 
                         <Link href="/" className="main-logo items-center shrink-0 px-2 hidden lg:flex">
 
-                            <img className="w-5 rtl:ml-3 ltr:mr-3 flex-none" src="/media/layout/logo.svg"/>
+                            {/* <img className="w-6 rtl:ml-2 ltr:mr-2 flex-none" src="/media/layout/logo.svg"/> */}
 
-                            <span className="text-2xl font-semibold align-middle lg:inline dark:text-white-dark" style={{fontSize: "1.2rem", marginTop: "0"}}>
-                                <span className='text-primary'>{config.text.logo1}</span> <span className='text-danger'>{config.text.logo2}</span>
+                            <span className="text-2xl font-semibold align-middle lg:inline dark:text-white-dark text-[1.2rem]">
+                                <span className='text-primary'>{config.text.logo1}</span>
+                                <span className='text-danger px-1'>{config.text.logo2}</span>
                             </span>
 
                         </Link>
 
                     </div>
 
-                    <div className="items-center gap-1 hidden md:flex">
-                        <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[20rem] bg-gray-50" placeholder={config.text.search}/>
+                    <div className={`items-center flex-1 hidden md:flex ${config.side || config.menu === 'horizontal' ? 'justify-center' : ''}`}>
+                      
+                        <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[22rem]" placeholder={config.text.search}/>
+                   
                     </div>
 
-                    <div className="flex items-center space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
+                    <div className="flex items-center space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
 
                         <div className="sm:ltr:mr-auto sm:rtl:ml-auto"></div>
 

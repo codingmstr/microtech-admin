@@ -317,6 +317,13 @@ body.dark{
     }
 }
 
+.panel-tabs{
+    li{
+        @apply cursor-pointer flex gap-2 p-4.5 border-b border-transparent hover:border-primary hover:text-primary;
+        &.active{  @apply border-primary text-primary; }
+    }
+}
+
 .reset-icon, .toggle-password{
     position: absolute; top: auto; cursor: pointer;
     bottom: .35rem;

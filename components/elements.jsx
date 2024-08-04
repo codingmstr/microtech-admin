@@ -39,9 +39,10 @@ export default function Elements ( props ) {
     }
     useEffect(() => {
 
+        setSrc(`${storage}/${value}`);
         if ( focus ) setTimeout(_ => ref.current?.focus(), 100);
 
-    }, []);
+    }, [value]);
 
     return (
 
@@ -54,11 +55,11 @@ export default function Elements ( props ) {
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group w-[8rem] h-[8rem] select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] border border-primary/20 rounded-${type === 'user' ? 'full' : 'md'} ${className} ${readOnly && 'layer-div'}`}>
-                    <img src={src} className='w-full h-full' onError={(e) => e.target.src = `/media/layout/${type === 'user' ? 'user' : 'error'}_icon.png`}/>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] border border-primary/20 rounded-${type === 'user' ? 'full' : 'md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                    <img src={src} className={`${type === 'user' ? 'w-full h-full' : 'max-w-[90%] max-h-[90%]'}`} onError={(e) => e.target.src = `/media/layout/${type === 'user' ? 'user' : 'error'}_icon.png`}/>
                     {
                         !readOnly &&
-                        <div onClick={() => ref.current?.click()} className='absolute top-0 left-0 w-full h-full cursor-pointer justify-center items-center flex-col bg-black/75 text-white hidden group-hover:flex space-y-2'>
+                        <div onClick={() => ref.current?.click()} className='absolute top-0 left-0 w-full h-full cursor-pointer justify-center items-center flex-col bg-black/25 dark:bg-black/75 text-white hidden group-hover:flex space-y-2'>
                             <Icons icon='edit'/>
                             <span>{config.text.edit}</span>
                             <input type="file" ref={ref} onChange={(e) => on_file(e.target.files || [], 'image')} className="hidden"/>
@@ -82,7 +83,7 @@ export default function Elements ( props ) {
             {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <input id={name} type={type || 'text'} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
@@ -98,14 +99,14 @@ export default function Elements ( props ) {
                             <span className="material-symbols-outlined icon">visibility_off</span>
                         </div>
                     }
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <input id={name} type={visibility ? 'text' : 'password'} value={value || ''} onChange={(e) => onChange(e.target.value)} ref={ref} className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
                 element === 'select' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
                         { children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>) }
                     </select>
@@ -114,14 +115,14 @@ export default function Elements ( props ) {
             {
                 element === 'textarea' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <textarea id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} rows={rows || 5} ref={ref} className="form-textarea min-h-[80px] resize-none"></textarea>
                 </div>
             }
             {
                 element === 'editor' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} small ${className}`}>
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <Quill value={value || ''} onChange={onChange}/>
                 </div>
             }
@@ -141,41 +142,41 @@ export default function Elements ( props ) {
             }
             {
                 element === 'button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-2 shadow-none select-none hover:opacity-[.8] ${className}`}>
                     <span>{config.text[lower(name || 'button')]}</span>
                 </button>
             }
             {
                 element === 'add_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-1 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-1 shadow-none select-none hover:opacity-[.8] ${className}`}>
                     <Icons icon='add'/>
                     <span>{config.text[lower(name || 'add_new')]}</span>
                 </button>
             }
             {
                 element === 'save_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-success w-full cursor-pointer gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-success w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
                     <Icons icon='save'/>
                     <span>{config.text[lower(name || 'save')]}</span>
                 </button>
             }
             {
                 element === 'cancel_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-warning w-full cursor-pointer gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-warning w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
                     <Icons icon='cancel'/>
                     <span>{config.text[lower(name || 'cancel')]}</span>
                 </button>
             }
             {
                 element === 'delete_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-danger w-full cursor-pointer gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-danger w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
                     <Icons icon='delete'/>
                     <span>{config.text[lower(name || 'delete')]}</span>
                 </button>
             }
             {
                 element === 'upload_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full cursor-pointer gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
                     <Icons icon='upload'/>
                     <span>{config.text.upload_file}</span>
                 </button>
@@ -189,7 +190,7 @@ export default function Elements ( props ) {
                             <span className="material-symbols-outlined icon">close</span>
                         </div> : ''
                     }
-                    <label htmlFor={name} className={`cursor-default w-[5.5rem] line-clamp-1 ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <input id={name} type={'text'} value={children.find(_ => _.id == value)?.name || children.find(_ => _.id == value)?.title || '--'} readOnly={true} onClick={() => !readOnly && setModel(true)} className={`form-input flex-1 ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}/>
                     { !readOnly && <Select model={model} setModel={setModel} data={children} label={lower(label || name)} onChange={onChange} roles={roles} type={(name.includes('client') || name.includes('vendor') || name.includes('admin') || name.includes('user')) ? '' : 'md'}/> }
                 </div>
@@ -197,12 +198,13 @@ export default function Elements ( props ) {
             {
                 element === 'slider' &&
                 <div className={`w-full ${className}`}>
+                    { label && <label htmlFor={name} className='cursor-default line-clamp-1 mb-4'>{config.text[lower(label)]}</label> }
                     <Slider data={value} onChange={onChange} readOnly={readOnly}/>
                 </div>
             }
             {
                 element === 'menu' &&
-                <div className="dropdown" onClick={onClick}>
+                <div className="dropdown select-none" onClick={onClick}>
                     <Dropdown placement={type} btnClassName={className} button={button}>
                         {children}
                     </Dropdown>
@@ -286,12 +288,31 @@ export default function Elements ( props ) {
                 </div>
             }
             {
+                element === 'tabs' &&
+                <div className={`panel panel-tabs w-full p-0 rounded-md overflow-hidden flex justify-start items-center gap-x-3 ${className}`}>
+                    <ul className="w-full flex font-semibold whitespace-nowrap tracking-wide overflow-x-auto select-none">
+                        {children}
+                    </ul>
+                </div>
+            }
+            {
+                element === 'toggle_panel' &&
+                <div className={`panel w-full h-full space-y-3 ${className}`}>
+                    <h5 className="font-semibold text-lg tracking-wide">{config.text[label || name]}</h5>
+                    <p className='pb-1 leading-5 line-clamp-2' title={config.text[type]}>{config.text[type]}</p>
+                    <label className="w-12 h-6 relative">
+                        <input type="checkbox" checked={value || false} onChange={() => onChange(!value)} className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"/>
+                        <span htmlFor="custom_switch_checkbox1" className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
+                    </label>
+                </div>
+            }
+            {
                 element === 'chart' &&
                 <Chart type={type} title={name} label={label || name} color={color} icon={icon} total={total} series={series} frame={frame} height={height} onChange={(frame) => {}}/>
             }
             {
                 element === 'hr' &&
-                <hr className={`border-[#e0e6ed] dark:border-[#1b2e4b] my-7 ${className}`}/>
+                <hr className={`border-[#e0e6ed] dark:border-[#1b2e4b] ${className || 'my-7'}`}/>
             }
             
         </div>

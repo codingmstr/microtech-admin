@@ -146,7 +146,7 @@ export default function _Page_ ({ searchParams, item_filters, options }) {
                     sidebar={[
                         {
                             options: {cols: 1, gap: 1, hr: true, class: 'justify-center'},
-                            inputs: [{element: 'image_edit', name: 'image', type: 'user', class: 'mt-1', readOnly: false}],
+                            inputs: [{element: 'image_edit', name: 'image', type: 'user', readOnly: false}],
                         },
                         {
                             options: {cols: 2, gap: 6, hr: false},

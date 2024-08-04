@@ -8,9 +8,10 @@ import Elements from './elements';
 import Icons from './icons';
 import Panel from "./panel";
 
-export default function Form ({ system='', id=0, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm }) {
+export default function Form ( props ) {
 
     const config = useSelector((state) => state.config);
+    const { system='', id=0, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
     const [loader, setLoader] = useState(true);
     const [items, setItems] = useState([...general, ...settings, ...sidebar]);
     const [data, setData] = useState({});
@@ -213,7 +214,7 @@ export default function Form ({ system='', id=0, general=[], sidebar=[], setting
                             
                             <div className="panel">
 
-                                <h1 className='flex items-center opacity-[.8]'>
+                                <h1 className='flex items-center opacity-[.8] select-none'>
 
                                     <Icons icon='setting'/>
 

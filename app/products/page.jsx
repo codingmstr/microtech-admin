@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Table from "@/components/table";
 import Form from "@/components/form";
-import { date } from "@/public/script/main";
 
 export default function _Page_ ({ searchParams, item_filters, options }) {
 
@@ -20,13 +19,17 @@ export default function _Page_ ({ searchParams, item_filters, options }) {
                     system={system}
                     setForm={setForm}
                     setId={setId}
+                    use_filters={false}
                     searchParams={searchParams}
                     item_filters={item_filters}
                     {...options}
                     columns={[
                         { accessor: 'id', title: 'id', render: ({ id }) => <div>{id}</div> },
-                        { accessor: 'title', title: 'title', render: ({ title }) => <div className="max-w-[15rem] line-clamp-1">{title}</div> },
-                        { accessor: 'body', title: 'body', render: ({ body }) => <div className="max-w-[25rem] line-clamp-1">{body}</div> },
+                        { accessor: 'title', title: 'name', render: ({ title }) => <div className="max-w-[15rem] line-clamp-1">{title}</div> },
+                        { accessor: 'title', title: 'categroy', render: ({ body }) => <div className="max-w-[25rem] line-clamp-1">{body}</div> },
+                        { accessor: 'title', title: 'date', render: ({ body }) => <div className="max-w-[25rem] line-clamp-1">{body}</div> },
+                        { accessor: 'title', title: 'price', render: ({ body }) => <div className="max-w-[25rem] line-clamp-1">{body}</div> },
+                        { accessor: 'title', title: 'active', render: ({ body }) => <div className="max-w-[25rem] line-clamp-1">{body}</div> },
                         { accessor: 'userId', title: 'user', render: ({ userId }) => <div>{userId}</div> },
                     ]}
                 /> :
@@ -36,6 +39,7 @@ export default function _Page_ ({ searchParams, item_filters, options }) {
                     setForm={setForm}
                     bring={[
                         'categories',
+                        'clients'
                     ]}
                     related={[
                         {
@@ -60,8 +64,13 @@ export default function _Page_ ({ searchParams, item_filters, options }) {
                             options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                             inputs: [
                                 {element: 'input', type: 'text', name: 'name', class: 'flex', required: true, focus: false},
+                                {element: 'input', type: 'email', name: 'email', class: 'flex', required: true},
                                 {element: 'input', type: 'phone', name: 'phone', class: 'flex',  required: true},
+                                {element: 'input', type: 'number', value: 18, name: 'age', class: 'flex', required: false},
+                                {element: 'password', visible: true, name: 'password', class: 'flex', required: true},
+                                {element: 'select', name: 'country', label: 'country', class: 'flex', children: 'categories'},
                                 {element: 'select_menu', name: 'category', label: 'category', class: 'flex', children: 'categories'},
+                                {element: 'select_menu', name: 'client', label: 'client', class: 'flex', children: 'clients'},
                             ],
                         },
                         {
@@ -139,13 +148,6 @@ export default function _Page_ ({ searchParams, item_filters, options }) {
                         },
                     ]}
                     sidebar={[
-                        {
-                            options: {cols: 2, gap: 6, hr: true},
-                            inputs: [
-                                {element: 'input', readOnly: true, value: date(), name: 'created_at'},
-                                {element: 'input', readOnly: true, value: 0, name: 'reviews'},
-                            ],
-                        },
                         {
                             options: {cols: 2, gap: 6, hr: false},
                             inputs: [
