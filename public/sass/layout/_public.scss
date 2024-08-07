@@ -281,6 +281,11 @@ body.dark{
     padding-top: 1rem;
 }
 
+.empty-image{
+    @apply opacity-[.7] dark:opacity-[.3];
+    &.rounded-md{ @apply max-w-[80%] max-h-[80%]; }
+}
+
 .datatables{
     .mantine-lrzwoq{
         margin: 0 1.2rem;
@@ -290,21 +295,28 @@ body.dark{
         padding: .85rem .5rem .9rem; margin: 0 .5rem;
         outline: 1px solid var(--border-color);
     }
-    &.empty{
-        .mantine-Table-root{ min-height: 13rem; }
-        .mantine-6d5v57{
-            .mantine-Text-root{ opacity: .9; margin: .5rem 0 1.3rem 0; }
-            .mantine-1dk8ajp{ opacity: .6; }
+    .mantine-Table-root:not(.cursor-pointer){
+        tbody{
+            tr td {
+                @apply font-semibold select-text cursor-default;
+
+                > div:not(.badge){ @apply flex items-center gap-2.5; }
+                span:not(.badge), a:not(.badge){ @apply line-clamp-2 max-w-[15rem]; }
+                a:not(.badge){ @apply pointer hover:text-primary max-w-[15rem]; }
+                .image{ @apply w-7 h-7; }
+                .badge-success{ @apply badge-outline-success; }
+                .badge-warning{ @apply badge-outline-warning; }
+                .badge-info{ @apply badge-outline-info; }
+                .badge-danger{ @apply badge-outline-danger; }
+            }
         }
+    }
+    &.empty{
+        .mantine-Table-root{ min-height: 15rem; }
+        .mantine-1dk8ajp{ opacity: .3; }
+        .mantine-Text-root.mantine-rwoji2{ opacity: .9; margin: .5rem 0 1.3rem 0; }
         .mantine-Button-root{ display: none; }
         tbody{ td{ display: none; } }
-    }
-    img{
-        background: var(--slider-back);
-        &.empty{
-            border-radius: 50%;
-            opacity: .5;
-        }
     }
 }
 

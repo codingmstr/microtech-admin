@@ -77,7 +77,7 @@ export default function Content ({ data, setData, setTab }) {
 
                     <div className="w-full grid grid-cols-1">
 
-                        <Elements element='image_edit' name='logo' className='w-full h-[11rem]' value={data.logo} onChange={(e) => setData({...data, logo_file: e})}/>
+                        <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e})}/>
 
                     </div>
                 

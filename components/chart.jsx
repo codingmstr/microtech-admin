@@ -1,5 +1,5 @@
 "use client";
-import { fix_number, date } from '@/public/script/main';
+import { fix_number, date, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
@@ -7,16 +7,16 @@ import Dropdown from './menu';
 import Loader from './loader';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function Chart ({ type, label, color, light, title, total, series, height, icon }) {
+export default function Chart ({ data, type, label, color, title, height, icon }) {
 
     const config = useSelector((state) => state.config);
     const [mounted, setMounted] = useState(false);
-    const [chart, setChart] = useState({});
     const [frame, setFrame] = useState('daily');
-    const [curr_series, set_curr_series] = useState(type === 'statistics' ? series[frame] : series);
+    const [total, setTotal] = useState(data.total || 0);
+    const [series, setSeries] = useState(data[frame]?.series || []);
 
     const area = {
-        series: [{name: label, data: curr_series ? curr_series.filter(_ => _ > 0).length ? curr_series : [1, 1, 1, 1, 1, 1, 1] : [1, 1, 1, 1, 1, 1, 1]}],
+        series: [{name: label, data: series.filter(_ => _ > 0).length ? series : [1, 1, 1, 1, 1, 1, 1]}],
         options: {
             chart: {
                 type: 'area',
@@ -33,8 +33,8 @@ export default function Chart ({ type, label, color, light, title, total, series
                 color === 'danger' ? '#e7515a' : 
                 color === 'info' ? '#4361ee' : 
                 color === 'warning' ? '#e2a03f' : 
-                color === 'secondary' ? '#9e45ae' :
-                color === 'success' && light ? '#36d2a1' : '#00ab55'
+                color === 'secondary' ? '#9e45ae' : 
+                color === 'success-light' ? '#36d2a1' : '#00ab55'
             ],
             labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             yaxis: {
@@ -43,7 +43,7 @@ export default function Chart ({ type, label, color, light, title, total, series
             },
             grid: {
                 padding: {
-                    top: curr_series ? curr_series.filter(_ => _ > 0).length ? 110 : 170 : 170,
+                    top: series.filter(_ => _ > 0).length ? 90 : 150,
                     right: 0,
                     bottom: 0,
                     left: 0,
@@ -69,7 +69,7 @@ export default function Chart ({ type, label, color, light, title, total, series
         },
     };
     const revenue = {
-        series: curr_series || [{name: '', data: [0, 0, 0, 0, 0, 0, 0]}],
+        series: Array.isArray(data) && data.map(_ => { return { name: config.text[_.name], data: _[frame].series || [] } }),
         options: {
             chart: {
                 type: 'area',
@@ -97,20 +97,34 @@ export default function Chart ({ type, label, color, light, title, total, series
                 left: -7,
                 top: 22,
             },
-            colors: ['#00ab55', '#e2a03f', '#2196F3', '#E7515A'],
+            colors: ['#E7515A', '#00ab55', '#e2a03f', '#2196F3'],
             markers: {
                 discrete: [
                     {
                         seriesIndex: 0,
                         dataPointIndex: 6,
-                        fillColor: '#1B55E2',
+                        fillColor: '#E7515A',
                         strokeColor: 'transparent',
                         size: 7,
                     },
                     {
                         seriesIndex: 1,
                         dataPointIndex: 5,
-                        fillColor: '#E7515A',
+                        fillColor: '#00ab55',
+                        strokeColor: 'transparent',
+                        size: 7,
+                    },
+                    {
+                        seriesIndex: 2,
+                        dataPointIndex: 4,
+                        fillColor: '#e2a03f',
+                        strokeColor: 'transparent',
+                        size: 7,
+                    },
+                    {
+                        seriesIndex: 3,
+                        dataPointIndex: 3,
+                        fillColor: '#2196F3',
                         strokeColor: 'transparent',
                         size: 7,
                     },
@@ -210,8 +224,8 @@ export default function Chart ({ type, label, color, light, title, total, series
             },
         },
     };
-    const category = {
-        series: series || [1],
+    const items = {
+        series: Array.isArray(data) ? data.map(_ => _.total || 1) : [],
         options: {
             chart: {
                 type: 'donut',
@@ -275,7 +289,7 @@ export default function Chart ({ type, label, color, light, title, total, series
                     },
                 },
             },
-            labels: label || [''],
+            labels: Array.isArray(data) ? data.map(_ => config.text[_.name] || '') : [''],
             states: {
                 hover: {
                     filter: {
@@ -294,13 +308,8 @@ export default function Chart ({ type, label, color, light, title, total, series
     };
     useEffect(() => {
 
-        setChart(type === 'statistics' ? revenue : type === 'category' ? category : area);
-
-    }, curr_series);
-    useEffect(() => {
-
         setMounted(true);
-        set_curr_series(type === 'statistics' ? series[frame] : series);
+        setSeries(data[frame]?.series || []);
 
     }, [frame]);
 
@@ -311,12 +320,12 @@ export default function Chart ({ type, label, color, light, title, total, series
                 mounted ?
                 <div className='panel w-full h-full p-0'>
                     {
-                        type === 'statistics' ?
+                        type === 'revenue' ?
                         <div className="p-4 h-full">
 
                             <div className="mb-5 flex items-center justify-between dark:text-white-light no-select">
 
-                                <h5 className="text-lg font-semibold">{title}</h5>
+                                <h5 className="text-lg font-semibold">{config.text.statistics}</h5>
 
                                 <div className="dropdown">
 
@@ -346,7 +355,7 @@ export default function Chart ({ type, label, color, light, title, total, series
 
                                 <div className="rounded-lg bg-white dark:bg-black">
                                     
-                                    <ReactApexChart series={chart.series} options={chart.options} type="area" height={height || 370} width={'100%'}/>
+                                    <ReactApexChart series={revenue.series} options={revenue.options} type="area" height={height || 370} width={'100%'}/>
 
                                 </div>
 
@@ -461,7 +470,7 @@ export default function Chart ({ type, label, color, light, title, total, series
 
                                     {fix_number(total).replace(/.0+$/, '')}
 
-                                    <span className="block text-sm font-normal">{title}</span>
+                                    <span className="block text-sm font-normal tracking-wide">{config.text[label]}</span>
 
                                 </h5>
 
@@ -469,148 +478,31 @@ export default function Chart ({ type, label, color, light, title, total, series
 
                             <div className="rounded-lg bg-transparent">
                                 
-                                <ReactApexChart series={chart.series} options={chart.options} type='area' height={height || 200} width={'100%'}/>
+                                <ReactApexChart series={area.series} options={area.options} type='area' height={height || 200} width={'100%'}/>
                     
                             </div>
 
                         </div>
-                        : type === 'summary' ?
-                        <div className='p-4 h-full'>
-
-                            <div className="mb-10 flex items-center justify-between dark:text-white-light no-select">
-
-                                <h5 className="text-lg font-semibold">{title}</h5>
-
-                                <div className="dropdown">
-
-                                    <svg className="h-5 w-5 text-black/70 hover:!text-primary dark:text-white/70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="5" cy="12" r="2" stroke="currentColor" strokeWidth="1.5" />
-                                        <circle opacity="0.5" cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.5" />
-                                        <circle cx="19" cy="12" r="2" stroke="currentColor" strokeWidth="1.5" />
-                                    </svg>
-
-                                </div>
-
-                            </div>
-
-                            <div className="space-y-9 default">
-
-                                <div className="flex items-center">
-
-                                    <div className="h-9 w-9 ltr:mr-3 rtl:ml-3">
-
-                                        <div className="grid h-9 w-9 place-content-center rounded-full bg-success-light text-success dark:bg-success dark:text-success-light">
-                                            
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke="currentColor" strokeWidth="1.5" d="M4.72848 16.1369C3.18295 14.5914 2.41018 13.8186 2.12264 12.816C1.83509 11.8134 2.08083 10.7485 2.57231 8.61875L2.85574 7.39057C3.26922 5.59881 3.47597 4.70292 4.08944 4.08944C4.70292 3.47597 5.59881 3.26922 7.39057 2.85574L8.61875 2.57231C10.7485 2.08083 11.8134 1.83509 12.816 2.12264C13.8186 2.41018 14.5914 3.18295 16.1369 4.72848L17.9665 6.55812C20.6555 9.24711 22 10.5916 22 12.2623C22 13.933 20.6555 15.2775 17.9665 17.9665C15.2775 20.6555 13.933 22 12.2623 22C10.5916 22 9.24711 20.6555 6.55812 17.9665L4.72848 16.1369Z"/>
-                                                <circle opacity="0.5" cx="8.60699" cy="8.87891" r="2" transform="rotate(-45 8.60699 8.87891)" stroke="currentColor" strokeWidth="1.5" />
-                                                <path opacity="0.5" d="M11.5417 18.5L18.5208 11.5208" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                            </svg>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="flex-1">
-
-                                        <div className="mb-2 flex font-semibold text-white-dark">
-                                            <h6>{config.text[label[0]]}</h6>
-                                            <p className="ltr:ml-auto rtl:mr-auto">{fix_number(series[0] || 0, true).replace(/.0+$/, '')} {config.text.currency}</p>
-                                        </div>
-
-                                        <div className="h-2 w-full rounded-full bg-dark-light shadow dark:bg-[#1b2e4b]">
-                                            <div className="h-full rounded-full bg-gradient-to-r from-[#3cba92] to-[#0ba360] w-[90%]"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="flex items-center">
-
-                                    <div className="h-9 w-9 ltr:mr-3 rtl:ml-3">
-
-                                        <div className="grid h-9 w-9 place-content-center  rounded-full bg-secondary-light text-secondary dark:bg-secondary dark:text-secondary-light">
-                                        
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke="currentColor" strokeWidth="1.5" d="M3.74157 18.5545C4.94119 20 7.17389 20 11.6393 20H12.3605C16.8259 20 19.0586 20 20.2582 18.5545M3.74157 18.5545C2.54194 17.1091 2.9534 14.9146 3.77633 10.5257C4.36155 7.40452 4.65416 5.84393 5.76506 4.92196M3.74157 18.5545C3.74156 18.5545 3.74157 18.5545 3.74157 18.5545ZM20.2582 18.5545C21.4578 17.1091 21.0464 14.9146 20.2235 10.5257C19.6382 7.40452 19.3456 5.84393 18.2347 4.92196M20.2582 18.5545C20.2582 18.5545 20.2582 18.5545 20.2582 18.5545ZM18.2347 4.92196C17.1238 4 15.5361 4 12.3605 4H11.6393C8.46374 4 6.87596 4 5.76506 4.92196M18.2347 4.92196C18.2347 4.92196 18.2347 4.92196 18.2347 4.92196ZM5.76506 4.92196C5.76506 4.92196 5.76506 4.92196 5.76506 4.92196Z"/>
-                                                <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" d="M9.1709 8C9.58273 9.16519 10.694 10 12.0002 10C13.3064 10 14.4177 9.16519 14.8295 8"/>
-                                            </svg>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="flex-1">
-
-                                        <div className="mb-2 flex font-semibold text-white-dark">
-                                            <h6>{config.text[label[1]]}</h6>
-                                            <p className="ltr:ml-auto rtl:mr-auto">{fix_number(series[1], true).replace(/.0+$/, '')} {config.text.currency}</p>
-                                        </div>
-
-                                        <div className="h-2 rounded-full bg-dark-light shadow dark:bg-[#1b2e4b]">
-                                            <div className="h-full rounded-full bg-gradient-to-r from-[#7579ff] to-[#b224ef] w-[70%]"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="flex items-center">
-
-                                    <div className="h-9 w-9 ltr:mr-3 rtl:ml-3">
-
-                                        <div className="grid h-9 w-9 place-content-center rounded-full bg-warning-light text-warning dark:bg-warning dark:text-warning-light">
-                                        
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke="currentColor" strokeWidth="1.5" d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"/>
-                                                <path opacity="0.5" d="M10 16H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                                <path opacity="0.5" d="M14 16H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                                <path opacity="0.5" d="M2 10L22 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                            </svg>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="flex-1">
-
-                                        <div className="mb-2 flex font-semibold text-white-dark">
-                                            <h6>{config.text[label[2]]}</h6>
-                                            <p className="ltr:ml-auto rtl:mr-auto">{fix_number(series[2], true).replace(/.0+$/, '')} {config.text.currency}</p>
-                                        </div>
-
-                                        <div className="h-2 w-full rounded-full bg-dark-light shadow dark:bg-[#1b2e4b]">
-                                            <div className="h-full rounded-full bg-gradient-to-r from-[#f09819] to-[#ff5858] w-[50%]"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        : type === 'category' ?
+                        : type === 'items' ?
                         <div className='p-4 h-full'>
 
                             <div className="mb-5 flex items-center">
 
-                                <h5 className="text-lg font-semibold dark:text-white-light">{title}</h5>
+                                <h5 className="text-lg font-semibold dark:text-white-light">{config.text.chart_items}</h5>
 
                             </div>
 
                             <div className="rounded-lg bg-white dark:bg-black pb-2">
 
-                                <ReactApexChart series={chart.series} options={chart.options} type="donut" height={height || 400} width={'100%'}/>
+                                <ReactApexChart series={items.series} options={items.options} type="donut" height={height || 400} width={'100%'}/>
                             
                             </div>
 
                         </div> : ''
                     }
                 </div> :
-                <div className='relative min-h-[200px] w-full'>
-                    <Loader className='small bg'/>
+                <div className='relative min-h-[200px] w-full opacity-0'>
+                    <Loader className='medium bg'/>
                 </div>
             }
         </div>

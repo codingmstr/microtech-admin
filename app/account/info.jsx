@@ -24,6 +24,7 @@ export default function Info ({ data, setData }) {
 
         if ( response.user ) {
             const user = { ...response.user, token: config.user.token, logged: true, update: date() };
+            setData({...data, ...user});
             dispatch(actions.toggle_user(user));
             alert_msg(config.text.account_successfully);
         }

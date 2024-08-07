@@ -369,6 +369,7 @@ export function fix_number ( num, float ) {
 }
 export function fix_time ( dt ) {
     
+    dt = dt || ''
     let hours = parseInt(dt?.split(" ")[1]?.split(':')?.slice(0, 2)[0] || 0);
     let minutes = parseInt(dt?.split(" ")[1]?.split(':')?.slice(0, 2)[1] || 0);
     let p = 'AM';
@@ -381,6 +382,7 @@ export function fix_time ( dt ) {
 }
 export function fix_date ( dt, time ) {
     
+    dt = dt || '';
     let today = `${date('year')}-${date('month')}-${date('day')} 0:0:0`;
     let diff = new Date(today).getTime() - new Date(dt).getTime();
     let text = JSON.parse(localStorage.getItem('text'));

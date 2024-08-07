@@ -14,7 +14,7 @@ export const Arabic = {
     categories: 'الأقسام',
     products: 'العقارات',
     coupons: 'كوبونات الخصم',
-    bookings: 'الحجوزات',
+    orders: 'الحجوزات',
     reports: 'التقارير',
     mails: 'الإيميلات',
     chats: 'المراسلات',
@@ -379,5 +379,6 @@ export const Arabic = {
     sales: 'المبيعات',
     district: 'الحى',
     auction_video: 'الفيديو التسويقى',
+    chart_items: 'العناصر',
 
 }

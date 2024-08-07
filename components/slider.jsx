@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Elements from "./elements";
 
-export default function Slider ({ data, onChange, readOnly }) {
+export default function Slider ({ data, slider, onChange, readOnly }) {
    
     const config = useSelector((state) => state.config);
     const [swiper, setSwiper] = useState(null);
@@ -57,17 +57,24 @@ export default function Slider ({ data, onChange, readOnly }) {
 
         layout();
         setTimeout(layout, 500);
-        window.addEventListener('click', function(e) { setTimeout(layout, 200) });
-
-        setFiles(data?.map(_ => { _.url = `${storage}/${_.url}`; return _; }) || []);
+        window.addEventListener('click', _ => setTimeout(layout, 200));
         setIndex(data?.length ? 1 : 0);
+
+        if ( slider ) {
+            setFiles(slider.files || []);
+            set_new_files(slider.new_files || []);
+            set_deleted_files(slider.deleted_files || []);
+        }
+        else {
+            setFiles(data?.map(_ => { !_.url.includes('http') ? _.url = `${storage}/${_.url}` : ''; return _; }) || []);
+        }
 
     }, []);
     useEffect(() => {
-        
-        onChange({new_files: new_files, deleted_files: deleted_files});
 
-    }, [new_files, deleted_files]);
+        onChange({files: files, new_files: new_files, deleted_files: deleted_files});
+
+    }, [new_files, deleted_files, files]);
 
     return (
 
@@ -110,8 +117,8 @@ export default function Slider ({ data, onChange, readOnly }) {
 
                         ) : 
                         <SwiperSlide>
-                            <div className='w-full h-full flex justify-center items-center opacity-[.4]'>
-                                <img src='/media/layout/error_icon.png' className='bg-none h-[5rem] sm:h-[8rem]'/>
+                            <div className='w-full h-full flex justify-center items-center'>
+                                <img src='/media/layout/error_icon.png' className='bg-none h-[5rem] sm:h-[8rem] empty-image'/>
                             </div>
                         </SwiperSlide>
                     }

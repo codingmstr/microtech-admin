@@ -1,7 +1,9 @@
 "use client";
-import { lower, storage, alert_msg, read_file, print } from "@/public/script/main";
+import { lower, storage, alert_msg, read_file, fix_date, print } from "@/public/script/main";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux';
+import { Countries } from "@/utils/countries";
+import { Languages } from "@/utils/languages";
 import Dropdown from './menu';
 import Quill from './quill';
 import Select from './select';
@@ -13,14 +15,14 @@ export default function Elements ( props ) {
 
     const {
         element, value, name, label, type, rows, visible, readOnly, className='',
-        onChange, onClick, children, button, multiple, focus, roles,
-        color, icon, total, height, series, frame,
+        onChange, onClick, children, button, multiple, focus, roles, slider,
+        color, icon, height
     } = props
     const config = useSelector((state) => state.config);
+    const ref = useRef(null);
     const [visibility, setVisibility] = useState(visible || false);
     const [model, setModel] = useState(false);
     const [src, setSrc] = useState(`${storage}/${value}`);
-    const ref = useRef(null);
 
     const change_file = async( f, type ) => {
 
@@ -41,7 +43,7 @@ export default function Elements ( props ) {
 
         setSrc(`${storage}/${value}`);
         if ( focus ) setTimeout(_ => ref.current?.focus(), 100);
-
+        
     }, [value]);
 
     return (
@@ -50,13 +52,23 @@ export default function Elements ( props ) {
             {
                 element === 'image' &&
                 <div className={`image overflow-hidden bg-white-dark dark:bg-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-full h-full'}`}>
-                    <img src={`${storage}/${value}`} className={`w-full h-full rounded-${type !== 'md' ? 'full' : 'md'}`} onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`}/>
+                    <img 
+                        src={`${storage}/${value}`} 
+                        className={`w-full h-full rounded-${type !== 'md' ? 'full' : 'md'}`} 
+                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
+                        onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
+                    />
                 </div>
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] border border-primary/20 rounded-${type === 'user' ? 'full' : 'md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
-                    <img src={src} className={`${type === 'user' ? 'w-full h-full' : 'max-w-[90%] max-h-[90%]'}`} onError={(e) => e.target.src = `/media/layout/${type === 'user' ? 'user' : 'error'}_icon.png`}/>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] m-auto border border-primary/20 rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                    <img 
+                        src={src} 
+                        className={`${type === 'md' ? 'max-w-[90%] max-h-[90%]' : 'w-full h-full'}`} 
+                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
+                        onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
+                    />
                     {
                         !readOnly &&
                         <div onClick={() => ref.current?.click()} className='absolute top-0 left-0 w-full h-full cursor-pointer justify-center items-center flex-col bg-black/25 dark:bg-black/75 text-white hidden group-hover:flex space-y-2'>
@@ -84,7 +96,7 @@ export default function Elements ( props ) {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={type || 'text'} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
+                    <input id={name} type={type || 'text'} value={name?.includes('_at') ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
@@ -109,6 +121,24 @@ export default function Elements ( props ) {
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
                         { children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>) }
+                    </select>
+                </div>
+            }
+            {
+                element === 'countries' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
+                        { Countries?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
+                    </select>
+                </div>
+            }
+            {
+                element === 'languages' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
+                        { Languages?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
                     </select>
                 </div>
             }
@@ -198,8 +228,8 @@ export default function Elements ( props ) {
             {
                 element === 'slider' &&
                 <div className={`w-full ${className}`}>
-                    { label && <label htmlFor={name} className='cursor-default line-clamp-1 mb-4'>{config.text[lower(label)]}</label> }
-                    <Slider data={value} onChange={onChange} readOnly={readOnly}/>
+                    { label && <label className='cursor-default line-clamp-1 mb-4'>{config.text[lower(label)]}</label> }
+                    <Slider data={value || []} slider={slider} onChange={onChange} readOnly={readOnly}/>
                 </div>
             }
             {
@@ -308,13 +338,12 @@ export default function Elements ( props ) {
             }
             {
                 element === 'chart' &&
-                <Chart type={type} title={name} label={label || name} color={color} icon={icon} total={total} series={series} frame={frame} height={height} onChange={(frame) => {}}/>
+                <Chart data={value || {}} type={type} title={name} label={label || name} color={color} icon={icon} height={height}/>
             }
             {
                 element === 'hr' &&
-                <hr className={`border-[#e0e6ed] dark:border-[#1b2e4b] ${className || 'my-7'}`}/>
+                <hr className={`border-[#e0e6ed] dark:border-[#1b2e4b] ${className.includes('my') ? className : `my-7 ${className}`}`}/>
             }
-            
         </div>
 
     )

@@ -115,7 +115,7 @@ export default function Sidebar () {
                                 config.user.allow_categories &&
                                 <li className="nav-item">
 
-                                    <Link href="/categories" className="group">
+                                    <Link href="/category" className="group">
 
                                         <div className="flex items-center">
 
@@ -138,7 +138,7 @@ export default function Sidebar () {
                                 config.user.allow_products &&
                                 <li className="nav-item">
 
-                                    <Link href="/products" className="group">
+                                    <Link href="/product" className="group">
 
                                         <div className="flex items-center">
 
@@ -162,7 +162,7 @@ export default function Sidebar () {
                                 config.user.allow_coupons &&
                                 <li className="nav-item">
 
-                                    <Link href="/coupons" className="group">
+                                    <Link href="/coupon" className="group">
 
                                         <div className="flex items-center">
                                             
@@ -185,7 +185,7 @@ export default function Sidebar () {
                                 config.user.allow_orders &&
                                 <li className="nav-item">
 
-                                    <Link href="/orders" className="group">
+                                    <Link href="/order" className="group">
 
                                         <div className="flex items-center">
 
@@ -209,7 +209,7 @@ export default function Sidebar () {
                                 config.user.allow_reviews &&
                                 <li className="nav-item">
 
-                                    <Link href="/reviews" className="group">
+                                    <Link href="/review" className="group">
 
                                         <div className="flex items-center">
                                             
@@ -257,9 +257,9 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'users' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.supervisor && <li><Link href='/admins'>{config.text.admins}</Link></li> }
-                                        { config.user.allow_vendors && <li><Link href='/vendors'>{config.text.vendors}</Link></li> }
-                                        { config.user.allow_clients && <li><Link href='/clients'>{config.text.clients}</Link></li> }
+                                        { config.user.supervisor && <li><Link href='/admin'>{config.text.admins}</Link></li> }
+                                        { config.user.allow_vendors && <li><Link href='/vendor'>{config.text.vendors}</Link></li> }
+                                        { config.user.allow_clients && <li><Link href='/client'>{config.text.clients}</Link></li> }
                                     </ul>
                                 </AnimateHeight>
 
@@ -291,11 +291,11 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'more' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.allow_blogs && <li><Link href='/blogs'>{config.text.blogs}</Link></li> }
-                                        { config.user.allow_comments && <li><Link href='/comments'>{config.text.comments}</Link></li> }
-                                        { config.user.allow_replies && <li><Link href='/replies'>{config.text.replies}</Link></li> }
-                                        { config.user.allow_contacts && <li><Link href='/contacts'>{config.text.contacts}</Link></li> }
-                                        { config.user.allow_reports && <li><Link href='/reports'>{config.text.reports}</Link></li> }
+                                        { config.user.allow_blogs && <li><Link href='/blog'>{config.text.blogs}</Link></li> }
+                                        { config.user.allow_comments && <li><Link href='/comment'>{config.text.comments}</Link></li> }
+                                        { config.user.allow_replies && <li><Link href='/reply'>{config.text.replies}</Link></li> }
+                                        { config.user.allow_contacts && <li><Link href='/contact'>{config.text.contacts}</Link></li> }
+                                        { config.user.allow_reports && <li><Link href='/report'>{config.text.reports}</Link></li> }
                                     </ul>
                                 </AnimateHeight>
 
@@ -330,7 +330,7 @@ export default function Sidebar () {
                                 config.user.super &&
                                 <li className="nav-item">
 
-                                    <Link href="/settings" className="group">
+                                    <Link href="/setting" className="group">
 
                                         <div className="flex items-center">
 

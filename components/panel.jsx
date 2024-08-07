@@ -8,10 +8,13 @@ export default function Form ({ items, data, setData }) {
 
         let _data_ = data;
 
-        if ( item.element === 'slider' ) { _data_.new_files = e.new_files; _data_.deleted_files = e.deleted_files; }
+        if ( item.element === 'slider' ) {
+            _data_.new_files = e.new_files; _data_.deleted_files = e.deleted_files;
+            _data_.slider = { files: e.files, new_files: e.new_files, deleted_files: e.deleted_files }
+        }
         else if ( item.element === 'image_edit' ) _data_[`${item.name}_file`] = e.file;
         else _data_[item.name] = e;
-
+     
         setData({..._data_});
 
     }
@@ -19,16 +22,11 @@ export default function Form ({ items, data, setData }) {
 
         <div>
             {
-                items.map((group, index) =>
-                    
-                    !group.options?.hidden &&
+                items.map((group, index) => !group.options?.hidden &&
                     <div key={index}>
-
                         <div className={`panel-grid grid grid-cols-${group.options?.cols || 1} gap-${group.options?.gap || 1} ${group.options?.class}`}>
-
                             {
                                 group.inputs.map((item, index) =>
-
                                     <Elements 
                                         key={index} 
                                         element={item.element} 
@@ -42,24 +40,17 @@ export default function Form ({ items, data, setData }) {
                                         focus={item.focus} 
                                         color={item.color} 
                                         icon={item.icon} 
-                                        total={item.total} 
-                                        series={item.series} 
                                         height={item.height} 
-                                        frame={item.frame}
                                         className={item.class} 
                                         required={item.required}
                                         children={data[item.children] || []}
+                                        slider={data.slider}
                                     />
-
                                 )
                             }
-
                         </div>
-
                         { group.options?.hr && <Elements element="hr"/> }
-
                     </div>
-
                 )
             }
         </div>

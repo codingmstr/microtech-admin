@@ -1,5 +1,5 @@
 "use client";
-import { alert_msg, api, lower, print } from '@/public/script/main';
+import { alert_msg, api, lower, trim, print } from '@/public/script/main';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
@@ -39,17 +39,14 @@ export default function Table ( props ) {
     const _read_ = async() => {
 
         set_my_loader(true);
-        // const response = await api(`${system}`, {page: current_page, limit: limit, query: query, filter: filter, ...item_filters || {}});
-        let response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${current_page}&_limit=${limit}&_q=${query}`);
-        response = await response.text();
-        response = JSON.parse(response);
-        let total = 100;
+        const request = {page: current_page, limit: limit, search: query, filter: filter, filters: JSON.stringify(item_filters || {})};
+        const response = await api(`${system}`, request);
 
+        set_my_data(response.items || []);
+        set_total_items(response.total || 0);
+        set_total_pages( Math.ceil(response.total / limit) );
         set_selected([]);
-        set_my_data(response);
-        set_total_items(total);
-        set_total_pages( Math.ceil(total / limit) );
-        setTimeout(() => set_my_loader(false), 500);
+        set_my_loader(false);
 
     };
     const _delete_group_ = async() => {
@@ -58,12 +55,13 @@ export default function Table ( props ) {
         if ( !confirm(`${config.text.delete_selected_rows} ( ${selected.length} ) ${config.text.question_mark}`) ) return;
 
         let data = my_data.filter(_ => !selected.includes(_));
-        if ( !data.length ) _read_();
+        if ( !data.length ) set_my_loader(true);
         else set_my_data(data);
         set_selected([]);
 
         alert_msg(`${selected.length} ${config.text.items} ${config.text.deleted_successfully}`);
         const response = await api(`${system}/delete`, {ids: JSON.stringify(selected.map(_ => _.id))});
+        if ( !data.length ) _read_();
 
     }
     const _delete_one_ = async( id ) => {
@@ -72,12 +70,13 @@ export default function Table ( props ) {
         if ( !confirm(`${config.text.ask_delete_item}`) ) return;
 
         let data = my_data.filter(_ => _.id !== id);
-        if ( !data.length ) _read_();
+        if ( !data.length ) set_my_loader(true);
         else set_my_data(data);
         set_selected(selected.filter(_ => _.id !== id));
 
         alert_msg(`${config.text.item} ${id} ${config.text.deleted_successfully}`);
         const response = await api(`${system}/${id}/delete`);
+        if ( !data.length ) _read_();
 
     }
     const _search_ = async() => {
@@ -153,7 +152,6 @@ export default function Table ( props ) {
                 <div className="panel p-0 overflow-hidden">
 
                     <div className='invoice-table'>
-
                         {
                             add || deletes || search || use_filters || settings ?
                             <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-gray-100 dark:border-[#15243b]">
@@ -184,25 +182,22 @@ export default function Table ( props ) {
                                     }
                                 </div>
 
-                                <div className="flex items-center gap-1">
+                                <div className='flex justify-center items-center gap-3'>
                                     {
                                         search &&
                                         <input 
                                             type="text" 
-                                            className="form-input w-[22rem]" 
+                                            className="form-input w-[18rem]" 
                                             placeholder={config.text.search} 
                                             value={query}
                                             onChange={(e) => set_query(e.target.value)} 
                                             onKeyUp={(e) => { e.key === 'Enter' && _search_() }}
                                         />
                                     }
-                                </div>
-
-                                <div className='flex items-center gap-6'>
                                     {
                                         use_filters &&
-                                        <div className='flex items-center gap-1'>
-                                            <select value={filter} onChange={(e) => setFilter(e.target.value)} className='form-select cursor-pointer min-w-[10rem]'>
+                                        <div className='flex items-center'>
+                                            <select value={filter} onChange={(e) => setFilter(e.target.value)} className='form-select cursor-pointer min-w-[8rem]'>
                                                 {
                                                     ['newest', 'oldest', ...filters || []].map((item, index) => 
                                                         <option key={index} value={item}>{config.text[lower(item)]}</option>
@@ -217,7 +212,7 @@ export default function Table ( props ) {
 
                                             <div className="dropdown shrink-0">
 
-                                                <Dropdown offset={[0, 8]} btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                                                <Dropdown offset={[0, 8]} btnClassName="block p-2 rounded-lg border border-white-light dark:border-[#121e32] dark:bg-[#121e32] hover:text-primary"
                                                     button={
                                                         <svg className="hover:!text-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"></circle>
@@ -258,7 +253,6 @@ export default function Table ( props ) {
 
                             </div> : ''
                         }
-
                         {
                             my_loader ?
                             <div className='relative w-full h-[25.2rem]'>
@@ -266,7 +260,7 @@ export default function Table ( props ) {
                             </div>:
                             <div>
                                 
-                                <div className={`datatables select-none ${pagination ? 'pb-5 pagination-padding' : 'pb-1'}`}>
+                                <div className={`datatables select-none ${pagination ? 'pb-5 pagination-padding' : 'pb-1'} ${!my_data?.length && 'empty'}`}>
 
                                     <DataTable
                                         {... Object.fromEntries( Object.entries(options).filter(([key, value]) => value) ) }
@@ -283,17 +277,17 @@ export default function Table ( props ) {
                                         columns={
                                             edit || deletes ? [
                                                 ...columns.map(_ => {
-                                                    _.sortable = true,
-                                                    _.textAlignment = config.dir === 'rtl' ? 'right' : 'left',
-                                                    _.title = config.text[lower(_.title)] || ''
+                                                    _.sortable = true;
+                                                    _.textAlignment = config.dir === 'rtl' ? 'right' : 'left';
+                                                    _.title = config.text[lower(_.title)] || '';
                                                     return _;
-                                                }),
+                                                }).filter(_ => !_.hidden),
                                                 {
                                                     accessor: 'action', sortable: false,
                                                     title: config.text.invoice,
                                                     textAlignment: config.dir === 'rtl' ? 'right' : 'left',
                                                     render: ({ id }) => (
-                                                        <div className="buttons mx-auto flex w-full items-center gap-2 opacity-[.8]">
+                                                        <div className="buttons mx-auto flex w-full items-center gap-2 opacity-[.8] select-none">
                                                             {
                                                                 edit &&
                                                                 <button type="button" onClick={() => _edit_(id)} className="btn rounded-md text-primary border-primary shadow-none hover:bg-primary hover:text-white px-3 py-[5px] text-[.8rem] tracking-wide">
@@ -315,7 +309,7 @@ export default function Table ( props ) {
                                                     _.textAlignment = config.dir === 'rtl' ? 'right' : 'left',
                                                     _.title = config.text[lower(_.title)] || ''
                                                     return _;
-                                                }), 
+                                                }).filter(_ => !_.hidden),
                                             ]
                                         }
                                     />
@@ -324,7 +318,6 @@ export default function Table ( props ) {
 
                             </div>
                         }
-
                     </div>
 
                 </div>

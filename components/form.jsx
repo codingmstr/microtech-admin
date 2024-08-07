@@ -1,5 +1,5 @@
 "use client";
-import { alert_msg, api, print } from '@/public/script/main';
+import { alert_msg, api, date, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
@@ -17,42 +17,61 @@ export default function Form ( props ) {
     const [data, setData] = useState({});
     const [tab, setTab] = useState('info');
 
+    const value = ( item ) => {
+
+        let value = '';
+        if ( item.value !== undefined ) return item.value;
+        if ( item.type === 'number' ) value = 0;
+        if ( item.name === 'created_at' ) value = date();
+        if ( item.name === 'updated_at' ) value = date();
+        if ( item.element === 'toggle' ) value = true;
+        return value;
+
+    }
+    const charts = ( data ) => {
+
+        let revenue, items;
+
+        statistics.forEach(_ => 
+            _.inputs.forEach(_ => {
+                if ( _.type === 'revenue' ) revenue = _;
+                if ( _.type === 'items' ) items = _;
+            }
+        ))
+        if ( revenue ) {
+            revenue = revenue.charts.map(_ => { return {...data[_], name: _}; });
+            data = {...data, revenue_chart: revenue};
+        }
+        if ( items ) {
+            items = items.charts.map(_ => { return {...data[_], name: _}; });
+            data = {...data, category_chart: items};
+        }
+
+        return data;
+
+    }
     const _default_ = async() => {
 
         let _data_ = {};
-        items.forEach(_ => _.inputs.forEach(_ => _data_[_.name] = _.value));
+        items.forEach(_ => _.inputs.forEach(_ => _data_[_.name] = _.value || value(_)));
 
         if ( bring.length ) {
-
-            // const response = await api(`${system}/default`);
-
-            const response = {
-                status: true,
-                categories: [
-                    {id: 1, name: 'Category 1', image: 'user/1.png', created_at: '2024-06-12'},
-                    {id: 2, name: 'Category 2', image: 'user/1.png', created_at: '2024-06-12'},
-                    {id: 3, name: 'Category 3', image: 'user/1.png', created_at: '2024-06-12'},
-                ],
-                clients: [
-                    {id: 1, name: 'Client 1', image: 'user/1.png', created_at: '2024-06-12'},
-                    {id: 2, name: 'Client 2', image: 'user/2.png', created_at: '2024-06-12'},
-                    {id: 3, name: 'Client 3', image: 'user/3.png', created_at: '2024-06-12'},
-                ],
-            }
-
-            bring.forEach(_ => _data_[_] = response[_]);
-
+            const response = await api(`${system}/default`);
+            bring.forEach(_ => _data_[_] = response[_] || []);
         }
 
         setData(_data_);
-        setTimeout(() => setLoader(false), 500);
+        setTimeout(() => setLoader(false));
 
     }
     const _get_ = async() => {
 
         const response = await api(`${system}/${id}`);
-        if ( !response.data ) return setForm(false);
-        setData(response.data);
+        if ( !response.item ) return setForm(false);
+
+        let _data_ = {...response.item, 'statistics': charts(response.statistics)};
+        bring.forEach(_ => _data_[_] = response[_] || []);
+        setData(_data_);
         setLoader(false);
 
     }
@@ -61,9 +80,11 @@ export default function Form ( props ) {
         let required = [];
         items.forEach(_ => _.inputs.forEach(_ => (_.required && !data[_.name]) ? required.push(_.label || _.name) : ''));
         if ( required.length ) return alert_msg(`${required[0]} is required to save item !`, 'error');
-        
+
         setLoader(true);
-        const response = await api(id ? `${system}/${id}/update` : `${system}/store`, data);
+        data.new_files?.forEach((f, index) => data[`file_${index}`] = f.file);
+        const request = {...data, deleted_files: JSON.stringify(data.deleted_files || [])}
+        const response = await api(id ? `${system}/${id}/update` : `${system}/store`, request);
         
         if ( response.status ) {
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);
@@ -107,7 +128,7 @@ export default function Form ( props ) {
     }
     useEffect(() => {
 
-        if ( id ) _default_();
+        if ( id ) _get_();
         else _default_();
 
     }, []);
@@ -123,68 +144,41 @@ export default function Form ( props ) {
 
                         <div className="flex-1 ltr:xl:mr-6 rtl:xl:ml-6 space-y-4">
 
-                            <div className="panel p-0 rounded-md overflow-hidden flex justify-start items-center gap-x-3">
+                            <Elements element='tabs'>
+                                <li onClick={() => setTab('info')} className={`${tab === 'info' && 'active'}`}>
+                                    <Icons icon='information'/>
+                                    <span>{config.text.information}</span>
+                                </li>
+                                {
+                                    settings.length ?
+                                    <li onClick={() => setTab('settings')} className={`${tab === 'settings' && 'active'}`}>
+                                        <Icons icon='setting'/>
+                                        <span>{config.text.configrations}</span>
+                                    </li> : ''
+                                }
+                                {
+                                    id && statistics.length ?
+                                    <li onClick={() => setTab('statistics')} className={`${tab === 'statistics' && 'active'}`}>
+                                        <Icons icon='chart'/>
+                                        <span>{config.text.statistics}</span>
+                                    </li> : ''
+                                }
+                                {
+                                    id && related.length ?
+                                    related.map((system, index) => 
+                                        <li key={index} onClick={() => setTab(system.name)} className={`${tab === system.name && 'active'}`}>
+                                            <Icons icon={system.icon}/>
+                                            <span>{config.text[system.label || system.name]}</span>
+                                        </li>
+                                    ) : ''
+                                }
+                            </Elements>
 
-                                <ul className="w-full sm:flex font-semibold whitespace-nowrap tracking-wide overflow-x-auto select-none">
-
-                                    <li className="inline-block">
-                                        <a onClick={() => setTab('info')} className={`set-text pointer flex gap-2 p-4.5 border-b border-transparent hover:border-primary hover:text-primary ${tab === 'info' && '!border-primary text-primary'}`}>
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
-                                                <path d="M4.97883 9.68508C2.99294 8.89073 2 8.49355 2 8C2 7.50645 2.99294 7.10927 4.97883 6.31492L7.7873 5.19153C9.77318 4.39718 10.7661 4 12 4C13.2339 4 14.2268 4.39718 16.2127 5.19153L19.0212 6.31492C21.0071 7.10927 22 7.50645 22 8C22 8.49355 21.0071 8.89073 19.0212 9.68508L16.2127 10.8085C14.2268 11.6028 13.2339 12 12 12C10.7661 12 9.77318 11.6028 7.7873 10.8085L4.97883 9.68508Z" stroke="currentColor" strokeWidth="1.5"></path>
-                                                <path d="M22 12C22 12 21.0071 12.8907 19.0212 13.6851L16.2127 14.8085C14.2268 15.6028 13.2339 16 12 16C10.7661 16 9.77318 15.6028 7.7873 14.8085L4.97883 13.6851C2.99294 12.8907 2 12 2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                                <path d="M22 16C22 16 21.0071 16.8907 19.0212 17.6851L16.2127 18.8085C14.2268 19.6028 13.2339 20 12 20C10.7661 20 9.77318 19.6028 7.7873 18.8085L4.97883 17.6851C2.99294 16.8907 2 16 2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                            </svg>
-                                            <span>{config.text.information}</span>
-                                        </a>
-                                    </li>
-
-                                    {
-                                        settings.length ?
-                                        <li className="inline-block">
-                                            <a onClick={() => setTab('settings')} className={`set-text pointer flex gap-2 p-4.5 border-b border-transparent hover:border-primary hover:text-primary ${tab === 'settings' && '!border-primary text-primary'}`}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
-                                                    <path d="M4.97883 9.68508C2.99294 8.89073 2 8.49355 2 8C2 7.50645 2.99294 7.10927 4.97883 6.31492L7.7873 5.19153C9.77318 4.39718 10.7661 4 12 4C13.2339 4 14.2268 4.39718 16.2127 5.19153L19.0212 6.31492C21.0071 7.10927 22 7.50645 22 8C22 8.49355 21.0071 8.89073 19.0212 9.68508L16.2127 10.8085C14.2268 11.6028 13.2339 12 12 12C10.7661 12 9.77318 11.6028 7.7873 10.8085L4.97883 9.68508Z" stroke="currentColor" strokeWidth="1.5"></path>
-                                                    <path d="M22 12C22 12 21.0071 12.8907 19.0212 13.6851L16.2127 14.8085C14.2268 15.6028 13.2339 16 12 16C10.7661 16 9.77318 15.6028 7.7873 14.8085L4.97883 13.6851C2.99294 12.8907 2 12 2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                                    <path d="M22 16C22 16 21.0071 16.8907 19.0212 17.6851L16.2127 18.8085C14.2268 19.6028 13.2339 20 12 20C10.7661 20 9.77318 19.6028 7.7873 18.8085L4.97883 17.6851C2.99294 16.8907 2 16 2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                                </svg>
-                                                <span>{config.text.settings}</span>
-                                            </a>
-                                        </li> : ''
-                                    }
-                                    {
-                                        id && statistics.length ?
-                                        <li className="inline-block">
-                                            <a onClick={() => setTab('statistics')} className={`set-text pointer flex gap-2 p-4.5 border-b border-transparent hover:border-primary hover:text-primary ${tab === 'statistics' && '!border-primary text-primary'}`}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
-                                                    <path d="M4.97883 9.68508C2.99294 8.89073 2 8.49355 2 8C2 7.50645 2.99294 7.10927 4.97883 6.31492L7.7873 5.19153C9.77318 4.39718 10.7661 4 12 4C13.2339 4 14.2268 4.39718 16.2127 5.19153L19.0212 6.31492C21.0071 7.10927 22 7.50645 22 8C22 8.49355 21.0071 8.89073 19.0212 9.68508L16.2127 10.8085C14.2268 11.6028 13.2339 12 12 12C10.7661 12 9.77318 11.6028 7.7873 10.8085L4.97883 9.68508Z" stroke="currentColor" strokeWidth="1.5"></path>
-                                                    <path d="M22 12C22 12 21.0071 12.8907 19.0212 13.6851L16.2127 14.8085C14.2268 15.6028 13.2339 16 12 16C10.7661 16 9.77318 15.6028 7.7873 14.8085L4.97883 13.6851C2.99294 12.8907 2 12 2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                                    <path d="M22 16C22 16 21.0071 16.8907 19.0212 17.6851L16.2127 18.8085C14.2268 19.6028 13.2339 20 12 20C10.7661 20 9.77318 19.6028 7.7873 18.8085L4.97883 17.6851C2.99294 16.8907 2 16 2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                                                </svg>
-                                                <span>{config.text.statistics}</span>
-                                            </a>
-                                        </li> : ''
-                                    }
-                                    {
-                                        id && related.length ?
-                                        related.map((system, index) => 
-                                            <li key={index} className="inline-block">
-                                                <a onClick={() => setTab(system.name)} className={`set-text pointer flex gap-2 p-4.5 border-b border-transparent hover:border-primary hover:text-primary ${tab === system.name && '!border-primary text-primary'}`}>
-                                                    <Icons icon={system.icon} />
-                                                    <span>{config.text[system.label || system.name]}</span>
-                                                </a>
-                                            </li>
-                                        ) : ''
-                                    }
-                                    
-                                </ul>
-
-                            </div>
-
-                            <div className='sm:min-h-[calc(100vh_-_250px)]'>
+                            <div className='sm:min-h-[calc(100vh_-_170px)]'>
 
                                 { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData}/></div> }
                                 { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData}/></div> }
-                                { tab === 'statistics' && <Panel items={statistics} data={data} setData={setData}/> }
+                                { tab === 'statistics' && <Panel items={statistics} data={data.statistics || {}} setData={setData}/> }
 
                                 {
                                     id && related.length ?
