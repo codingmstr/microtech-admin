@@ -509,5 +509,6 @@ export const English = {
     //---------- end -----------------//
     chart_items: 'Items',
     revenue: 'Rrevenue',
-
+    paid_at: 'Paid At',
+    
 }

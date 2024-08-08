@@ -7,7 +7,7 @@ const initialState = {
     loader: false,
     lang: 'en',
     theme: 'dark',
-    menu: 'collapsible-vertical',
+    menu: 'vertical',
     layout: 'boxed-layout',
     dir: 'ltr',
     animation: 'animate__zoomIn',

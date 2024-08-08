@@ -1,10 +1,12 @@
 "use client";
 import { date, scroll_down, sound, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Echo from "@/utils/echo";
 
 export default function Broadcast ({ data, setData, room, setRoom, current_user }) {
 
+    const config = useSelector((state) => state.config);
     const [channel, setChannel] = useState(null);
     const [message, setMessage] = useState(null);
 
@@ -59,7 +61,7 @@ export default function Broadcast ({ data, setData, room, setRoom, current_user 
     }
     useEffect(() => {
         
-        if ( !message ) return;
+        if ( !message || message.sender === config.user.id ) return;
 
         if ( message.action === 'message' )  _add_(message);
         if ( message.action === 'delete' )  _delete_(message);

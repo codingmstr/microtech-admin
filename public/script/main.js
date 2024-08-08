@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
-export const host = "https://server.tahaol.com";
-export const storage = "https://server.tahaol.com/storage";
+export const host = "http://127.0.0.1:8000";
+export const storage = "http://127.0.0.1:8000/storage";
 
 export async function api ( url, data, method ) {
 

@@ -69,7 +69,7 @@ export default function Layout ({ children }) {
                         }
                         {
                             auth ?
-                            <div className={`main-content overflow-y-auto h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
+                            <div className={`main-content overflow-y-auto overflow-x-hidden h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
                                 {
                                     animation &&
                                     <div className={`${animation} ${config.layout} animate__animated p-5`}>

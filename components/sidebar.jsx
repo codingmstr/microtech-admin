@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Elements from './elements';
 
 export default function Sidebar () {
     
@@ -109,7 +110,7 @@ export default function Sidebar () {
                                 </li>
                             }
                           
-                            <div className="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b] my-[.7rem]"></div>
+                            <div><Elements element='hr' className='my-2'/></div>
 
                             {
                                 config.user.allow_categories &&
@@ -229,7 +230,7 @@ export default function Sidebar () {
                                 </li>
                             }
                     
-                            <div className="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b] my-[.7rem]"></div>
+                            <div><Elements element='hr' className='my-2'/></div>
 
                             <li className="menu nav-item">
 
@@ -301,7 +302,7 @@ export default function Sidebar () {
 
                             </li> 
 
-                            <div className="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b] my-[.7rem]"></div>
+                            <div><Elements element='hr' className='my-2'/></div>
 
                             {
                                 config.user.id &&

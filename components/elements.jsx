@@ -1,9 +1,10 @@
 "use client";
-import { lower, storage, alert_msg, read_file, fix_date, print } from "@/public/script/main";
+import { lower, storage, alert_msg, read_file, fix_date, fix_number, print } from "@/public/script/main";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux';
 import { Countries } from "@/utils/countries";
 import { Languages } from "@/utils/languages";
+import { Currencies } from "@/utils/currencies";
 import Dropdown from './menu';
 import Quill from './quill';
 import Select from './select';
@@ -96,7 +97,7 @@ export default function Elements ( props ) {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={type || 'text'} value={name?.includes('_at') ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
+                    <input id={name} type={type || 'text'} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
@@ -119,8 +120,35 @@ export default function Elements ( props ) {
                 element === 'select' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>) }
+                    </select>
+                </div>
+            }
+            {
+                element === 'select_rate' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        { [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((item, index) => <option key={index} value={item}>{fix_number(item, true).replace('00', '0')}</option>) }
+                    </select>
+                </div>
+            }
+            {
+                element === 'select_status' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        { ['pending', 'request', 'confirmed', 'cancelled'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) }
+                    </select>
+                </div>
+            }
+            {
+                element === 'select_currency' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        { Currencies?.map((item, index) => <option key={index} value={item.code}>{item.name}</option>) }
                     </select>
                 </div>
             }
@@ -128,7 +156,7 @@ export default function Elements ( props ) {
                 element === 'countries' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { Countries?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
                     </select>
                 </div>
@@ -137,7 +165,7 @@ export default function Elements ( props ) {
                 element === 'languages' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} className={`form-select flex-1 ${readOnly ? 'cursor-default': 'cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { Languages?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
                     </select>
                 </div>

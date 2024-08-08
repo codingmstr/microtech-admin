@@ -91,4 +91,3 @@ export const Languages = [
     { "code": "rw", "ar_name": "الرواندية", "en_name": "Kinyarwanda" },
     { "code": "st", "ar_name": "السيسوتو", "en_name": "Sesotho" }
 ]
-  

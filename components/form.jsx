@@ -58,10 +58,13 @@ export default function Form ( props ) {
         if ( bring.length ) {
             const response = await api(`${system}/default`);
             bring.forEach(_ => _data_[_] = response[_] || []);
+            setLoader(false)
+        }
+        else {
+            setTimeout(() => setLoader(false), 500);
         }
 
         setData(_data_);
-        setTimeout(() => setLoader(false));
 
     }
     const _get_ = async() => {
@@ -174,7 +177,7 @@ export default function Form ( props ) {
                                 }
                             </Elements>
 
-                            <div className='sm:min-h-[calc(100vh_-_170px)]'>
+                            <div className='xl:min-h-[calc(100vh_-_170px)]'>
 
                                 { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData}/></div> }
                                 { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData}/></div> }
@@ -184,7 +187,7 @@ export default function Form ( props ) {
                                     id && related.length ?
                                     related.map((system, index) => 
                                         tab === system.name && Object.keys(system.filters || {}).length ?
-                                        <div key={index} className="relative min-h-[30rem]">
+                                        <div key={index} className="relative xl:min-h-[30rem]">
                                             {load_system(system)}
                                         </div> : ''
                                     ) : ''

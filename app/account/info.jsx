@@ -52,10 +52,10 @@ export default function Info ({ data, setData }) {
                         <Elements element='input' type='text' name='company' value={data.company} onChange={(e) => setData({...data, company: e})}/>
                         <Elements element='input' type='number' name='age' value={data.age} onChange={(e) => setData({...data, age: e})}/>
 
-                        <Elements element='select' name='country' value={data.country} onChange={(e) => setData({...data, country: e})} children={[{id: 'eg', name: 'Egypt'}]}/>
-                        <Elements element='select' name='city' value={data.city} onChange={(e) => setData({...data, city: e})} children={[{id: 'banha', name: 'Banha'}]}/>
-                        <Elements element='select' name='language' value={data.language} onChange={(e) => setData({...data, language: e})} children={[{id: 'eg', name: 'English'}]}/>
-                        <Elements element='select' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})} children={[{id: 'usd', name: 'USD'}]}/>
+                        <Elements element='languages' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
+                        <Elements element='select_currency' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
+                        <Elements element='countries' name='country' value={data.country} onChange={(e) => setData({...data, country: e})}/>
+                        <Elements element='input' type='text' name='city' value={data.city} onChange={(e) => setData({...data, city: e})}/>
 
                         <Elements element='input' type='number' name='salary' value={fix_number(data.salary, true)} readOnly/>
                         <Elements element='input' name='device' value={data.ip} readOnly/>

@@ -28,7 +28,7 @@ export default function Password ({ setTab }) {
     }
     return (
 
-        <div className="flex justify-between items-start xl:flex-row flex-col gap-5">
+        <div className="flex justify-center items-start xl:flex-row flex-col gap-5">
 
             <div className="panel flex flex-col relative cursor-default w-full xl:w-[40%]">
 
@@ -54,9 +54,9 @@ export default function Password ({ setTab }) {
 
             </div>
 
-            <div className='hidden justify-center items-center select-none layer-div xl:flex'>
+            {/* <div className='hidden justify-center items-center select-none layer-div xl:flex'>
                 <img src="/media/layout/password.png" className="w-[5rem] opacity-[.5]"/>
-            </div>
+            </div> */}
 
         </div>
 
