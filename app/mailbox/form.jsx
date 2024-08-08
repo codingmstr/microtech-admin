@@ -82,8 +82,8 @@ export default function Form ({ data, setData, users, setTab, setType }) {
                             
                         <div className="w-full flex justify-end items-center gap-4">
 
-                            <button onClick={() => setTab('table')} className="btn btn-danger shadow-none hover:opacity-[.8] w-[9rem] tracking-wide">Cancel</button>
-                            <button onClick={() => _send_()} className="btn btn-success shadow-none hover:opacity-[.8] w-[9rem] tracking-wide">Submit</button>
+                            <button onClick={() => setTab('table')} className="btn btn-danger shadow-none hover:opacity-[.8] w-full sm:w-[9rem] tracking-wide">Cancel</button>
+                            <button onClick={() => _send_()} className="btn btn-success shadow-none hover:opacity-[.8] w-full sm:w-[9rem] tracking-wide">Submit</button>
 
                         </div>
 

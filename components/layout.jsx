@@ -30,7 +30,7 @@ export default function Layout ({ children }) {
         setTimeout(() => active_link(pathname), 200);
         setTimeout(() => { setLoader(false); dispatch(actions.toggle_loader(false)); }, 500);
 
-    }, [pathname, config.animation, config.theme]);
+    }, [pathname, config.animation]);
     useEffect(() => {
 
         dispatch( actions.toggle_theme( localStorage.getItem('theme') ) );
@@ -58,23 +58,28 @@ export default function Layout ({ children }) {
                         
                         <Setting />
 
-                        { auth && <Sidebar /> }
-
-                        <div className={`${auth && 'main-content'}`}>
-
-                            { auth && <Header /> }
-
-                            {
-                                animation &&
-                                <div className={`${animation} ${config.layout} animate__animated ${auth ? 'p-5' : 'px-5'}`}>
-
-                                    <div className='relative'>{children}</div>
-
-                                </div>
-                            }
-
-                        </div>
-
+                        {
+                            auth &&
+                            <div className='main-content'>
+                                <Sidebar />
+                                <Header />
+                            </div>
+                        }
+                        {
+                            auth ?
+                            <div className={`${auth && 'main-content'} overflow-y-auto h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
+                                {
+                                    animation &&
+                                    <div className={`${animation} ${config.layout} animate__animated p-5`}>
+                                        <div className='relative'>{children}</div>
+                                    </div>
+                                }
+                            </div> :
+                            <div className={`${animation} ${config.layout} animate__animated px-5`}>
+                                <div className='relative'>{children}</div>
+                            </div>
+                        }
+                        
                     </div>
                 }
 

@@ -198,7 +198,7 @@ export default function Form ( props ) {
 
                     <div className='flex flex-col xl:w-[28%]'>
 
-                        <div className={`space-y-5 select-none sticky ${config.menu === 'horizontal' ? 'top-[8.3rem]' : 'top-[5rem]'}`}>
+                        <div className={`space-y-5 select-none sticky top-[1.3rem]`}>
 
                             <div className='panel'>
                             

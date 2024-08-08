@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
-export const host = "http://127.0.0.1:8000";
-export const storage = "http://127.0.0.1:8000/storage";
+export const host = "https://server.tahaol.com";
+export const storage = "https://server.tahaol.com/storage";
 
 export async function api ( url, data, method ) {
 
@@ -436,8 +436,8 @@ export function copy ( text ) {
 export function scroll_down ( e, smooth ) {
 
     let element = document.querySelector(e);
-    if ( smooth ) element.classList.add('scroll-smooth');
-    else element.classList.remove('scroll-smooth');
+    if ( smooth ) element?.classList.add('scroll-smooth');
+    else element?.classList.remove('scroll-smooth');
 
     setTimeout(() => {
         element.scrollBy(0, 100000);

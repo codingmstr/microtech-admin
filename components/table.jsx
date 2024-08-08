@@ -156,7 +156,7 @@ export default function Table ( props ) {
                             add || deletes || search || use_filters || settings ?
                             <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-gray-100 dark:border-[#15243b]">
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 ltr:-ml-2 rtl:-mr-2 sm:ltr:m-0 sm:rtl:m-0">
                                     {
                                         deletes &&
                                         <button onClick={_delete_group_} type="button" className="btn btn-danger gap-2 shadow-none hover:opacity-[.8] border-danger">
@@ -208,7 +208,7 @@ export default function Table ( props ) {
                                     }
                                     {
                                         settings &&
-                                        <div className='flex justify-center items-center'>
+                                        <div className='hidden justify-center items-center sm:flex'>
 
                                             <div className="dropdown shrink-0">
 
@@ -255,7 +255,7 @@ export default function Table ( props ) {
                         }
                         {
                             my_loader ?
-                            <div className='relative w-full h-[25.2rem]'>
+                            <div className='relative w-full h-[20rem]'>
                                 <Loader className='bg medium'/>
                             </div>:
                             <div>

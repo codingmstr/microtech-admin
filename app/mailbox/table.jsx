@@ -228,7 +228,7 @@ export default function Table ( props ) {
                             }
                         </tbody>
                     </table> :
-                    <div className="grid place-content-center min-h-[420px] h-full no-select empty-mails">
+                    <div className="grid place-content-center h-full select-none tracking-wide">
                         {config.text.no_data}
                     </div>
                 }

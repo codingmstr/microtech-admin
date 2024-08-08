@@ -103,7 +103,7 @@ export default function Header () {
 
                     </div>
 
-                    <div className={`items-center flex-1 hidden md:flex ${config.side || config.menu === 'horizontal' ? 'justify-center' : ''}`}>
+                    <div className={`items-center flex-1 hidden md:flex `}>
                       
                         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[22rem]" placeholder={config.text.search}/>
                    
@@ -393,7 +393,7 @@ export default function Header () {
 
             <div className="shadow-sm navbar-menu select-none">
 
-                <ul className={`horizontal-menu hidden w-full py-1.5 px-6 font-semibold rtl:space-x-reverse lg:space-x-2 ${config.layout}`}>
+                <ul className={`horizontal-menu hidden w-full py-1.5 px-5 font-semibold rtl:space-x-reverse lg:space-x-2 ${config.layout}`}>
 
                     {
                         config.user.id &&
