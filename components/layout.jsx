@@ -26,9 +26,11 @@ export default function Layout ({ children }) {
     useEffect(() => {
 
         setAnimation(false);
-        setTimeout(_ => setAnimation(config.animation), 100);
-        setTimeout(() => active_link(pathname), 200);
+        setTimeout(() => setAnimation(config.animation));
         setTimeout(() => { setLoader(false); dispatch(actions.toggle_loader(false)); }, 500);
+        setTimeout(() => active_link(pathname), 200);
+        setTimeout(() => active_link(pathname), 500);
+        setTimeout(() => active_link(pathname), 1000);
 
     }, [pathname, config.animation]);
     useEffect(() => {
@@ -67,7 +69,7 @@ export default function Layout ({ children }) {
                         }
                         {
                             auth ?
-                            <div className={`${auth && 'main-content'} overflow-y-auto h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
+                            <div className={`main-content overflow-y-auto h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
                                 {
                                     animation &&
                                     <div className={`${animation} ${config.layout} animate__animated p-5`}>
@@ -81,6 +83,7 @@ export default function Layout ({ children }) {
                         }
                         
                     </div>
+                    
                 }
 
             </div>

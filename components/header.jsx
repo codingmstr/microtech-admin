@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
 import Dropdown from './menu';
+import Elements from "./elements";
 
 export default function Header () {
 
@@ -90,7 +91,7 @@ export default function Header () {
                             </svg>
                         </button>
 
-                        <Link href="/" className="main-logo items-center shrink-0 px-2 hidden lg:flex">
+                        <Link href="/" rel="preload" className="main-logo items-center shrink-0 px-2 hidden lg:flex">
 
                             {/* <img className="w-6 rtl:ml-2 ltr:mr-2 flex-none" src="/media/layout/logo.svg"/> */}
 
@@ -282,13 +283,7 @@ export default function Header () {
                         <div className="dropdown flex shrink-0 all-data">
 
                             <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`} btnClassName="relative group block"
-                                button={
-                                    <img src={`${storage}/${config.user.image}`} 
-                                        onError={(e) => e.target.src = "/media/layout/user_icon.png"} 
-                                        onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty') : e.target.classList.remove('empty')}
-                                        className="h-[2.25rem] w-[2.25rem] rounded-full saturate-50 group-hover:saturate-100"
-                                    />
-                                }>
+                                button={<Elements element='image' value={config.user.image} className='w-[2.25rem] h-[2.25rem]'/>}>
                                 
                                 <ul className="w-[230px] !py-0 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
                                     
@@ -296,12 +291,7 @@ export default function Header () {
 
                                         <div className="flex items-center mb-2 px-4 py-3 border-b border-white-light dark:border-white-light/10">
                                             
-                                            <img 
-                                                src={`${storage}/${config.user.image}`} 
-                                                onError={(e) => e.target.src = "/media/layout/user_icon.png"} 
-                                                onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty') : e.target.classList.remove('empty')}
-                                                className="h-[1.5rem] w-[1.5rem] rounded-full object-cover"
-                                            />
+                                            <Elements element='image' value={config.user.image} className='w-[1.8rem] h-[1.8rem]'/>
                                             
                                             <div className="ltr:pl-3 rtl:pr-3 w-[10rem]">
 
@@ -399,7 +389,7 @@ export default function Header () {
                         config.user.id &&
                         <li className="nav-item relative">
 
-                            <Link href="/" className="nav-link">
+                            <Link href="/" rel="preload" className="nav-link">
 
                                 <div className="flex items-center">
 
@@ -420,7 +410,7 @@ export default function Header () {
                         config.user.allow_mails &&
                         <li className="nav-item relative">
 
-                            <Link href="/mailbox" className="nav-link">
+                            <Link href="/mailbox" rel="preload" className="nav-link">
 
                                 <div className="flex items-center">
 
@@ -443,7 +433,7 @@ export default function Header () {
                         config.user.allow_messages &&
                         <li className="nav-item relative">
 
-                            <Link href="/chatbox" className="nav-link">
+                            <Link href="/chatbox" rel="preload" className="nav-link">
 
                                 <div className="flex items-center">
 
@@ -464,7 +454,7 @@ export default function Header () {
                         config.user.id &&
                         <li className="nav-item relative">
 
-                            <Link href="/account" className="nav-link">
+                            <Link href="/account" rel="preload" className="nav-link">
 
                                 <div className="flex items-center">
 
@@ -487,7 +477,7 @@ export default function Header () {
                         config.user.super &&
                         <li className="nav-item relative">
 
-                            <Link href="/setting" className="nav-link">
+                            <Link href="/setting" rel="preload" className="nav-link">
 
                                 <div className="flex items-center">
 
@@ -535,9 +525,9 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.supervisor && <li><Link href="/admin">{config.text.admins}</Link></li> }
-                                { config.user.allow_vendors && <li><Link href="/vendor">{config.text.vendors}</Link></li> }
-                                { config.user.allow_clients && <li><Link href="/client">{config.text.clients}</Link></li> }
+                                { config.user.supervisor && <li><Link href="/admin" rel="preload">{config.text.admins}</Link></li> }
+                                { config.user.allow_vendors && <li><Link href="/vendor" rel="preload">{config.text.vendors}</Link></li> }
+                                { config.user.allow_clients && <li><Link href="/client" rel="preload">{config.text.clients}</Link></li> }
                                 
                             </ul>
 
@@ -578,19 +568,19 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.allow_categories && <li><Link href="/category">{config.text.categories}</Link></li> }
-                                { config.user.allow_products && <li><Link href="/product">{config.text.products}</Link></li> }
-                                { config.user.allow_coupons && <li><Link href="/coupon">{config.text.coupons}</Link></li> }
-                                { config.user.allow_orders && <li><Link href="/order">{config.text.orders}</Link></li> }
+                                { config.user.allow_categories && <li><Link href="/category" rel="preload">{config.text.categories}</Link></li> }
+                                { config.user.allow_products && <li><Link href="/product" rel="preload">{config.text.products}</Link></li> }
+                                { config.user.allow_coupons && <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> }
+                                { config.user.allow_orders && <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
-                                { config.user.allow_reviews && <li><Link href="/review">{config.text.reviews}</Link></li> }
-                                { config.user.allow_contacts && <li><Link href="/contact">{config.text.contacts}</Link></li> }
+                                { config.user.allow_reviews && <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> }
+                                { config.user.allow_contacts && <li><Link href="/contact" rel="preload">{config.text.contacts}</Link></li> }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
                                 { config.user.allow_blogs && <li><Link href="/blog">{config.text.blogs}</Link></li> }
-                                { config.user.allow_comments && <li><Link href="/comment">{config.text.comments}</Link></li> }
-                                { config.user.allow_replies && <li><Link href="/reply">{config.text.replies}</Link></li> }
+                                { config.user.allow_comments && <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> }
+                                { config.user.allow_replies && <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
-                                { config.user.allow_reports && <li><Link href="/report">{config.text.reports}</Link></li> }
+                                { config.user.allow_reports && <li><Link href="/report" rel="preload">{config.text.reports}</Link></li> }
                                 
                             </ul>
 

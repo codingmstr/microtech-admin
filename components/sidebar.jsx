@@ -24,7 +24,7 @@ export default function Sidebar () {
 
                     <div className="flex items-center justify-between px-4 py-3">
 
-                        <Link href="/" className="main-logo flex items-center shrink-0 ltr:ml-2 rtl:mr-2">
+                        <Link href="/" rel="preload" className="main-logo flex items-center shrink-0 ltr:ml-2 rtl:mr-2">
                             <img className="w-5 rtl:ml-3 ltr:mr-3 flex-none" src="/media/layout/logo.svg"/>
                             <span className="text-2xl font-semibold align-middle lg:inline dark:text-white-dark" style={{fontSize: "1.2rem", marginTop: "0"}}>
                                 <span className='text-primary'>{config.text.logo1}</span> <span className='text-danger'>{config.text.logo2}</span>
@@ -48,7 +48,7 @@ export default function Sidebar () {
                                 config.user.id &&
                                 <li className="nav-item">
 
-                                    <Link href="/" className="group">
+                                    <Link href="/" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -69,7 +69,7 @@ export default function Sidebar () {
                                 config.user.allow_mails &&
                                 <li className="nav-item">
 
-                                    <Link href="/mailbox" className="group">
+                                    <Link href="/mailbox" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -92,7 +92,7 @@ export default function Sidebar () {
                                 config.user.allow_messages &&
                                 <li className="nav-item">
 
-                                    <Link href="/chatbox" className="group">
+                                    <Link href="/chatbox" rel="preload" className="group">
 
                                         <div className="flex items-center">
                                             <svg className="group-hover:!text-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +115,7 @@ export default function Sidebar () {
                                 config.user.allow_categories &&
                                 <li className="nav-item">
 
-                                    <Link href="/category" className="group">
+                                    <Link href="/category" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -138,7 +138,7 @@ export default function Sidebar () {
                                 config.user.allow_products &&
                                 <li className="nav-item">
 
-                                    <Link href="/product" className="group">
+                                    <Link href="/product" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -162,7 +162,7 @@ export default function Sidebar () {
                                 config.user.allow_coupons &&
                                 <li className="nav-item">
 
-                                    <Link href="/coupon" className="group">
+                                    <Link href="/coupon" rel="preload" className="group">
 
                                         <div className="flex items-center">
                                             
@@ -185,7 +185,7 @@ export default function Sidebar () {
                                 config.user.allow_orders &&
                                 <li className="nav-item">
 
-                                    <Link href="/order" className="group">
+                                    <Link href="/order" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -209,7 +209,7 @@ export default function Sidebar () {
                                 config.user.allow_reviews &&
                                 <li className="nav-item">
 
-                                    <Link href="/review" className="group">
+                                    <Link href="/review" rel="preload" className="group">
 
                                         <div className="flex items-center">
                                             
@@ -257,9 +257,9 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'users' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.supervisor && <li><Link href='/admin'>{config.text.admins}</Link></li> }
-                                        { config.user.allow_vendors && <li><Link href='/vendor'>{config.text.vendors}</Link></li> }
-                                        { config.user.allow_clients && <li><Link href='/client'>{config.text.clients}</Link></li> }
+                                        { config.user.supervisor && <li><Link href='/admin' rel="preload">{config.text.admins}</Link></li> }
+                                        { config.user.allow_vendors && <li><Link href='/vendor' rel="preload">{config.text.vendors}</Link></li> }
+                                        { config.user.allow_clients && <li><Link href='/client' rel="preload">{config.text.clients}</Link></li> }
                                     </ul>
                                 </AnimateHeight>
 
@@ -291,11 +291,11 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'more' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.allow_blogs && <li><Link href='/blog'>{config.text.blogs}</Link></li> }
-                                        { config.user.allow_comments && <li><Link href='/comment'>{config.text.comments}</Link></li> }
-                                        { config.user.allow_replies && <li><Link href='/reply'>{config.text.replies}</Link></li> }
-                                        { config.user.allow_contacts && <li><Link href='/contact'>{config.text.contacts}</Link></li> }
-                                        { config.user.allow_reports && <li><Link href='/report'>{config.text.reports}</Link></li> }
+                                        { config.user.allow_blogs && <li><Link href='/blog' rel="preload">{config.text.blogs}</Link></li> }
+                                        { config.user.allow_comments && <li><Link href='/comment' rel="preload">{config.text.comments}</Link></li> }
+                                        { config.user.allow_replies && <li><Link href='/reply' rel="preload">{config.text.replies}</Link></li> }
+                                        { config.user.allow_contacts && <li><Link href='/contact' rel="preload">{config.text.contacts}</Link></li> }
+                                        { config.user.allow_reports && <li><Link href='/report' rel="preload">{config.text.reports}</Link></li> }
                                     </ul>
                                 </AnimateHeight>
 
@@ -307,7 +307,7 @@ export default function Sidebar () {
                                 config.user.id &&
                                 <li className="nav-item">
 
-                                    <Link href="/account" className="group">
+                                    <Link href="/account" rel="preload" className="group">
 
                                         <div className="flex items-center">
 
@@ -330,7 +330,7 @@ export default function Sidebar () {
                                 config.user.super &&
                                 <li className="nav-item">
 
-                                    <Link href="/setting" className="group">
+                                    <Link href="/setting" rel="preload" className="group">
 
                                         <div className="flex items-center">
 

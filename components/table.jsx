@@ -25,7 +25,7 @@ export default function Table ( props ) {
     const {
         system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
         filters=[], use_filters=true, settings=true, rows=5, checkbox=true,
-        pagination=true, start_loader=true,
+        pagination=true, start_loader=false,
         item_filters, setForm, setId,
     } = props;
     const options = {
