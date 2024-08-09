@@ -31,8 +31,8 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: false},
                     inputs: [
-                        {element: 'textarea', name: 'address'},
-                        {element: 'textarea', name: 'content'},
+                        {element: 'textarea', name: 'address', readOnly: true},
+                        {element: 'textarea', name: 'content', readOnly: true},
                     ],
                 },
             ]}

@@ -174,7 +174,7 @@ export default function Elements ( props ) {
                 element === 'textarea' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <textarea id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} rows={rows || 5} ref={ref} className="form-textarea min-h-[80px] resize-none"></textarea>
+                    <textarea id={name} value={value || ''} readOnly={readOnly} onChange={(e) => onChange(e.target.value)} rows={rows || 5} ref={ref} className={`form-textarea min-h-[80px] resize-none ${readOnly && 'cursor-default'}`}></textarea>
                 </div>
             }
             {
