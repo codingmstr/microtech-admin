@@ -83,3 +83,8 @@ export default function Settings () {
     )
 
 }
+
+// $this->string()  for all systems
+// settings
+// click sound
+// broadcast

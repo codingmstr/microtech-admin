@@ -11,7 +11,7 @@ import Panel from "./panel";
 export default function Form ( props ) {
 
     const config = useSelector((state) => state.config);
-    const { system='', id=0, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
+    const { system='', id=0, save=true, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
     const [loader, setLoader] = useState(true);
     const [items, setItems] = useState([...general, ...settings, ...sidebar]);
     const [data, setData] = useState({});
@@ -223,7 +223,7 @@ export default function Form ( props ) {
 
                                 <div className='grid grid-cols-2 gap-4 pb-2'>
 
-                                    <Elements element='save_button' onClick={_save_}/>
+                                    { save && <Elements element='save_button' onClick={_save_}/> }
                                     <Elements element='cancel_button' onClick={_cancel_}/>
                                     { id ? <Elements element='delete_button' onClick={_delete_}/> : '' }
 

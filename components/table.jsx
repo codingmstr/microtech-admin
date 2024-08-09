@@ -1,5 +1,5 @@
 "use client";
-import { alert_msg, api, lower, trim, print } from '@/public/script/main';
+import { alert_msg, api, lower, print } from '@/public/script/main';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
@@ -21,6 +21,7 @@ export default function Table ( props ) {
     const [my_data, set_my_data] = useState([]);
     const [selected, set_selected] = useState([]);
     const [my_loader, set_my_loader] = useState(true);
+    const [run, setRun] = useState(false);
     
     const {
         system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
@@ -38,6 +39,8 @@ export default function Table ( props ) {
 
     const _read_ = async() => {
 
+        if ( !run ) return;
+        
         set_my_loader(true);
         const request = {page: current_page, limit: limit, search: query, filter: filter, filters: JSON.stringify(item_filters || {})};
         const response = await api(`${system}`, request);
@@ -106,10 +109,10 @@ export default function Table ( props ) {
 
     }
     useEffect(() => {
-
+       
         _read_();
 
-    }, [current_page]);
+    }, [current_page, run]);
     useEffect(() => {
 
         _search_();
@@ -123,6 +126,7 @@ export default function Table ( props ) {
     }, [sort]);
     useEffect(() => {
 
+        setRun(true);
         setTimeout(() => setLoader(false), 500);
 
         if ( Object.keys(searchParams).length ) {

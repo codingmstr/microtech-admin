@@ -18,7 +18,7 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products', readOnly: id},
+                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products', readOnly: id, required: !id},
                         {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', readOnly: id},
                         {element: 'select_rate', name: 'rate', class: 'flex'},
                     ],

@@ -27,14 +27,14 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id},
+                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id, required: !id},
                         {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', readOnly: id},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'textarea', name: 'content'},
+                        {element: 'textarea', name: 'content', required: true},
                     ],
                 },
             ]}

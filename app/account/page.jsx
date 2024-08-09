@@ -1,8 +1,6 @@
 "use client";
-import { api, alert_msg, print } from "@/public/script/main";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from 'react-redux';
-import Table from "@/components/table";
 import Elements from "@/components/elements";
 import Icons from '@/components/icons';
 import Info from "./info";
@@ -14,20 +12,6 @@ export default function Account () {
     const config = useSelector((state) => state.config);
     const [tab, setTab] = useState('info');
     const [data, setData] = useState(config.user);
-
-    const _get_ = async() => {
-
-        // const reponse = await api('account');
-
-        const response = {status: true, data: config.user}
-        setData(response.data);
-
-    }
-    useEffect(() => {
-        
-        _get_();
-
-    }, []);
 
     return (
 

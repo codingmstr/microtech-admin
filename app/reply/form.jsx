@@ -27,7 +27,7 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'textarea', name: 'content'},
+                        {element: 'textarea', name: 'content', required: true},
                     ],
                 },
             ]}

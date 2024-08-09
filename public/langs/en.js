@@ -510,5 +510,6 @@ export const English = {
     chart_items: 'Items',
     revenue: 'Rrevenue',
     paid_at: 'Paid At',
+    process: 'Process',
     
 }
