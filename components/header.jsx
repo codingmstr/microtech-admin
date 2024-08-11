@@ -72,7 +72,6 @@ export default function Header () {
         }
 
     }
-
     return (
 
         <header>
@@ -386,7 +385,7 @@ export default function Header () {
                 <ul className={`horizontal-menu hidden w-full py-1.5 px-5 font-semibold rtl:space-x-reverse lg:space-x-2 ${config.layout}`}>
 
                     {
-                        config.user.id &&
+                        config.user.id ?
                         <li className="nav-item relative">
 
                             <Link href="/" rel="preload" className="nav-link">
@@ -404,10 +403,10 @@ export default function Header () {
 
                             </Link>
 
-                        </li>
+                        </li> : ''
                     }
                     {
-                        config.user.allow_mails &&
+                        config.user.allow_mails ?
                         <li className="nav-item relative">
 
                             <Link href="/mailbox" rel="preload" className="nav-link">
@@ -427,10 +426,10 @@ export default function Header () {
 
                             </Link>
 
-                        </li>
+                        </li> : ''
                     }
                     {
-                        config.user.allow_messages &&
+                        config.user.allow_messages ?
                         <li className="nav-item relative">
 
                             <Link href="/chatbox" rel="preload" className="nav-link">
@@ -448,10 +447,10 @@ export default function Header () {
 
                             </Link>
 
-                        </li>
+                        </li> : ''
                     }
                     {
-                        config.user.id &&
+                        config.user.id ?
                         <li className="nav-item relative">
 
                             <Link href="/account" rel="preload" className="nav-link">
@@ -471,10 +470,10 @@ export default function Header () {
 
                             </Link>
 
-                        </li>
+                        </li> : ''
                     }
                     {
-                        config.user.super &&
+                        config.user.super ?
                         <li className="nav-item relative">
 
                             <Link href="/setting" rel="preload" className="nav-link">
@@ -492,7 +491,7 @@ export default function Header () {
 
                             </Link>
 
-                        </li>
+                        </li> : ''
                     }
                     {
                         config.user.id ?
@@ -525,9 +524,9 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.supervisor && <li><Link href="/admin" rel="preload">{config.text.admins}</Link></li> }
-                                { config.user.allow_vendors && <li><Link href="/vendor" rel="preload">{config.text.vendors}</Link></li> }
-                                { config.user.allow_clients && <li><Link href="/client" rel="preload">{config.text.clients}</Link></li> }
+                                { config.user.supervisor ? <li><Link href="/admin" rel="preload">{config.text.admins}</Link></li> : '' }
+                                { config.user.allow_vendors ? <li><Link href="/vendor" rel="preload">{config.text.vendors}</Link></li> : '' }
+                                { config.user.allow_clients ? <li><Link href="/client" rel="preload">{config.text.clients}</Link></li> : '' }
                                 
                             </ul>
 
@@ -568,19 +567,19 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.allow_categories && <li><Link href="/category" rel="preload">{config.text.categories}</Link></li> }
-                                { config.user.allow_products && <li><Link href="/product" rel="preload">{config.text.products}</Link></li> }
-                                { config.user.allow_coupons && <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> }
-                                { config.user.allow_orders && <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> }
+                                { config.user.allow_categories ? <li><Link href="/category" rel="preload">{config.text.categories}</Link></li> : '' }
+                                { config.user.allow_products ? <li><Link href="/product" rel="preload">{config.text.products}</Link></li> : '' }
+                                { config.user.allow_coupons ? <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> : '' }
+                                { config.user.allow_orders ? <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> : '' }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
-                                { config.user.allow_reviews && <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> }
-                                { config.user.allow_contacts && <li><Link href="/contact" rel="preload">{config.text.contacts}</Link></li> }
+                                { config.user.allow_reviews ? <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> : '' }
+                                { config.user.allow_contacts ? <li><Link href="/contact" rel="preload">{config.text.contacts}</Link></li> : '' }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
-                                { config.user.allow_blogs && <li><Link href="/blog">{config.text.blogs}</Link></li> }
-                                { config.user.allow_comments && <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> }
-                                { config.user.allow_replies && <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> }
+                                { config.user.allow_blogs ? <li><Link href="/blog">{config.text.blogs}</Link></li> : '' }
+                                { config.user.allow_comments ? <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> : '' }
+                                { config.user.allow_replies ? <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> : '' }
                                 <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
-                                { config.user.allow_reports && <li><Link href="/report" rel="preload">{config.text.reports}</Link></li> }
+                                { config.user.allow_reports ? <li><Link href="/report" rel="preload">{config.text.reports}</Link></li> : '' }
                                 
                             </ul>
 

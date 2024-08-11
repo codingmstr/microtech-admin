@@ -1,5 +1,5 @@
 "use client";
-import { alert_msg, api, date, print } from '@/public/script/main';
+import { alert_msg, api, date, fix_files, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
@@ -85,9 +85,7 @@ export default function Form ( props ) {
         if ( required.length ) return alert_msg(`${required[0]} is required to save item !`, 'error');
 
         setLoader(true);
-        data.new_files?.forEach((f, index) => data[`file_${index}`] = f.file);
-        const request = {...data, deleted_files: JSON.stringify(data.deleted_files || [])}
-        const response = await api(id ? `${system}/${id}/update` : `${system}/store`, request);
+        const response = await api(id ? `${system}/${id}/update` : `${system}/store`, {...data, ...fix_files(data)});
         
         if ( response.status ) {
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);

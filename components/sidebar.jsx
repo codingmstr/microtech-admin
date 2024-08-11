@@ -46,7 +46,7 @@ export default function Sidebar () {
                         <ul className="relative space-y-0.5 p-4 py-0 font-semibold">
 
                             {
-                                config.user.id &&
+                                config.user.id ?
                                 <li className="nav-item">
 
                                     <Link href="/" rel="preload" className="group">
@@ -64,10 +64,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_mails &&
+                                config.user.allow_mails ?
                                 <li className="nav-item">
 
                                     <Link href="/mailbox" rel="preload" className="group">
@@ -87,10 +87,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_messages &&
+                                config.user.allow_messages ?
                                 <li className="nav-item">
 
                                     <Link href="/chatbox" rel="preload" className="group">
@@ -107,13 +107,13 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                           
                             <div><Elements element='hr' className='my-2'/></div>
 
                             {
-                                config.user.allow_categories &&
+                                config.user.allow_categories ?
                                 <li className="nav-item">
 
                                     <Link href="/category" rel="preload" className="group">
@@ -133,10 +133,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_products &&
+                                config.user.allow_products ?
                                 <li className="nav-item">
 
                                     <Link href="/product" rel="preload" className="group">
@@ -157,10 +157,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_coupons &&
+                                config.user.allow_coupons ?
                                 <li className="nav-item">
 
                                     <Link href="/coupon" rel="preload" className="group">
@@ -180,10 +180,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_orders &&
+                                config.user.allow_orders ?
                                 <li className="nav-item">
 
                                     <Link href="/order" rel="preload" className="group">
@@ -204,10 +204,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.allow_reviews &&
+                                config.user.allow_reviews ?
                                 <li className="nav-item">
 
                                     <Link href="/review" rel="preload" className="group">
@@ -227,7 +227,7 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                     
                             <div><Elements element='hr' className='my-2'/></div>
@@ -258,9 +258,9 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'users' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.supervisor && <li><Link href='/admin' rel="preload">{config.text.admins}</Link></li> }
-                                        { config.user.allow_vendors && <li><Link href='/vendor' rel="preload">{config.text.vendors}</Link></li> }
-                                        { config.user.allow_clients && <li><Link href='/client' rel="preload">{config.text.clients}</Link></li> }
+                                        { config.user.supervisor ? <li><Link href='/admin' rel="preload">{config.text.admins}</Link></li> : '' }
+                                        { config.user.allow_vendors ? <li><Link href='/vendor' rel="preload">{config.text.vendors}</Link></li> : '' }
+                                        { config.user.allow_clients ? <li><Link href='/client' rel="preload">{config.text.clients}</Link></li> : '' }
                                     </ul>
                                 </AnimateHeight>
 
@@ -292,11 +292,11 @@ export default function Sidebar () {
 
                                 <AnimateHeight duration={300} height={currentMenu === 'more' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
-                                        { config.user.allow_blogs && <li><Link href='/blog' rel="preload">{config.text.blogs}</Link></li> }
-                                        { config.user.allow_comments && <li><Link href='/comment' rel="preload">{config.text.comments}</Link></li> }
-                                        { config.user.allow_replies && <li><Link href='/reply' rel="preload">{config.text.replies}</Link></li> }
-                                        { config.user.allow_contacts && <li><Link href='/contact' rel="preload">{config.text.contacts}</Link></li> }
-                                        { config.user.allow_reports && <li><Link href='/report' rel="preload">{config.text.reports}</Link></li> }
+                                        { config.user.allow_blogs ? <li><Link href='/blog' rel="preload">{config.text.blogs}</Link></li> : '' }
+                                        { config.user.allow_comments ? <li><Link href='/comment' rel="preload">{config.text.comments}</Link></li> : '' }
+                                        { config.user.allow_replies ? <li><Link href='/reply' rel="preload">{config.text.replies}</Link></li> : '' }
+                                        { config.user.allow_contacts ? <li><Link href='/contact' rel="preload">{config.text.contacts}</Link></li> : '' }
+                                        { config.user.allow_reports ? <li><Link href='/report' rel="preload">{config.text.reports}</Link></li> : '' }
                                     </ul>
                                 </AnimateHeight>
 
@@ -305,7 +305,7 @@ export default function Sidebar () {
                             <div><Elements element='hr' className='my-2'/></div>
 
                             {
-                                config.user.id &&
+                                config.user.id ?
                                 <li className="nav-item">
 
                                     <Link href="/account" rel="preload" className="group">
@@ -325,10 +325,10 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
                             {
-                                config.user.super &&
+                                config.user.super ?
                                 <li className="nav-item">
 
                                     <Link href="/setting" rel="preload" className="group">
@@ -346,7 +346,7 @@ export default function Sidebar () {
 
                                     </Link>
 
-                                </li>
+                                </li> : ''
                             }
 
                         </ul>

@@ -1,12 +1,11 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
-export const host = "https://server.tahaol.com";
-export const storage = "https://server.tahaol.com/storage";
+export const storage = process.env.NEXT_PUBLIC_STORAGE_URL;
 
 export async function api ( url, data, method ) {
 
-    url = url ? `${host}/api/admin/${url}` : '';
+    url = url ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/${url}` : '';
     data = data ? data : {host: location.host};
     method = method ? method.toUpperCase() : 'POST';
 
