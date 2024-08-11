@@ -1,5 +1,5 @@
 "use client";
-import { storage, print } from '@/public/script/main';
+import { storage } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';

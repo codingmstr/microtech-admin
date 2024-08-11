@@ -36,8 +36,18 @@ export async function api ( url, data, method ) {
 
     if ( method === 'GET' ) try{ return await _get_(); } catch(e){}
     else try{ return await _other_(); } catch(e){}
-
+    
     return false;
+
+}
+export function sound ( src, vol, lazey=true ) {
+       
+    const audio = new Audio();
+    audio.pause();
+    audio.src = `/media/layout/${src}.wav`;
+    audio.volume = vol || .7;
+    if ( lazey ) setTimeout(() => audio.play(), 100);
+    else audio.play();
 
 }
 export function print ( ..._ ) {
@@ -83,15 +93,6 @@ export function active_link ( path ) {
     document.querySelector(`ul.horizontal-menu a[href='${path}']`)?.classList.add('active');
     document.querySelector(`ul.horizontal-menu a[href='${path}']`)?.closest('li.menu')?.querySelectorAll('.nav-link')[0]?.classList.add('active');
     document.querySelector(`.sidebar ul a[href='${path}']`)?.closest('li.menu')?.querySelectorAll('.nav-link')[0]?.classList.add('active');
-
-}
-export function sound ( src, vol ) {
-        
-    const audio = new Audio();
-    audio.pause();
-    audio.src = `/media/layout/${src}.wav`;
-    audio.volume = vol || .7;
-    setTimeout(() => audio.play(), 100);
 
 }
 export function position ( element, query ) {
@@ -228,12 +229,12 @@ export function read_file ( file, type ) {
     });
 
 }
-export function fix_files ( files ) {
+export function fix_files ( data ) {
 
-    if ( !Object.keys(files || []).length ) return {};
-    let data = {};
-    files.forEach((file, index) => data[index] = file);
-    return data;
+    let _new_ = {};
+    data?.new_files?.forEach((f, index) => _new_[`file_${index}`] = f.file);
+    if ( data.deleted_files ) _new_.deleted_files = JSON.stringify(data.deleted_files);
+    return _new_;
     
 }
 export function image_ext( ext ) {

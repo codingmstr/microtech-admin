@@ -1,5 +1,5 @@
 "use client";
-import { active_link, get_cookie } from '@/public/script/main';
+import { active_link, get_cookie, sound, print, check_class } from '@/public/script/main';
 import { actions } from '@/public/script/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +46,27 @@ export default function Layout ({ children }) {
         setAnimation(config.animation);
 
     }, [dispatch]);
+    useEffect(() => {
+
+        let clicking = null;
+
+        document.addEventListener('click', function (e) {
+            
+            if ( clicking ) return;
+            clicking = e;
+            setTimeout(() => clicking=null, 100);
+
+            if ( e.target.nodeName === 'BUTTON' ) sound('click2', 1, false);
+            else if ( e.target.closest('button') ) sound('click2', 1, false);
+            else if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click1', 1, false);
+            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click2', 1, false);
+            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click2', 1, false);
+            else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click2', 1, false);
+            else if ( e.target.closest('LABEL') ) sound('click2', 1, false);
+
+        });
+
+    }, []);
 
     return (
 
@@ -69,7 +90,7 @@ export default function Layout ({ children }) {
                         }
                         {
                             auth ?
-                            <div className={`main-content overflow-y-auto overflow-x-hidden h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
+                            <div className={`main-content overflow-y-auto overflow-x-hidden scroll-smooth h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
                                 {
                                     animation &&
                                     <div className={`${animation} ${config.layout} animate__animated p-5`}>

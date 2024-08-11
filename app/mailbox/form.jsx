@@ -1,5 +1,5 @@
 "use client";
-import { alert_msg, api, fix_files, print, scroll_down } from "@/public/script/main";
+import { alert_msg, api, fix_files, scroll_down, print } from "@/public/script/main";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Elements from "@/components/elements";
@@ -28,7 +28,7 @@ export default function Form ({ data, setData, users, setTab, setType }) {
         if ( !mail.title ) return alert_msg(config.text.invalid_title, 'error');
 
         setLoader(true);
-        const request = {...mail, description: `${mail.description || ''} ${mail.text || ''}`, ...fix_files(files.map(_ => _.file))};
+        const request = {...mail, description: `${mail.description || ''} ${mail.text || ''}`, ...fix_files({new_files: files})};
         const response = await api('mail/send', request);
         _response_(response);
 

@@ -16,27 +16,19 @@ export default function Settings () {
     const [tab, setTab] = useState('info');
     const [data, setData] = useState({});
     const [payments, setPayments] = useState({});
-    const [content, setContent] = useState({});
 
     const _get_ = async() => {
 
-        // const reponse = await api('setting');
-
-        const response = {
-            status: true,
-            payments: {
-                paypal: {},
-                paymob: {},
-                hyper: {},
-                stripe: {},
-                paddle: {},
-            },
-            settings: {}
-        }
+        const response = await api('setting');
 
         setData(response.settings || {});
-        setPayments(response.payments || {});
-        setContent(response.content || {});
+        setPayments(response.payments || {
+            paypal: {},
+            paymob: {},
+            hyper: {},
+            stripe: {},
+            paddle: {},
+        });
 
     }
     useEffect(() => {
@@ -76,15 +68,10 @@ export default function Settings () {
             { tab === 'config' && <Config data={data} setData={setData}/> }
             { tab === 'danger' && <Danger data={data} setData={setData}/> }
             { tab === 'payment' && <Payment data={payments} setData={setPayments}/> }
-            { tab === 'content' && <Content data={content} setData={setContent} setTab={setTab}/> }
+            { tab === 'content' && <Content data={data} setData={setData} setTab={setTab}/> }
 
         </div>
 
     )
 
 }
-
-// $this->string()  for all systems
-// settings
-// click sound
-// broadcast

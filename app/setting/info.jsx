@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg, print } from "@/public/script/main";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
 import Elements from '@/components/elements';
@@ -10,37 +10,17 @@ export default function Info ({ data, setData }) {
 
     const config = useSelector((state) => state.config);
     const [loader, setLoader] = useState(false);
-    const [currencies, setCurrencies] = useState([]);
-    const [languages, setLanguages] = useState([]);
 
     const _save_ = async() => {
 
         setLoader(true);
-        const response = await api('setting/save', data);
+        const response = await api('setting/update', data);
         setLoader(false);
 
         if ( !response.status ) alert_msg(config.text.alert_error, 'error');
         else alert_msg(config.text.system_updated);
 
     }
-    useEffect(() => {
-
-        let _currencies_ = [
-            {id: 'EGP', name: 'EGP'},
-            {id: 'USD', name: 'USD'},
-            {id: 'EUR', name: 'EUR'},
-        ];
-        let _languages_ = [
-            {id: 'AR', name: 'Arabic'},
-            {id: 'EN', name: 'English'},
-            {id: 'FR', name: 'French'},
-        ];
-
-        setCurrencies(_currencies_);
-        setLanguages(_languages_);
-
-    }, []);
-
     return (
 
         <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default">
@@ -56,9 +36,9 @@ export default function Info ({ data, setData }) {
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
                         <Elements element='input' type='text' name='name' className='flex' value={data.name} onChange={(e) => setData({...data, name: e})}/>
-                        <Elements element='select' className='flex' name='language' value={data.language} onChange={(e) => setData({...data, language: e})} children={languages}/>
+                        <Elements element='languages' className='flex' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
                         <Elements element='input' type='text' name='email' className='flex' value={data.email} onChange={(e) => setData({...data, email: e})}/>
-                        <Elements element='select' className='flex' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})} children={currencies}/>
+                        <Elements element='select_currency' className='flex' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
                         <Elements element='input' type='text' name='phone' className='flex' value={data.phone} onChange={(e) => setData({...data, phone: e})}/>
 
                     </div>
@@ -67,7 +47,7 @@ export default function Info ({ data, setData }) {
 
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
-                        <Elements element='input' type='text' name='country' className='flex' value={data.country} onChange={(e) => setData({...data, country: e})}/>
+                        <Elements element='countries' type='text' name='country' className='flex' value={data.country} onChange={(e) => setData({...data, country: e})}/>
                         <Elements element='input' type='text' name='city' className='flex' value={data.city} onChange={(e) => setData({...data, city: e})}/>
                         <Elements element='input' type='text' name='street' className='flex' value={data.street} onChange={(e) => setData({...data, street: e})}/>
                         <Elements element='input' type='text' name='location' className='flex' value={data.location} onChange={(e) => setData({...data, location: e})}/>

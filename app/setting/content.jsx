@@ -1,5 +1,5 @@
 "use client";
-import { api, alert_msg, print } from "@/public/script/main";
+import { api, alert_msg, fix_files, print } from "@/public/script/main";
 import { useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
@@ -14,59 +14,56 @@ export default function Content ({ data, setData, setTab }) {
     const _save_ = async() => {
 
         setLoader(true);
-        const response = await api('setting/content', data);
+        const response = await api('setting/content', {...data, ...fix_files(data)});
         setLoader(false);
 
         if ( !response.status ) return alert_msg(config.text.alert_error, 'error');
         alert_msg(config.text.content_updated);
-        setTab('info');
+        setData({...data, new_files: null, deleted_files: null, slider: {files: data.slider?.files || []}});
 
     }
     return (
 
-        <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default">
+        <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default min-h-[calc(100vh_-_150px)]">
 
-            <div className="flex flex-col flex-1 gap-5 relative">
+            <div className="flex flex-1">
+                {
+                    loader ? <div className="w-full h-[40rem] relative"><Loader className='bg'/></div> :
+                    <div className="w-full grid grid-cols-1 gap-5">
 
-                { loader && <Loader className='bg'/> }
-
-                <div className='panel relative pb-6'>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2 pb-2">
-
-                        <Elements element='slider' name='header' label='header' value={data.header?.files || []} onChange={(e) => setData({...data, header: {...data.header || [], ...e}})}/>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2 pb-2">
+                                <Elements element='slider' name='hero_section' value={data.hero || []} slider={data.slider} onChange={(e) => setData({...data, slider: e, ...e})}/>
+                            </div>
+                        </div>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
+                                <Elements element='editor' name='about_us' className='medium' value={data.about} onChange={(e) => setData({...data, about: e})}/>
+                            </div>
+                        </div>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
+                                <Elements element='editor' name='terms_policy' className='medium' value={data.terms} onChange={(e) => setData({...data, terms: e})}/>
+                            </div>
+                        </div>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
+                                <Elements element='editor' name='cancellation_policy' className='medium' value={data.policy} onChange={(e) => setData({...data, policy: e})}/>
+                            </div>
+                        </div>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
+                                <Elements element='editor' name='services' className='medium' value={data.services} onChange={(e) => setData({...data, services: e})}/>
+                            </div>
+                        </div>
+                        <div className='panel relative pb-6'>
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
+                                <Elements element='editor' name='help_page' className='medium' value={data.help} onChange={(e) => setData({...data, help: e})}/>
+                            </div>
+                        </div>
 
                     </div>
-
-                </div>
-                <div className='panel relative pb-6'>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
-
-                        <Elements element='editor' name='about_us' className='medium' value={data.about} onChange={(e) => setData({...data, about: e})}/>
-
-                    </div>
-
-                </div>
-                <div className='panel relative pb-6'>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
-
-                        <Elements element='editor' name='terms_policy' className='medium' value={data.terms} onChange={(e) => setData({...data, terms: e})}/>
-
-                    </div>
-
-                </div>
-                <div className='panel relative pb-6'>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-y-6 gap-x-10 px-2">
-
-                        <Elements element='editor' name='terms_policy' className='medium' value={data.terms} onChange={(e) => setData({...data, terms: e})}/>
-
-                    </div>
-
-                </div>
-
+                }
             </div>
 
             <div className='flex flex-col gap-5 xl:w-[28%]'>
@@ -76,9 +73,7 @@ export default function Content ({ data, setData, setTab }) {
                     <h6 className="text-lg -mt-[3px] font-semibold mb-4 select-none">{config.text.logo}</h6>
 
                     <div className="w-full grid grid-cols-1">
-
-                        <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e})}/>
-
+                        <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e.file})}/>
                     </div>
                 
                 </div>

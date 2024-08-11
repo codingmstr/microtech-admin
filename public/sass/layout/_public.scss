@@ -41,6 +41,7 @@ body{
 }
 
 .main-content{
+    scroll-behavior: smooth;
     &::-webkit-scrollbar{ width: .5rem; }
     &::-webkit-scrollbar-thumb{ background: #375b9180; border-radius: 1rem; }
 }
