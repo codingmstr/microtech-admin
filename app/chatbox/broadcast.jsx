@@ -62,7 +62,6 @@ export default function Broadcast ({ data, setData, room, setRoom, current_user 
     useEffect(() => {
         
         if ( !message || message.sender === config.user.id ) return;
-
         if ( message.action === 'message' )  _add_(message);
         if ( message.action === 'delete' )  _delete_(message);
         if ( message.action === 'active' )  _active_(message);

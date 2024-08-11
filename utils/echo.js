@@ -8,22 +8,44 @@ if ( typeof window !== 'undefined' ) {
 
     window.Pusher = Pusher;
 
-    echo = new Echo({
-        broadcaster: 'reverb',
-        key: process.env.NEXT_PUBLIC_REVERB_APP_KEY,
-        wsHost: process.env.NEXT_PUBLIC_REVERB_WS_HOST,
-        wsPort: process.env.NEXT_PUBLIC_REVERB_WS_PORT,
-        wssPort: process.env.NEXT_PUBLIC_REVERB_WS_PORT,
-        enabledTransports: ['ws', 'wss'],
-        forceTLS: false,
-        authEndpoint: `${host}/api/broadcasting/auth`,
-        auth: {
-            headers: {
-                Authorization: `Bearer ${get_cookie('user')?.token}`
+    if ( process.env.NEXT_PUBLIC_BROADCAST_CONNECTION === 'reverb' ) {
+
+        echo = new Echo({
+            broadcaster: 'reverb',
+            key: process.env.NEXT_PUBLIC_REVERB_APP_KEY,
+            wsHost: process.env.NEXT_PUBLIC_REVERB_WS_HOST,
+            wsPort: process.env.NEXT_PUBLIC_REVERB_WS_PORT,
+            wssPort: process.env.NEXT_PUBLIC_REVERB_WS_PORT,
+            enabledTransports: ['ws', 'wss'],
+            forceTLS: false,
+            authEndpoint: `${host}/api/broadcasting/auth`,
+            auth: {
+                headers: {
+                    Authorization: `Bearer ${get_cookie('user')?.token}`
+                },
+                withCredentials: true,
             },
-            withCredentials: true,
-        },
-    });
+        });
+
+    }
+    else {
+
+        echo = new Echo({
+            broadcaster: 'pusher',
+            key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
+            cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+            encrypted: true,
+            forceTLS: false,
+            authEndpoint: `${host}/api/broadcasting/auth`,
+            auth: {
+                headers: {
+                    Authorization: `Bearer ${get_cookie('user')?.token}`
+                },
+                withCredentials: true,
+            },
+        });
+
+    }
 
 }
 

@@ -9,7 +9,7 @@ import Broadcast from "./broadcast";
 export default function Chatbox () {
 
     const config = useSelector((state) => state.config);
-    const [user, setUser] = useState(config.user);
+    const [user, setUser] = useState({id: 1, name: 'Admin Panel', image: 'user/6.png'});
     const [menu, setMenu] = useState(false);
     const [room, setRoom] = useState({});
     const [data, setData] = useState([]);
@@ -21,7 +21,6 @@ export default function Chatbox () {
         const response = await api('chat/friends');
         setData(response.relations || []);
         setUsers(response.users || []);
-        setUser({id: 1, name: 'Admin Panel', image: 'user/6.png'});
 
     }
     useEffect(() => {
