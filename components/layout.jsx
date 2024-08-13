@@ -1,9 +1,10 @@
 "use client";
-import { active_link, get_cookie, sound, print, check_class } from '@/public/script/main';
+import { active_link, get_cookie, sound, print } from '@/public/script/main';
 import { actions } from '@/public/script/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
+import Notification from './notification';
 import Header from './header';
 import Sidebar from './sidebar';
 import Setting from './setting';
@@ -84,6 +85,7 @@ export default function Layout ({ children }) {
                         {
                             auth &&
                             <div className='main-content'>
+                                <Notification />
                                 <Sidebar />
                                 <Header />
                             </div>

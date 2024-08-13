@@ -553,6 +553,24 @@ body.dark{
         }
     }
 }
+.notification-svg{
+    &.active{
+        animation: bell .5s linear;
+        @keyframes bell {
+            0%{ transform: scale(0) }
+            10%{ transform: scale(.5) }
+            20%{ transform: scale(1) }
+            30%{ transform: scale(1.5) }
+            40%{ transform: scale(2) }
+            50%{ transform: scale(1.5) }
+            60%{ transform: scale(1) }
+            70%{ transform: scale(.5) }
+            80%{ transform: scale(0) }
+            90%{ transform: scale(.5) }
+            100%{ transform: scale(1) }
+        }
+    }
+}
 
 @media (max-width: 800px) {
     .panel-grid{

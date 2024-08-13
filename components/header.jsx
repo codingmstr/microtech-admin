@@ -1,9 +1,9 @@
 "use client";
 import { actions } from '@/public/script/store';
-import { date, storage, api } from '@/public/script/main';
+import { date, api, sound, print } from '@/public/script/main';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Dropdown from './menu';
 import Elements from "./elements";
@@ -13,42 +13,14 @@ export default function Header () {
     const config = useSelector((state) => state.config);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [notifications, setNotifications] = useState([]);
+    const [unreaden, setUnreaden] = useState(0);
     const [lang, setLang] = useState(config.lang);
     const [query, setQuery] = useState('');
 
-    const [notifications, setNotifications] = useState([
-        {
-            id: 1,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-            title: 'Congratulations!',
-            message: 'Your OS has been updated.',
-            time: '1hr',
-        },
-        {
-            id: 2,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
-            title: 'Did you know?',
-            message: 'You can switch between artboards.',
-            time: '2hr',
-        },
-        {
-            id: 3,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
-            title: 'Something went wrong!',
-            message: 'Send Reposrt',
-            time: '2days',
-        },
-        {
-            id: 4,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
-            title: 'Warning',
-            message: 'Your password strength is low.',
-            time: '5days',
-        },
-    ]);
-    const removeNotification = (value) => {
+    const remove_notification = ( id ) => {
 
-        setNotifications(notifications.filter((user) => user.id !== value));
+        setNotifications(notifications.filter(_ => _.id !== id));
 
     };
     const search = () => {
@@ -72,6 +44,28 @@ export default function Header () {
         }
 
     }
+    useEffect(() => {
+
+        if ( !config.notification?.type ) return;
+
+        print(config.notification);
+
+        let notification = {
+            id: 2,
+            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
+            title: 'Congratulations!',
+            message: 'Your OS has been updated.',
+            time: '1hr',
+        }
+
+        setNotifications([...notifications, notification]);
+        setUnreaden((e) => e+1);
+        sound('notify', 1);
+        setTimeout(() => document.querySelector('.notification-svg')?.classList.add('active'));
+        setTimeout(() => document.querySelector('.notification-svg')?.classList.remove('active'), 1000);
+
+    }, [config.notification]);
+
     return (
 
         <header>
@@ -155,9 +149,9 @@ export default function Header () {
 
                             </div>
 
-                            <div className="dropdown shrink-0">
+                            <div className="dropdown shrink-0" onClick={() => setUnreaden(0)}>
 
-                                <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`} btnClassName="relative block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                                <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`} btnClassName="relative select-none block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
                                     button={
                                         <span>
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -165,10 +159,16 @@ export default function Header () {
                                                 <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                                                 <path d="M12 6V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                                             </svg>
-                                            <span className="absolute top-0 flex h-3 w-3 ltr:right-0 rtl:left-0">
-                                                <span className="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-success/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px]"></span>
-                                                <span className="relative inline-flex h-[6px] w-[6px] rounded-full bg-success"></span>
-                                            </span>
+                                            {
+                                                unreaden ?
+                                                <span className="absolute -top-[.2rem] w-[1.1rem] h-[1.1rem] ltr:right-0 rtl:left-0 flex justify-center items-center rounded-full bg-danger notification-svg">
+                                                    <span className='text-white text-[.73rem]'>{unreaden}</span>
+                                                </span> :
+                                                <span className="absolute top-0 flex h-3 w-3 ltr:right-0 rtl:left-0">
+                                                    <span className="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-success/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px]"></span>
+                                                    <span className="relative inline-flex h-[6px] w-[6px] rounded-full bg-success"></span>
+                                                </span>
+                                            }
                                         </span>
                                     }>
                                     
@@ -203,7 +203,7 @@ export default function Header () {
                                                                 <span className="whitespace-pre rounded bg-white-dark/20 px-1 font-semibold text-dark/60 ltr:ml-auto ltr:mr-2 rtl:mr-auto rtl:ml-2 dark:text-white-dark">
                                                                     {item.time}
                                                                 </span>
-                                                                <button type="button" className="text-neutral-300 hover:text-danger" onClick={() => removeNotification(item.id)}>
+                                                                <button type="button" className="text-neutral-300 hover:text-danger" onClick={() => remove_notification(item.id)}>
                                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <circle opacity="0.7" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
                                                                         <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

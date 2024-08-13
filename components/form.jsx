@@ -95,10 +95,12 @@ export default function Form ( props ) {
         const response = await api(id ? `${system}/${id}/update` : `${system}/store`, {...data, ...fix_files(data)});
         
         if ( response.status ) {
+            setData({...data, new_files: null, deleted_files: null, slider: {files: data.slider?.files || []}});
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);
             else alert_msg(config.text.new_item_added);
-            router.replace(`/${system}`);
-            setForm(false);
+            setLoader(false);
+            // router.replace(`/${system}`);
+            // setForm(false);
         }
         else {
             alert_msg(config.text.alert_error, 'error');
