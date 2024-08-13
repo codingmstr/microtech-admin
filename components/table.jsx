@@ -27,7 +27,7 @@ export default function Table ( props ) {
         system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
         filters=[], use_filters=true, settings=true, rows=5, checkbox=true,
         pagination=true, start_loader=false,
-        item_filters, setForm, setId,
+        item_filters, setForm, setId, label, push_url
     } = props;
     const options = {
         selectedRecords: checkbox ? selected : false,
@@ -90,16 +90,20 @@ export default function Table ( props ) {
     }
     const _add_ = async() => {
 
-        if ( item_filters ) return router.replace(`/${system}?add=true${Object.keys(item_filters).map(_ => `&${_}=${item_filters[_]}`)}`);
-        setId(0);
-        setForm(true);
+        if ( item_filters || push_url ) return router.push(`/${system}?add=true${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        else {
+            setId(0);
+            setForm(true);
+        }
 
     }
     const _edit_ = async( id ) => {
 
-        if ( item_filters ) return router.replace(`/${system}?edit=${id}${Object.keys(item_filters).map(_ => `&${_}=${item_filters[_]}`)}`);
-        setId(id);
-        setForm(true);
+        if ( item_filters || push_url ) return router.push(`/${system}?edit=${id}${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        else {
+            setId(id);
+            setForm(true);
+        }
 
     }
     const _download_ = async() => {
@@ -157,10 +161,14 @@ export default function Table ( props ) {
 
                     <div className='invoice-table'>
                         {
-                            add || deletes || search || use_filters || settings ?
+                            add || deletes || search || use_filters || settings || label ?
                             <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-gray-100 dark:border-[#15243b]">
 
                                 <div className="flex items-center gap-2 ltr:-ml-2 rtl:-mr-2 sm:ltr:m-0 sm:rtl:m-0">
+                                    {
+                                        label &&
+                                        <div className='text-[1rem] tracking-wide py-1'>{config.text[label]}</div>
+                                    }
                                     {
                                         deletes &&
                                         <button onClick={_delete_group_} type="button" className="btn btn-danger gap-2 shadow-none hover:opacity-[.8] border-danger">

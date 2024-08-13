@@ -12,8 +12,8 @@ export default function Chart ({ data, type, label, color, title, height, icon }
     const config = useSelector((state) => state.config);
     const [mounted, setMounted] = useState(false);
     const [frame, setFrame] = useState('daily');
-    const [total, setTotal] = useState(data.total || 0);
-    const [series, setSeries] = useState(data[frame]?.series || []);
+    const [total, setTotal] = useState(data?.total || 0);
+    const [series, setSeries] = useState(data ? data[frame]?.series || [] : []);
 
     const area = {
         series: [{name: label, data: series.filter(_ => _ > 0).length ? series : [1, 1, 1, 1, 1, 1, 1]}],
@@ -69,7 +69,7 @@ export default function Chart ({ data, type, label, color, title, height, icon }
         },
     };
     const revenue = {
-        series: Array.isArray(data) && data.map(_ => { return { name: config.text[_.name], data: _[frame].series || [] } }),
+        series: Array.isArray(data) && data.map(_ => { return { name: config.text[_.name], data: _[frame]?.series || [] } }),
         options: {
             chart: {
                 type: 'area',
@@ -309,13 +309,13 @@ export default function Chart ({ data, type, label, color, title, height, icon }
     useEffect(() => {
 
         setMounted(true);
-        setSeries(data[frame]?.series || []);
+        setSeries(data ? data[frame]?.series || [] : []);
 
-    }, [frame]);
+    }, [frame, data]);
 
     return (
 
-        <div className='w-full h-full'>
+        <div className='w-full h-full chart-div'>
             {
                 mounted ?
                 <div className='panel w-full h-full p-0'>
@@ -488,7 +488,7 @@ export default function Chart ({ data, type, label, color, title, height, icon }
 
                             <div className="mb-5 flex items-center">
 
-                                <h5 className="text-lg font-semibold dark:text-white-light">{config.text.chart_items}</h5>
+                                <h5 className="text-lg font-semibold dark:text-white-light">{config.text[title || 'chart_items']}</h5>
 
                             </div>
 
