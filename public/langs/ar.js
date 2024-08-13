@@ -312,10 +312,11 @@ export const Arabic = {
     auctions_confirmed: 'تم تأكيد المزادات الأخيرة بنجاح',
     visitors_confirmed: 'تم تأكيد الزائرين الجدد بنجاح',
     summary: 'الملخص',
-    recently_bookings: 'أحدث الحجوزات',
+    recently_orders: 'أحدث الحجوزات',
     recently_products: 'أحدث العقارات',
     recently_auctions: 'أحدث المزادات',
     recently_visitors: 'أحدث الزائرين',
+    recently_clients: 'أحدث العملاء',
     confirm: 'إنتهى',
     request: 'متوقف',
     no_new_bookings: 'لا توجد حجوزات جديدة',
@@ -380,5 +381,10 @@ export const Arabic = {
     district: 'الحى',
     auction_video: 'الفيديو التسويقى',
     chart_items: 'العناصر',
+    open: 'فتح',
+    apps: 'التطبيقات',
+    vendors: 'المالكين',
+    replies: 'الردود',
+    more: 'المزيد',
 
 }

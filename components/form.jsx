@@ -2,6 +2,7 @@
 import { alert_msg, api, date, fix_files, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Loader from './loader';
 import Elements from './elements';
@@ -11,6 +12,7 @@ import Panel from "./panel";
 export default function Form ( props ) {
 
     const config = useSelector((state) => state.config);
+    const router = useRouter();
     const { system='', id=0, save=true, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
     const [loader, setLoader] = useState(true);
     const [items, setItems] = useState([...general, ...settings, ...sidebar]);
@@ -70,7 +72,12 @@ export default function Form ( props ) {
     const _get_ = async() => {
 
         const response = await api(`${system}/${id}`);
-        if ( !response.item ) return setForm(false);
+        
+        if ( !response.item ){
+            router.replace(`/${system}`);
+            setForm(false);
+            return;
+        }
 
         let _data_ = {...response.item, 'statistics': charts(response.statistics)};
         bring.forEach(_ => _data_[_] = response[_] || []);
@@ -90,6 +97,7 @@ export default function Form ( props ) {
         if ( response.status ) {
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);
             else alert_msg(config.text.new_item_added);
+            router.replace(`/${system}`);
             setForm(false);
         }
         else {
@@ -107,6 +115,7 @@ export default function Form ( props ) {
 
         if ( response.status ) {
             alert_msg(`${config.text.item} ( ${id} ) ${config.text.deleted_successfully}`);
+            router.replace(`/${system}`);
             setForm(false);
         }
         else {
@@ -117,6 +126,7 @@ export default function Form ( props ) {
     }
     const _cancel_ = async() => {
 
+        router.replace(`/${system}`);
         setForm(false);
 
     }

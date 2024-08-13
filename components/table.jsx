@@ -90,7 +90,9 @@ export default function Table ( props ) {
     }
     const _add_ = async() => {
 
-        if ( item_filters || push_url ) return router.push(`/${system}?add=true${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        if ( item_filters || push_url ) {
+            return router.push(`/${system}?add=true${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        }
         else {
             setId(0);
             setForm(true);
@@ -99,7 +101,9 @@ export default function Table ( props ) {
     }
     const _edit_ = async( id ) => {
 
-        if ( item_filters || push_url ) return router.push(`/${system}?edit=${id}${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        if ( item_filters || push_url ) {
+            return router.push(`/${system}?edit=${id}${Object.keys(item_filters || {}).map(_ => `&${_}=${item_filters[_]}`)}`);
+        }
         else {
             setId(id);
             setForm(true);
@@ -132,23 +136,6 @@ export default function Table ( props ) {
 
         setRun(true);
         setTimeout(() => setLoader(false), 500);
-
-        if ( Object.keys(searchParams).length ) {
-            
-            router.replace(`/${system}`);
-
-        }
-        if ( searchParams.edit ) {
-
-            setId(searchParams.edit);
-            setForm(true);
-
-        }
-        else if ( searchParams.add ) {
-
-            setForm(true);
-            
-        }
 
     }, []);
 
