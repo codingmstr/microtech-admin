@@ -1,28 +1,22 @@
 "use client";
 import { actions } from '@/public/script/store';
-import { date, api, sound, print } from '@/public/script/main';
+import { date, api } from '@/public/script/main';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Dropdown from './menu';
 import Elements from "./elements";
+import Notification from './notification';
 
 export default function Header () {
 
     const config = useSelector((state) => state.config);
     const router = useRouter();
     const dispatch = useDispatch();
-    const [notifications, setNotifications] = useState([]);
-    const [unreaden, setUnreaden] = useState(0);
     const [lang, setLang] = useState(config.lang);
     const [query, setQuery] = useState('');
 
-    const remove_notification = ( id ) => {
-
-        setNotifications(notifications.filter(_ => _.id !== id));
-
-    };
     const search = () => {
 
         alert(query);
@@ -44,28 +38,6 @@ export default function Header () {
         }
 
     }
-    useEffect(() => {
-
-        if ( !config.notification?.type ) return;
-
-        print(config.notification);
-
-        let notification = {
-            id: 2,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-            title: 'Congratulations!',
-            message: 'Your OS has been updated.',
-            time: '1hr',
-        }
-
-        setNotifications([...notifications, notification]);
-        setUnreaden((e) => e+1);
-        sound('notify', 1);
-        setTimeout(() => document.querySelector('.notification-svg')?.classList.add('active'));
-        setTimeout(() => document.querySelector('.notification-svg')?.classList.remove('active'), 1000);
-
-    }, [config.notification]);
-
     return (
 
         <header>
@@ -97,7 +69,7 @@ export default function Header () {
 
                     </div>
 
-                    <div className={`items-center flex-1 hidden md:flex `}>
+                    <div className='items-center flex-1 hidden md:flex'>
                       
                         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[22rem]" placeholder={config.text.search}/>
                    
@@ -149,109 +121,7 @@ export default function Header () {
 
                             </div>
 
-                            <div className="dropdown shrink-0" onClick={() => setUnreaden(0)}>
-
-                                <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`} btnClassName="relative select-none block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                                    button={
-                                        <span>
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke="currentColor" strokeWidth="1.5" d="M19.0001 9.7041V9C19.0001 5.13401 15.8661 2 12.0001 2C8.13407 2 5.00006 5.13401 5.00006 9V9.7041C5.00006 10.5491 4.74995 11.3752 4.28123 12.0783L3.13263 13.8012C2.08349 15.3749 2.88442 17.5139 4.70913 18.0116C9.48258 19.3134 14.5175 19.3134 19.291 18.0116C21.1157 17.5139 21.9166 15.3749 20.8675 13.8012L19.7189 12.0783C19.2502 11.3752 19.0001 10.5491 19.0001 9.7041Z"/>
-                                                <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                                <path d="M12 6V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                            </svg>
-                                            {
-                                                unreaden ?
-                                                <span className="absolute -top-[.2rem] w-[1.1rem] h-[1.1rem] ltr:right-0 rtl:left-0 flex justify-center items-center rounded-full bg-danger notification-svg">
-                                                    <span className='text-white text-[.73rem]'>{unreaden}</span>
-                                                </span> :
-                                                <span className="absolute top-0 flex h-3 w-3 ltr:right-0 rtl:left-0">
-                                                    <span className="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-success/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px]"></span>
-                                                    <span className="relative inline-flex h-[6px] w-[6px] rounded-full bg-success"></span>
-                                                </span>
-                                            }
-                                        </span>
-                                    }>
-                                    
-                                    <ul className="w-[300px] !py-0 text-xs text-dark dark:text-white-dark sm:w-[375px]">
-
-                                        <li className="mb-5" onClick={(e) => e.stopPropagation()}>
-
-                                            <div className="relative !h-[68px] w-full overflow-hidden rounded-t-md p-5 text-white hover:!bg-transparent">
-                                                
-                                                <div className="bg- absolute inset-0 h-full w-full bg-[url(/media/layout/menu-heade.jpg)] bg-cover bg-center bg-no-repeat"></div>
-                                                
-                                                <h4 className="relative z-10 text-lg font-semibold">{config.text.notifications}</h4>
-
-                                            </div>
-
-                                        </li>
-
-                                        {
-                                            notifications.length > 0 ? 
-                                            <>
-                                                <li onClick={(e) => e.stopPropagation()}>
-                                                    {
-                                                        notifications.map((item) =>
-
-                                                            <div key={item.id} className="flex items-center py-3 px-5 pointer hover:bg-primary/10">
-
-                                                                <div dangerouslySetInnerHTML={{__html: item.image}}></div>
-                                                                <span className="px-3 dark:text-gray-500">
-                                                                    <div className="text-sm font-semibold dark:text-white-light/90">{item.title}</div>
-                                                                    <div>{item.message}</div>
-                                                                </span>
-                                                                <span className="whitespace-pre rounded bg-white-dark/20 px-1 font-semibold text-dark/60 ltr:ml-auto ltr:mr-2 rtl:mr-auto rtl:ml-2 dark:text-white-dark">
-                                                                    {item.time}
-                                                                </span>
-                                                                <button type="button" className="text-neutral-300 hover:text-danger" onClick={() => remove_notification(item.id)}>
-                                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                        <circle opacity="0.7" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
-                                                                        <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                                                    </svg>
-                                                                </button>
-
-                                                            </div>
-
-                                                        )
-                                                    }
-                                                </li>
-                                                <li className="mt-5 border-t border-white-light text-center dark:border-white/10">
-
-                                                    <button type="button" className="group !h-[48px] justify-center !py-4 font-semibold text-primary dark:text-gray-400">
-                                                        
-                                                        <span className="ltr:mr-1 rtl:ml-1 text-[.85rem]">{config.text.view_all_activities}</span>
-                                                        
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 transition duration-300 group-hover:translate-x-2 rtl:rotate-[180deg] rtl:group-hover:translate-x-[-10px] ltr:ml-1 rtl:mr-1">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                                        </svg>
-
-                                                    </button>
-
-                                                </li>
-                                            </> : 
-                                            <li className="mb-5" onClick={(e) => e.stopPropagation()}>
-                                                
-                                                <div className="default !grid min-h-[200px] place-content-center text-[.9rem] hover:!bg-transparent">
-                                                    
-                                                    <div className="mx-auto mb-4 rounded-full text-white ring-4 ring-primary/30">
-                                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="#a9abb6" strokeWidth="1.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" className="feather feather-info rounded-full bg-primary">
-                                                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                                        </svg>
-                                                    </div>
-
-                                                    {config.text.no_data}
-
-                                                </div>
-
-                                            </li>
-                                        }
-
-                                    </ul>
-                                    
-                                </Dropdown>
-
-                            </div>
+                            <Notification />
 
                             <div>
                                 {
@@ -318,7 +188,7 @@ export default function Header () {
 
                                     </li>
                                     {
-                                        config.user.allow_mails &&
+                                        config.user.allow_mails ?
                                         <li>
 
                                             <button onClick={() => router.push('/mailbox')} type='button' className="dark:hover:text-white">
@@ -332,7 +202,7 @@ export default function Header () {
 
                                             </button>
 
-                                        </li>
+                                        </li> : ''
                                     }
                                     <li>
 

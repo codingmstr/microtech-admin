@@ -2,41 +2,17 @@
 import { actions } from '@/public/script/store';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { usePathname } from 'next/navigation';
-import { English } from '@/public/langs/en';
-import { Arabic } from '@/public/langs/ar';
 
 export default function Setting () {
 
     const config = useSelector((state) => state.config);
     const dispatch = useDispatch();
-    const pathname = usePathname();
     const [button, setButton] = useState(false);
 
     useEffect(() => {
 
-        const lang = localStorage.getItem('lang');
-        dispatch(actions.toggle_dir(lang === 'ar' ? 'rtl' : 'ltr'));
-
-        let current_text = English;
-        if ( lang === 'ar' ) current_text = Arabic;
-        if ( lang === 'en' ) current_text = English;
-        // if ( lang === 'fr' ) current_text = English;
-        // if ( lang === 'it' ) current_text = English;
-        // if ( lang === 'du' ) current_text = English;
-        // if ( lang === 'su' ) current_text = English;
-        // if ( lang === 'ru' ) current_text = English;
-        // if ( lang === 'tr' ) current_text = English;
-        dispatch(actions.toggle_text(current_text));
-
-    }, [dispatch, config.lang, pathname]);
-    useEffect(() => {
-
         let element = document.querySelector('.main-content.overflow-x-hidden');
-        element?.addEventListener('scroll', function(){
-            if (element.scrollTop > 50) setButton(true);
-            else setButton(false);
-        });
+        element?.addEventListener('scroll', () => element.scrollTop > 50 ? setButton(true) : setButton(false));
 
     }, []);
 

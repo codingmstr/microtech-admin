@@ -472,3 +472,24 @@ export default function Icons ({ icon, className, onClick }) {
     )
 
 }
+
+
+// category
+// product
+// coupon
+// order
+// review
+// admin
+// client
+// vendor
+// blog
+// comment
+// reply
+// report
+// contact
+// more
+// apps
+// users
+
+// click1 sound
+// click2 sound

@@ -6,6 +6,7 @@ export const English = {
     chat: 'Chat',
     account: 'Account',
     settings: 'Settings',
+    setting: 'Setting',
     users: 'Users',
     apps: 'Apps',
     admins: 'Admins',

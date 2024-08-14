@@ -1,10 +1,11 @@
 "use client";
-import { active_link, get_cookie, sound, print } from '@/public/script/main';
+import { active_link, get_cookie } from '@/public/script/main';
 import { actions } from '@/public/script/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
-import Notification from './notification';
+import { English } from '@/public/langs/en';
+import { Arabic } from '@/public/langs/ar';
 import Header from './header';
 import Sidebar from './sidebar';
 import Setting from './setting';
@@ -19,6 +20,23 @@ export default function Layout ({ children }) {
     const [loader, setLoader] = useState(true);
     const [auth, setAuth] = useState(false);
    
+    useEffect(() => {
+
+        const lang = localStorage.getItem('lang');
+        dispatch(actions.toggle_dir(lang === 'ar' ? 'rtl' : 'ltr'));
+
+        let current_text = English;
+        if ( lang === 'ar' ) current_text = Arabic;
+        if ( lang === 'en' ) current_text = English;
+        // if ( lang === 'fr' ) current_text = English;
+        // if ( lang === 'it' ) current_text = English;
+        // if ( lang === 'du' ) current_text = English;
+        // if ( lang === 'su' ) current_text = English;
+        // if ( lang === 'ru' ) current_text = English;
+        // if ( lang === 'tr' ) current_text = English;
+        dispatch(actions.toggle_text(current_text));
+
+    }, [dispatch, config.lang, pathname]);
     useEffect(() => {
 
         setAuth(config.user?.logged);
@@ -47,27 +65,6 @@ export default function Layout ({ children }) {
         setAnimation(config.animation);
 
     }, [dispatch]);
-    useEffect(() => {
-
-        let clicking = null;
-
-        document.addEventListener('click', function (e) {
-            
-            if ( clicking ) return;
-            clicking = e;
-            setTimeout(() => clicking=null, 100);
-
-            if ( e.target.nodeName === 'BUTTON' ) sound('click2', 1, false);
-            else if ( e.target.closest('button') ) sound('click2', 1, false);
-            else if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click1', 1, false);
-            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click2', 1, false);
-            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click2', 1, false);
-            else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click2', 1, false);
-            else if ( e.target.closest('LABEL') ) sound('click2', 1, false);
-
-        });
-
-    }, []);
 
     return (
 
@@ -85,7 +82,6 @@ export default function Layout ({ children }) {
                         {
                             auth &&
                             <div className='main-content'>
-                                <Notification />
                                 <Sidebar />
                                 <Header />
                             </div>

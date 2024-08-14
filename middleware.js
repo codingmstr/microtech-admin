@@ -24,22 +24,22 @@ const check_auth = ( request, path, user ) => {
 const check_role = ( request, path, user ) => {
 
     if ( path.includes('/home') ) return redirect('/', request);
-    if ( path.includes('/categories') && !user.allow_categories ) return redirect('/', request);
-    if ( path.includes('/products') && !user.allow_products ) return redirect('/', request);
-    if ( path.includes('/coupons') && !user.allow_coupons ) return redirect('/', request);
-    if ( path.includes('/orders') && !user.allow_orders ) return redirect('/', request);
-    if ( path.includes('/reviews') && !user.allow_reviews ) return redirect('/', request);
-    if ( path.includes('/blogs') && !user.allow_blogs ) return redirect('/', request);
-    if ( path.includes('/comments') && !user.allow_comments ) return redirect('/', request);
-    if ( path.includes('/replies') && !user.allow_replies ) return redirect('/', request);
-    if ( path.includes('/contacts') && !user.allow_contacts ) return redirect('/', request);
-    if ( path.includes('/reports') && !user.allow_reports ) return redirect('/', request);
+    if ( path.includes('/category') && !user.allow_categories ) return redirect('/', request);
+    if ( path.includes('/product') && !user.allow_products ) return redirect('/', request);
+    if ( path.includes('/coupon') && !user.allow_coupons ) return redirect('/', request);
+    if ( path.includes('/order') && !user.allow_orders ) return redirect('/', request);
+    if ( path.includes('/review') && !user.allow_reviews ) return redirect('/', request);
+    if ( path.includes('/blog') && !user.allow_blogs ) return redirect('/', request);
+    if ( path.includes('/comment') && !user.allow_comments ) return redirect('/', request);
+    if ( path.includes('/reply') && !user.allow_replies ) return redirect('/', request);
+    if ( path.includes('/contact') && !user.allow_contacts ) return redirect('/', request);
+    if ( path.includes('/report') && !user.allow_reports ) return redirect('/', request);
     if ( path.includes('/chatbox') && !user.allow_messages ) return redirect('/', request);
     if ( path.includes('/mailbox') && !user.allow_mails ) return redirect('/', request);
-    if ( path.includes('/clients') && !user.allow_clients ) return redirect('/', request);
-    if ( path.includes('/vendors') && !user.allow_vendors ) return redirect('/', request);
-    if ( path.includes('/admins') && !user.supervisor ) return redirect('/', request);
-    if ( path.includes('/settings') && !user.super ) return redirect('/', request);
+    if ( path.includes('/client') && !user.allow_clients ) return redirect('/', request);
+    if ( path.includes('/vendor') && !user.allow_vendors ) return redirect('/', request);
+    if ( path.includes('/admin') && !user.supervisor ) return redirect('/', request);
+    if ( path.includes('/setting') && !user.super ) return redirect('/', request);
 
 }
 export const config = {
