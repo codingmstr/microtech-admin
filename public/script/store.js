@@ -14,7 +14,6 @@ const initialState = {
     nav: 'navbar-sticky',
     text: {},
     user: {},
-    notification: {},
     langs_list: [
         { code: 'en', name: 'English'},
         { code: 'ar', name: 'Arabic' },
@@ -97,13 +96,6 @@ const themeConfigSlice = createSlice({
         toggle_text(state, { payload }) {
             state.text = payload || state.text;
             localStorage.setItem('text', JSON.stringify(payload));
-        },
-        toggle_notification(state, { payload }) {
-            if ( !payload ) return;
-            state.notification = payload;
-            let all_notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
-            all_notifications.unshift(payload);
-            localStorage.setItem('notifications', JSON.stringify(all_notifications));
         },
     }
 

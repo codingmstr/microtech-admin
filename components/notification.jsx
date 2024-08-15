@@ -18,13 +18,15 @@ export default function Notification () {
 
     const sound_click = () => {
 
+        if ( sessionStorage.getItem('clicker') ) return;
+        sessionStorage.setItem('clicker', true);
         let clicking = null;
 
         document.addEventListener('click', function (e) {
             
             if ( clicking ) return;
             clicking = e;
-            setTimeout(() => clicking = null, 100);
+            setTimeout(() => clicking = null, 500);
 
             if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click', 1, false);
             else if ( e.target.nodeName === 'BUTTON' || e.target.closest('button') ) sound('click', 1, false);

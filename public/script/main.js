@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
-let audio = null;
 export const storage = process.env.NEXT_PUBLIC_STORAGE_URL;
 
 export async function api ( url, data, method ) {
@@ -42,8 +41,7 @@ export async function api ( url, data, method ) {
 }
 export function sound ( src, vol, lazey=true ) {
     
-    audio?.pause();
-    audio = new Audio()
+    const audio = new Audio();
     audio.src = `/media/layout/${src}.wav`;
     audio.volume = vol || .7;
     if ( lazey ) setTimeout(() => audio.play(), 100);
