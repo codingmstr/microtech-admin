@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg, fix_files, print } from "@/public/script/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
 import Elements from '@/components/elements';
@@ -20,8 +20,13 @@ export default function Content ({ data, setData, setTab }) {
         if ( !response.status ) return alert_msg(config.text.alert_error, 'error');
         alert_msg(config.text.content_updated);
         setData({...data, new_files: null, deleted_files: null, slider: {files: data.slider?.files || []}});
-
+        setTab('info');
+        
     }
+    useEffect(() => {
+        document.title = `${config.text.content_manager} | ${config.text.settings}`;
+    }, []);
+
     return (
 
         <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default min-h-[calc(100vh_-_150px)]">

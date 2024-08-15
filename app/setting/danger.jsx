@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg } from "@/public/script/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
 
@@ -25,6 +25,10 @@ export default function Danger ({ data, setData }) {
         else alert_msg(`${config.text.all} ${config.text[item]} ${config.text.item_deleted_successfully}`);
 
     }
+    useEffect(() => {
+        document.title = `${config.text.danger_zone} | ${config.text.settings}`;
+    }, []);
+
     return (
 
         <div className="w-full flex flex-col cursor-default">

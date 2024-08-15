@@ -20,7 +20,7 @@ export default function RootLayout ({ children }) {
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <title>Dashboard</title>
-                <link rel="icon" href="/media/layout/favicon.png"/>
+                <link rel="icon" href="/media/layout/logo.png"/>
                 <link rel="manifest" href="/script/manifest.json"/>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"/>
             </head>

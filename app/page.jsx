@@ -20,6 +20,7 @@ export default function Home () {
     }
     useEffect(() => {
 
+        document.title = config.text.dashboard;
         _get_();
 
     }, []);
@@ -30,15 +31,15 @@ export default function Home () {
             
             <div className="w-full flex justify-start items-start gap-4 flex-col md:flex-row">
 
-                <div className="w-full h-full flex flex-1 flex-col gap-4">
+                <div className="w-full h-full flex flex-1 flex-col gap-5">
 
-                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Chart type='area' label='clients' icon='user' color='success' data={data.clients}/>
+                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <Chart type='area' label='clients' icon='users' color='success' data={data.clients}/>
                         <Chart type='area' label='products' icon='product' color='warning' data={data.products}/>
                         <Chart type='area' label='coupons' icon='coupon' color='info' data={data.coupons}/>
                     </div>
 
-                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5">
                         <Chart type='area' label='orders' icon='order' color='warning' data={data.orders}/>
                         <Chart type='area' label='confirmed' icon='order' color='success' data={data.confirmed_orders}/>
                         <Chart type='area' label='cancelled' icon='order' color='danger' data={data.cancelled_orders}/>
@@ -46,8 +47,8 @@ export default function Home () {
 
                 </div>
 
-                <div className="w-full md:w-[30%]">
-                    <Chart type='items' title='reports' height='409' data={[{name: 'clients', ...data.clients}, {name: 'products', ...data.products}, {name: 'orders', ...data.orders}]}/>
+                <div className="w-full md:w-[30%] overflow-hidden">
+                    <Chart type='items' title='reports' height='384' data={[{name: 'clients', ...data.clients}, {name: 'products', ...data.products}, {name: 'orders', ...data.orders}]}/>
                 </div>
 
             </div>
@@ -59,7 +60,7 @@ export default function Home () {
                 </div>
 
                 <div className="w-full flex-1">
-                    <Chart type='revenue' title='statistics' height='364' data={[{name: 'clients', ...data.clients}, {name: 'products', ...data.products}, {name: 'orders', ...data.orders}, {name: 'coupons', ...data.coupons}]}/>
+                    <Chart type='revenue' title='statistics' height='365' data={[{name: 'clients', ...data.clients}, {name: 'products', ...data.products}, {name: 'orders', ...data.orders}, {name: 'coupons', ...data.coupons}]}/>
                 </div>
 
             </div>
@@ -68,7 +69,7 @@ export default function Home () {
 
                 <Table
                     system={'order'} label={'recently_orders'} use_filters={false} rows={10} pagination={false} 
-                    add={false} settings={false} search={true} deletes={false} checkbox={false} push_url={true}
+                    add={false} settings={true} search={false} deletes={false} checkbox={false} push_url={true}
                     columns={[
                         {
                             accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
@@ -142,7 +143,7 @@ export default function Home () {
 
                     <Table
                         system={'client'} label={'recently_clients'} use_filters={false} rows={10} pagination={false} 
-                        add={false} settings={false} search={true} deletes={false} checkbox={false} push_url={true}
+                        add={false} settings={true} search={false} deletes={false} checkbox={false} push_url={true}
                         columns={[
                             {
                                 accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
@@ -178,7 +179,7 @@ export default function Home () {
 
                     <Table
                         system={'product'} label={'recently_products'} use_filters={false} rows={10} pagination={false} 
-                        add={false} settings={false} search={true} deletes={false} checkbox={false} push_url={true}
+                        add={false} settings={true} search={false} deletes={false} checkbox={false} push_url={true}
                         columns={[
                             {
                                 accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (

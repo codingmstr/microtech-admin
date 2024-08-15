@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg } from "@/public/script/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
 import Elements from '@/components/elements';
@@ -43,6 +43,10 @@ export default function Configrations ({ data, setData }) {
         const response = await api('setting/option', _data_);
 
     }
+    useEffect(() => {
+        document.title = `${config.text.configrations} | ${config.text.settings}`;
+    }, []);
+
     return (
 
         <div className="w-full flex flex-col cursor-default">

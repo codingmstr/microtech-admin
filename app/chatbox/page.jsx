@@ -25,6 +25,7 @@ export default function Chatbox () {
     }
     useEffect(() => {
 
+        document.title = config.text.chatbox;
         _get_();
 
     }, []);

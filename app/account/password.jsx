@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg, print } from "@/public/script/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Elements from "@/components/elements";
 import Loader from '@/components/loader';
@@ -26,6 +26,10 @@ export default function Password ({ setTab }) {
         else alert_msg(config.text.alert_error, 'error');
 
     }
+    useEffect(() => {
+        document.title = `${config.text.change_password} | ${config.text.account}`;
+    }, []);
+
     return (
 
         <div className="flex justify-center items-start xl:flex-row flex-col gap-5">

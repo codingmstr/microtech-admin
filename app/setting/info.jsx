@@ -1,6 +1,6 @@
 "use client";
 import { api, alert_msg, print } from "@/public/script/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import Loader from '@/components/loader';
 import Elements from '@/components/elements';
@@ -21,6 +21,10 @@ export default function Info ({ data, setData }) {
         else alert_msg(config.text.system_updated);
 
     }
+    useEffect(() => {
+        document.title = `${config.text.information} | ${config.text.settings}`;
+    }, []);
+
     return (
 
         <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default">

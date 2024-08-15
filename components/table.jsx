@@ -134,6 +134,7 @@ export default function Table ( props ) {
     }, [sort]);
     useEffect(() => {
 
+        document.title = config.text[`all_${system === 'category' ? 'categorie' : system === 'reply' ? 'replie' : system}s`];
         setRun(true);
         setTimeout(() => setLoader(false), 500);
 
@@ -254,7 +255,7 @@ export default function Table ( props ) {
                         }
                         {
                             my_loader ?
-                            <div className='relative w-full h-[20rem]'>
+                            <div className='relative w-full h-[15rem]'>
                                 <Loader className='bg medium'/>
                             </div>:
                             <div>

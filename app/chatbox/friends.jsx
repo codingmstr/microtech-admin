@@ -73,7 +73,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
                     <button onClick={() => setModel(true)} type='button' className="flex justify-center items-center w-9 h-9 mt-[-2px] rounded-full pointer hover:text-primary bg-primary/10 hover:bg-primary/20">
                     
-                        <Icons icon='message'/>
+                        <Icons icon='message' className='scale-[.9]'/>
                         
                     </button>
 

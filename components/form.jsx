@@ -98,9 +98,8 @@ export default function Form ( props ) {
             setData({...data, new_files: null, deleted_files: null, slider: {files: data.slider?.files || []}});
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);
             else alert_msg(config.text.new_item_added);
-            setLoader(false);
-            // router.replace(`/${system}`);
-            // setForm(false);
+            router.replace(`/${system}`);
+            setForm(false);
         }
         else {
             alert_msg(config.text.alert_error, 'error');
@@ -141,6 +140,7 @@ export default function Form ( props ) {
     }
     useEffect(() => {
 
+        document.title = `${id ? config.text.edit : config.text.add} ${config.text[system]}`;
         if ( id ) _get_();
         else _default_();
 

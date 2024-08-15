@@ -1,6 +1,6 @@
 export const English = {
-    logo1: 'Admin',
-    logo2: 'Panel',
+    logo1: 'Dash',
+    logo2: 'board',
     dashboard: 'Dashboard',
     mail: 'Mailbox',
     chat: 'Chat',

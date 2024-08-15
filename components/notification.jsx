@@ -26,11 +26,12 @@ export default function Notification () {
             clicking = e;
             setTimeout(() => clicking = null, 100);
 
-            if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click1', 1, false);
-            else if ( e.target.nodeName === 'BUTTON' || e.target.closest('button') ) sound('click2', 1, false);
-            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click2', 1, false);
-            else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click2', 1, false);
-            else if ( e.target.closest('LABEL') ) sound('click2', 1, false);
+            if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click', 1, false);
+            else if ( e.target.nodeName === 'BUTTON' || e.target.closest('button') ) sound('click', 1, false);
+            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click', 1, false);
+            else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click', 1, false);
+            else if ( e.target.closest('LABEL') ) sound('click', 1, false);
+            else if ( e.target.nodeName === 'SELECT' ) sound('click', 1, false);
 
         });
 
@@ -49,7 +50,7 @@ export default function Notification () {
         setNotifications([{...notification}, ...notifications]);
         setUnreaden((e) => e+1);
         sound('notify', 1);
-        setTimeout(() => document.querySelector('.notification-svg')?.classList.add('active'), 100);
+        setTimeout(() => document.querySelector('.notification-svg')?.classList.add('active'));
         setTimeout(() => document.querySelector('.notification-svg')?.classList.remove('active'), 1000);
 
         let notifies = JSON.parse(localStorage.getItem('notifications') || '[]');
@@ -59,13 +60,14 @@ export default function Notification () {
     }
     const _create_ = ( message ) => {
 
+        if ( !message.id ) return null;
         let user_tables = ['order', 'review', 'coupon', 'comment', 'payment', 'deposit', 'withdraw', 'reply', 'setting', 'account', 'contact'];
         let item_tables = ['category', 'product', 'blog'];
 
         const type = item_tables.includes(message.table) ? 'md' : ''
         const image = user_tables.includes(message.table) ? message.user?.image : message.item?.image;
         const url =  message.process !== 'delete' && message.item ? `/${message.table}?edit=${message.item.id}` : null;
-        const title = `${config.text[message.process]} ${config.text[message.table]} by ${message.user?.name} - ${message.item?.name || message.item?.title || message.item?.content || ''}`;
+        const title = `${config.text[message.process]} ${config.text[message.table] || ''} by ${message.user?.name} - ${message.item?.name || message.item?.title || message.item?.content || ''}`;
         const date = fix_date(message.created_at);
 
         if ( message.table === 'category' && !config.user.allow_categories ) return null;
@@ -116,11 +118,11 @@ export default function Notification () {
 
         if ( !channel ) return;
         channel.listen('.notify.box', setMessage);
+        sound_click();
 
     }, [channel]);
     useEffect(() => {
 
-        sound_click();
         setChannel(Echo.private('notification'));
         _get_();
 

@@ -31,13 +31,6 @@ export default function _Form_ ({ system, id, setForm }) {
                     icon: 'comment',
                     filters: { user_id: id },
                     options: { use_filters: false },
-                },
-                {
-                    name: 'reply',
-                    label: 'replies',
-                    icon: 'reply',
-                    filters: { user_id: id },
-                    options: { use_filters: false },
                 }
             ]}
             general={[
@@ -61,7 +54,7 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'number', name: 'balance', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'text', name: 'balance', class: 'flex', readOnly: true},
                         {element: 'input', type: 'number', name: 'age', class: 'flex'},
                         {element: 'languages', name: 'language', class: 'flex'},
                         {element: 'countries', name: 'country', class: 'flex'},

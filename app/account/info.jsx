@@ -1,7 +1,7 @@
 "use client";
 import { api, alert_msg, date, print, fix_date, fix_number } from "@/public/script/main";
 import { actions } from "@/public/script/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import Elements from "@/components/elements";
 import Icons from '@/components/icons';
@@ -32,6 +32,10 @@ export default function Info ({ data, setData }) {
         else alert_msg(config.text.alert_error, 'error');
 
     }
+    useEffect(() => {
+        document.title = `${config.text.information} | ${config.text.account}`;
+    }, []);
+
     return (
 
         <div className="flex justify-between xl:flex-row flex-col gap-5">
@@ -57,7 +61,7 @@ export default function Info ({ data, setData }) {
                         <Elements element='countries' name='country' value={data.country} onChange={(e) => setData({...data, country: e})}/>
                         <Elements element='input' type='text' name='city' value={data.city} onChange={(e) => setData({...data, city: e})}/>
 
-                        <Elements element='input' type='number' name='salary' value={fix_number(data.salary, true)} readOnly/>
+                        <Elements element='input' type='text' name='salary' value={fix_number(data.salary, true)} readOnly/>
                         <Elements element='input' name='device' value={data.ip} readOnly/>
                         <Elements element='input' name='last_login' value={fix_date(data.login_at)} readOnly/>
 

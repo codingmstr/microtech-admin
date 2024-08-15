@@ -81,6 +81,8 @@ export default function Payment ({ data, setData }) {
     }
     useEffect(() => {
 
+        document.title = `${config.text.payments} | ${config.text.settings}`;
+
         let _currencies_ = [
             {id: 'EGP', name: 'EGP'},
             {id: 'USD', name: 'USD'},

@@ -121,7 +121,8 @@ export default function Mailbox () {
 
     }, [data, type, search]);
     useEffect(() => {
-
+        
+        document.title = config.text.mailbox;
         _get_();
 
     }, []);
