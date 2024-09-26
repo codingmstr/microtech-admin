@@ -80,7 +80,7 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
 
         <div>
 
-            <div className="slider w-full h-[12rem] sm:h-[20rem] flex items-center border border-[#e0e6ed] dark:border-[#1b2e4b] text-black dark:text-white bg-[#fafafa] dark:bg-[#060818] rounded-md overflow-hidden">
+            <div className="slider w-full h-[12rem] sm:h-[20rem] flex items-center border border-border dark:border-border-dark text-black dark:text-white bg-[#fafafa] dark:bg-black/20 rounded-md overflow-hidden">
 
                 <Swiper modules={[Navigation, Pagination, Autoplay]} navigation={true} onSwiper={setSwiper} onSlideChange={(e) => setIndex(e.realIndex+1)} className='w-full h-full'>
                     
@@ -142,6 +142,6 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
 
         </div>
 
-    );
+    )
 
-};
+}

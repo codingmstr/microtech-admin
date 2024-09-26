@@ -3,7 +3,12 @@
   height: 176px;
   width: 256px;
 }
-
+.ql-toolbar {
+  @apply !rounded-t-sm overflow-hidden;
+}
+.ql-container {
+  @apply !rounded-b-sm overflow-hidden cursor-text;
+}
 .ltr .ql-snow .ql-editor img {
   margin-left: 0px;
 }
@@ -14,11 +19,11 @@
 
 .dark .ql-toolbar.ql-snow,
 .dark .ql-container.ql-snow {
-  border-color: #17263c;
+  @apply !border-border dark:!border-border-dark;
 }
 
 .dark .ql-container.ql-snow {
-  background-color: #121e32;
+  @apply !bg-input dark:!bg-input-dark;
 }
 
 .ql-toolbar.ql-snow {
@@ -33,7 +38,7 @@
 
 .dark .ql-toolbar.ql-snow,
 .dark .ql-container.ql-snow {
-  border-color: #17263c !important;
+  @apply !border-border dark:!border-border-dark;
 }
 
 .ql-container.ql-snow {
@@ -81,9 +86,8 @@
 }
 
 .dark .ql-snow .ql-tooltip input[type='text'] {
-  background-color: #121e32;
-  border-color: #17263c;
   color: #888ea8;
+  @apply border-border-dark bg-input-dark;
 }
 
 .rtl .ql-toolbar.ql-snow .ql-formats {

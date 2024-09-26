@@ -59,7 +59,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
         <Fragment>
 
-            <div className={`panel select-none absolute z-10 w-full h-full max-w-full sm:max-w-xs overflow-hidden p-4 xl:relative hidden xl:block sm:border-r border-primary/30 xl:border-none ${menu ? '!block' : ''}`}>
+            <div className={`panel select-none absolute z-10 w-full h-full max-w-full sm:max-w-xs overflow-hidden p-4 xl:relative hidden xl:block sm:border-r border-primary/30 xl:border ${menu ? '!block' : ''}`}>
 
                 <div className="w-full flex justify-between items-center">
 
@@ -71,7 +71,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
                     </div>
 
-                    <button onClick={() => setModel(true)} type='button' className="flex justify-center items-center w-9 h-9 mt-[-2px] rounded-full pointer hover:text-primary bg-primary/10 hover:bg-primary/20">
+                    <button onClick={() => setModel(true)} type='button' className="flex justify-center items-center w-9 h-9 mt-[-2px] rounded-full cursor-pointer hover:text-primary bg-white-light/30 hover:bg-white-light dark:bg-menu-dark/50 dark:hover:bg-menu-dark">
                     
                         <Icons icon='message' className='scale-[.9]'/>
                         
@@ -83,7 +83,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
                     <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-input peer search-input" placeholder={config.text.search} autoComplete='off'/>
 
-                    <div className="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b] mt-3"></div>
+                    <div className="h-px w-full border-b border-border dark:border-border-dark mt-3"></div>
 
                 </div>
 
@@ -94,7 +94,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                             {
                                 contacts.map((item, index) =>
                                 
-                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex justify-between items-center w-full border-primary/20 m-0 p-[.8rem] group relative cursor-pointer outline-none chat-user ${index > 0 && 'border-t'}`}>
+                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex justify-between items-center w-full border-primary/20 m-0 p-[.8rem] group relative cursor-pointer outline-none chat-user hover:bg-[#eee]/50 dark:hover:bg-menu-dark/30 ${index > 0 && 'border-t'} ${room.id === item.id && 'bg-[#eee]/50 dark:bg-menu-dark/30'}`}>
                                                     
                                         <div className="flex flex-1 items-center">
                         

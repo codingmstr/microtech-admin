@@ -16,28 +16,6 @@ export default function Notification () {
     const [notifications, setNotifications] = useState([]);
     const [unreaden, setUnreaden] = useState(0);
 
-    const sound_click = () => {
-
-        if ( sessionStorage.getItem('clicker') ) return;
-        sessionStorage.setItem('clicker', true);
-        let clicking = null;
-
-        document.addEventListener('click', function (e) {
-            
-            if ( clicking ) return;
-            clicking = e;
-            setTimeout(() => clicking = null, 500);
-
-            if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click', 1, false);
-            else if ( e.target.nodeName === 'BUTTON' || e.target.closest('button') ) sound('click', 1, false);
-            else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click', 1, false);
-            else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click', 1, false);
-            else if ( e.target.closest('LABEL') ) sound('click', 1, false);
-            else if ( e.target.nodeName === 'SELECT' ) sound('click', 1, false);
-
-        });
-
-    }
     const _get_ = () => {
 
         const data = [];
@@ -120,7 +98,6 @@ export default function Notification () {
 
         if ( !channel ) return;
         channel.listen('.notify.box', setMessage);
-        sound_click();
 
     }, [channel]);
     useEffect(() => {
@@ -134,7 +111,7 @@ export default function Notification () {
 
         <div className="dropdown" onClick={_active_}>
 
-            <Dropdown offset={[0, 8]} btnClassName="relative select-none block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+            <Dropdown offset={[0, 8]} btnClassName="relative select-none block p-2 rounded-full bg-white-light/40 dark:bg-menu-dark/75 hover:text-primary hover:bg-white-light/90 dark:hover:bg-menu-dark"
                 button={
                     <span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +136,7 @@ export default function Notification () {
 
                     <li className="mb-2" onClick={(e) => e.stopPropagation()}>
 
-                        <div className="relative w-full overflow-hidden rounded-t-md py-4.5 px-5 hover:!bg-transparent border-b border-gray-200 dark:border-dark">
+                        <div className="relative w-full overflow-hidden rounded-t-md py-4.5 px-5 hover:!bg-transparent border-b border-border dark:border-border-dark">
                             
                             {/* <div className="absolute inset-0 h-full w-full bg-[url(/media/layout/menu-heade.jpg)] bg-cover bg-center bg-no-repeat"></div> */}
                             
@@ -217,15 +194,6 @@ export default function Notification () {
 
                         </li>
                     }
-               
-                    <li className="mt-2 border-t border-white-light text-center dark:border-white/10">
-                        <button type="button" className="group !h-[48px] justify-center !py-4 font-semibold text-primary dark:text-gray-400">
-                            <span className="ltr:mr-1 rtl:ml-1 text-[.85rem]">{config.text.view_all_activities}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 transition duration-300 group-hover:translate-x-2 rtl:rotate-[180deg] rtl:group-hover:translate-x-[-10px] ltr:ml-1 rtl:mr-1">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </button>
-                    </li>
 
                 </ul>
                 

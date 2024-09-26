@@ -42,10 +42,10 @@ export default function Header () {
     return (
 
         <header>
-            
-            <div className="shadow-sm bg-white dark:bg-black select-none">
 
-                <div className={`relative flex w-full items-center justify-between py-2.5 px-5 ${config.layout}`}>
+            <div className="bg-panel dark:bg-panel-dark select-none border-b border-border dark:border-border-dark">
+
+                <div className={`relative flex w-full items-center justify-between py-2.5 px-8 ${config.layout}`}>
 
                     <div className="horizontal-logo flex items-center justify-between ltr:mr-4 rtl:ml-4 lg:hidden">
 
@@ -53,19 +53,64 @@ export default function Header () {
                             <Icons icon='menu'/>
                         </button>
 
-                        <Link href="/" rel="preload" className={`main-logo items-center hidden lg:flex ltr:pr-2 rtl:pl-2 ${config.menu === 'vertical' && 'hidden lg:hidden'}`}>
-                            <img className="w-6 rtl:ml-3 ltr:mr-3" src="/media/layout/logo.png"/>
-                            <span className="text-2xl font-semibold align-middle lg:inline dark:text-white-dark text-[1.2rem]">
-                                <span className='text-[#27aabb]'>{config.text.logo1}</span>
-                                <span className='text-[#c55858] px-1'>{config.text.logo2}</span>
-                            </span>
+                        <Link href="/" className="flex items-center gap-3 ltr:mr-4 rtl:ml-4">
+                            
+                            <div>
+                                <svg className='fill-primary w-8 h-8' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 553.048 553.048" xmlSpace="preserve">
+                                    <path d="M76.774,179.141c-9.529,0-17.614,3.323-24.26,9.969c-6.646,6.646-9.97,14.621-9.97,23.929v142.914
+                                        c0,9.541,3.323,17.619,9.97,24.266c6.646,6.646,14.731,9.97,24.26,9.97c9.522,0,17.558-3.323,24.101-9.97
+                                        c6.53-6.646,9.804-14.725,9.804-24.266V213.039c0-9.309-3.323-17.283-9.97-23.929C94.062,182.464,86.082,179.141,76.774,179.141z"
+                                        />
+                                    <path d="M351.972,50.847L375.57,7.315c1.549-2.882,0.998-5.092-1.658-6.646c-2.883-1.34-5.098-0.661-6.646,1.989l-23.928,43.88
+                                        c-21.055-9.309-43.324-13.972-66.807-13.972c-23.488,0-45.759,4.664-66.806,13.972l-23.929-43.88
+                                        c-1.555-2.65-3.77-3.323-6.646-1.989c-2.662,1.561-3.213,3.764-1.658,6.646l23.599,43.532
+                                        c-23.929,12.203-42.987,29.198-57.167,51.022c-14.18,21.836-21.273,45.698-21.273,71.628h307.426
+                                        c0-25.924-7.094-49.787-21.273-71.628C394.623,80.045,375.675,63.05,351.972,50.847z M215.539,114.165
+                                        c-2.552,2.558-5.6,3.831-9.143,3.831c-3.55,0-6.536-1.273-8.972-3.831c-2.436-2.546-3.654-5.582-3.654-9.137
+                                        c0-3.543,1.218-6.585,3.654-9.137c2.436-2.546,5.429-3.819,8.972-3.819s6.591,1.273,9.143,3.819
+                                        c2.546,2.558,3.825,5.594,3.825,9.137C219.357,108.577,218.079,111.619,215.539,114.165z M355.625,114.165
+                                        c-2.441,2.558-5.434,3.831-8.971,3.831c-3.551,0-6.598-1.273-9.145-3.831c-2.551-2.546-3.824-5.582-3.824-9.137
+                                        c0-3.543,1.273-6.585,3.824-9.137c2.547-2.546,5.594-3.819,9.145-3.819c3.543,0,6.529,1.273,8.971,3.819
+                                        c2.438,2.558,3.654,5.594,3.654,9.137C359.279,108.577,358.062,111.619,355.625,114.165z"/>
+                                    <path d="M123.971,406.804c0,10.202,3.543,18.838,10.63,25.925c7.093,7.087,15.729,10.63,25.924,10.63h24.596l0.337,75.454
+                                        c0,9.528,3.323,17.619,9.969,24.266s14.627,9.97,23.929,9.97c9.523,0,17.613-3.323,24.26-9.97s9.97-14.737,9.97-24.266v-75.447
+                                        h45.864v75.447c0,9.528,3.322,17.619,9.969,24.266s14.73,9.97,24.26,9.97c9.523,0,17.613-3.323,24.26-9.97
+                                        s9.969-14.737,9.969-24.266v-75.447h24.928c9.969,0,18.494-3.544,25.594-10.631c7.086-7.087,10.631-15.723,10.631-25.924V185.45
+                                        H123.971V406.804z"/>
+                                    <path d="M476.275,179.141c-9.309,0-17.283,3.274-23.93,9.804c-6.646,6.542-9.969,14.578-9.969,24.094v142.914
+                                        c0,9.541,3.322,17.619,9.969,24.266s14.627,9.97,23.93,9.97c9.523,0,17.613-3.323,24.26-9.97s9.969-14.725,9.969-24.266V213.039
+                                        c0-9.517-3.322-17.552-9.969-24.094C493.888,182.415,485.798,179.141,476.275,179.141z"/>
+                                </svg>
+                            </div>
+
+                            <div className="text-[1.1rem] font-bold tracking-wide lg:inline dark:text-white-light">
+                                <p>Bookinzy.com</p>
+                            </div>
+
                         </Link>
 
                     </div>
 
-                    <div className='items-center flex-1 hidden md:flex'>
+                    <div className='flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70'>
+
+                        <Link href='/' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1.2rem] -mt-[2px]'>Dashboard</span>
+                            <span>Dashboard</span>
+                        </Link>
+                        <Link href='/chatbox' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1.2rem] -mt-[1px]'>chat</span>
+                            <span>Chatbox</span>
+                        </Link>
+                        <Link href='/order' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>shopping_cart</span>
+                            <span>Orders</span>
+                        </Link>
+
+                    </div>
+
+                    <div className='items-center flex-1 hidden md:flex px-8'>
                       
-                        <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[18rem] tracking-wide" placeholder={`${config.text.search} ...`}/>
+                        <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[20rem] tracking-wide" placeholder={`${config.text.search} ...`}/>
                    
                     </div>
 
@@ -77,7 +122,7 @@ export default function Header () {
 
                             <div>
 
-                                <button className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
+                                <button className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-menu-dark/75 dark:hover:bg-menu-dark'
                                     onClick={() => dispatch(actions.toggle_setting())}>
                                     <svg className="animate-[spin_3s_linear_infinite]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"></circle>
@@ -90,16 +135,16 @@ export default function Header () {
                             <div className="dropdown shrink-0">
 
                                 <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`}
-                                    btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                                    btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-menu-dark/75 hover:text-primary hover:bg-white-light/90 dark:hover:bg-menu-dark"
                                     button={lang && <img className="h-5 w-5 rounded-full object-cover" src={`/media/flags/${lang.toUpperCase()}.svg`} alt="flag" />}>
                                     
-                                    <ul className="langs-list grid w-[280px] grid-cols-2 gap-2 !px-2 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
+                                    <ul className="grid w-[280px] grid-cols-2 gap-2 !py-3 !px-2 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
                                         {
                                             config.langs_list.map((item) =>
 
                                                 <li key={item.code}>
 
-                                                    <button type="button" className={`flex w-full hover:text-primary ${lang === item.code ? 'bg-primary/10 text-primary' : ''}`}
+                                                    <button type="button" className={`flex w-full rounded-md hover:text-primary ${lang === item.code ? 'bg-primary/10 text-primary' : ''}`}
                                                         onClick={() => { dispatch(actions.toggle_lang(item.code)); setLang(item.code); }}>
                                                         <img src={`/media/flags/${item.code.toUpperCase()}.svg`} alt="flag" className="h-5 w-5 rounded-full object-cover" />
                                                         <span className="ltr:ml-3 rtl:mr-3">{config.text[item.code]}</span>
@@ -120,7 +165,7 @@ export default function Header () {
                             <div>
                                 {
                                     config.theme === 'light' ?
-                                    <button onClick={() => dispatch(actions.toggle_theme('dark'))} className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'>
+                                    <button onClick={() => dispatch(actions.toggle_theme('dark'))} className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-menu-dark/75 dark:hover:bg-menu-dark'>
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5" />
                                             <path d="M12 2V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -133,7 +178,7 @@ export default function Header () {
                                             <path opacity="0.5" d="M19.7778 19.7773L17.5558 17.5551" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                                         </svg>
                                     </button> :
-                                    <button onClick={() => dispatch(actions.toggle_theme('light'))} className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'>
+                                    <button onClick={() => dispatch(actions.toggle_theme('light'))} className='flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-menu-dark/75 dark:hover:bg-menu-dark'>
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill="currentColor" d="M21.0672 11.8568L20.4253 11.469L21.0672 11.8568ZM12.1432 2.93276L11.7553 2.29085V2.29085L12.1432 2.93276ZM21.25 12C21.25 17.1086 17.1086 21.25 12 21.25V22.75C17.9371 22.75 22.75 17.9371 22.75 12H21.25ZM12 21.25C6.89137 21.25 2.75 17.1086 2.75 12H1.25C1.25 17.9371 6.06294 22.75 12 22.75V21.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75V1.25C6.06294 1.25 1.25 6.06294 1.25 12H2.75ZM15.5 14.25C12.3244 14.25 9.75 11.6756 9.75 8.5H8.25C8.25 12.5041 11.4959 15.75 15.5 15.75V14.25ZM20.4253 11.469C19.4172 13.1373 17.5882 14.25 15.5 14.25V15.75C18.1349 15.75 20.4407 14.3439 21.7092 12.2447L20.4253 11.469ZM9.75 8.5C9.75 6.41182 10.8627 4.5828 12.531 3.57467L11.7553 2.29085C9.65609 3.5593 8.25 5.86509 8.25 8.5H9.75ZM12 2.75C11.9115 2.75 11.8077 2.71008 11.7324 2.63168C11.6686 2.56527 11.6538 2.50244 11.6503 2.47703C11.6461 2.44587 11.6482 2.35557 11.7553 2.29085L12.531 3.57467C13.0342 3.27065 13.196 2.71398 13.1368 2.27627C13.0754 1.82126 12.7166 1.25 12 1.25V2.75ZM21.7092 12.2447C21.6444 12.3518 21.5541 12.3539 21.523 12.3497C21.4976 12.3462 21.4347 12.3314 21.3683 12.2676C21.2899 12.1923 21.25 12.0885 21.25 12H22.75C22.75 11.2834 22.1787 10.9246 21.7237 10.8632C21.286 10.804 20.7293 10.9658 20.4253 11.469L21.7092 12.2447Z"/>
                                         </svg>
@@ -169,7 +214,7 @@ export default function Header () {
                                     </li>
                                     <li>
 
-                                        <button onClick={() => router.push('/account')} type='button' className="dark:hover:text-white">
+                                        <button onClick={() => router.push('/account')} type='button'>
 
                                             <svg className="ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="12" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
@@ -185,7 +230,7 @@ export default function Header () {
                                         config.user.allow_mails ?
                                         <li>
 
-                                            <button onClick={() => router.push('/mailbox')} type='button' className="dark:hover:text-white">
+                                            <button onClick={() => router.push('/mailbox')} type='button'>
 
                                                 <svg className="ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"/>
@@ -200,7 +245,7 @@ export default function Header () {
                                     }
                                     <li>
 
-                                        <button onClick={() => logout(true)} type='button' className="dark:hover:text-white">
+                                        <button onClick={() => logout(true)} type='button'>
                                             
                                             <svg className="ltr:mr-2 rtl:ml-2 -mt-[1px]" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke="currentColor" strokeWidth="1.5" d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"/>
@@ -244,17 +289,17 @@ export default function Header () {
 
             </div>
 
-            <div className="shadow-sm navbar-menu select-none">
+            <div className={`navbar-menu select-none ${config.menu === 'horizontal' && 'lg:border-b border-border dark:border-border-dark'}`}>
 
-                <ul className={`horizontal-menu hidden w-full py-1.5 px-5 font-semibold rtl:space-x-reverse lg:space-x-2 ${config.layout}`}>
+                <ul className={`horizontal-menu hidden w-full py-2 px-8 font-semibold rtl:space-x-reverse lg:space-x-2 ${config.layout}`}>
 
                     {
                         config.user.id ?
                         <li className="nav-item relative">
-                            <Link href="/" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='chart' className="group-hover:!text-primary"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.dashboard}</span>
+                            <Link href="/" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='chart'/>
+                                    <span>{config.text.dashboard}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -262,10 +307,10 @@ export default function Header () {
                     {
                         config.user.allow_mails ?
                         <li className="nav-item relative">
-                            <Link href="/mailbox" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='mail' className="group-hover:!text-primary"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.mailbox}</span>
+                            <Link href="/mailbox" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='mail'/>
+                                    <span>{config.text.mailbox}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -273,10 +318,10 @@ export default function Header () {
                     {
                         config.user.allow_messages ?
                         <li className="nav-item relative">
-                            <Link href="/chatbox" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='message' className="group-hover:!text-primary"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.chatbox}</span>
+                            <Link href="/chatbox" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='message'/>
+                                    <span>{config.text.chatbox}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -284,10 +329,10 @@ export default function Header () {
                     {
                         config.user.super ?
                         <li className="nav-item relative">
-                            <Link href="/setting" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='setting' className="group-hover:!text-primary"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.settings}</span>
+                            <Link href="/setting" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='setting'/>
+                                    <span>{config.text.settings}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -295,10 +340,10 @@ export default function Header () {
                     {
                         config.user.allow_reports ?
                         <li className="nav-item relative">
-                            <Link href="/report" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='report' className="group-hover:!text-primary"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.reports}</span>
+                            <Link href="/report" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='report'/>
+                                    <span>{config.text.reports}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -306,10 +351,10 @@ export default function Header () {
                     {
                         config.user.id ?
                         <li className="nav-item relative">
-                            <Link href="/account" rel="preload" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1">
-                                    <Icons icon='user' className="group-hover:!text-primary -mt-[1px]"/>
-                                    <span className="ltr:pl-3 rtl:pr-3">{config.text.account}</span>
+                            <Link href="/account" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='user'/>
+                                    <span>{config.text.account}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -320,9 +365,9 @@ export default function Header () {
 
                             <button type="button" className="nav-link">
 
-                                <div className="flex items-center">
-                                    <Icons icon='users' className="group-hover:!text-primary"/>
-                                    <span className="px-3">{config.text.users}</span>
+                                <div className="flex items-center gap-2.5">
+                                    <Icons icon='users'/>
+                                    <span>{config.text.users}</span>
                                 </div>
 
                                 <div className="right_arrow ltr:pl-1 rtl:pr-1">
@@ -349,9 +394,9 @@ export default function Header () {
 
                             <button type="button" className="nav-link">
 
-                                <div className="flex items-center">
-                                    <Icons icon='apps' className="group-hover:!text-primary"/>
-                                    <span className="px-3">{config.text.apps}</span>
+                                <div className="flex items-center gap-2.5">
+                                    <Icons icon='apps'/>
+                                    <span>{config.text.apps}</span>
                                 </div>
 
                                 <div className="right_arrow ltr:pl-1 rtl:pr-1">
@@ -368,10 +413,10 @@ export default function Header () {
                                 { config.user.allow_products ? <li><Link href="/product" rel="preload">{config.text.products}</Link></li> : '' }
                                 { config.user.allow_coupons ? <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> : '' }
                                 { config.user.allow_orders ? <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> : '' }
-                                <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
+                                <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.allow_reviews ? <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> : '' }
                                 { config.user.allow_contacts ? <li><Link href="/contact" rel="preload">{config.text.contacts}</Link></li> : '' }
-                                <hr className="border-[#e0e6ed] dark:border-primary my-2 opacity-[.5] dark:opacity-[.2] m-auto"/>
+                                <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.allow_blogs ? <li><Link href="/blog">{config.text.blogs}</Link></li> : '' }
                                 { config.user.allow_comments ? <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> : '' }
                                 { config.user.allow_replies ? <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> : '' }
@@ -387,6 +432,6 @@ export default function Header () {
 
         </header>
 
-    );
+    )
 
 }

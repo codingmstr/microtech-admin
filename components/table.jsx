@@ -22,6 +22,7 @@ export default function Table ( props ) {
     const [selected, set_selected] = useState([]);
     const [my_loader, set_my_loader] = useState(true);
     const [run, setRun] = useState(false);
+    const [tab, setTab] = useState(1);
     
     const {
         system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
@@ -125,7 +126,7 @@ export default function Table ( props ) {
 
         _search_();
 
-    }, [limit, filter]);
+    }, [limit, filter, tab]);
     useEffect(() => {
 
         let data = sortBy(my_data, sort.columnAccessor);
@@ -142,7 +143,84 @@ export default function Table ( props ) {
 
     return (
 
-        <div>
+        <div className='w-full space-y-4'>
+            
+            {
+                !item_filters &&
+                <div className='w-full grid grid-cols-4 gap-4'>
+
+                    <div onClick={() => setTab(1)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#fbf2ef] dark:!bg-[#402e32]/75 duration-300 hover:opacity-[.8] ${tab === 1 && 'opacity-[.9]'}`}>
+
+                        <div className='bg-[#fa896b] p-2 rounded-[.2rem] text-white'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M13 5h8"></path>
+                                <path d="M13 9h5"></path>
+                                <path d="M13 15h8"></path>
+                                <path d="M13 19h5"></path>
+                                <path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                            </svg>
+                        </div>
+
+                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                            <p>Total</p>
+                            <p>9 Invoices</p>
+                        </div>
+
+                    </div>
+                    <div onClick={() => setTab(2)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#eff9ff] dark:!bg-[#082e45]/75 duration-300 hover:opacity-[.8] ${tab === 2 && 'opacity-[.9]'}`}>
+
+                        <div className='bg-[#0074ba] p-2 rounded-[.2rem] text-white'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
+                                <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
+                            </svg>
+                        </div>
+
+                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                            <p>Shipped</p>
+                            <p>3 Invoices</p>
+                        </div>
+
+                    </div>
+                    <div onClick={() => setTab(3)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#e6fffa] dark:!bg-[#1b3c48]/75 duration-300 hover:opacity-[.8] ${tab === 3 && 'opacity-[.9]'}`}>
+
+                        <div className='bg-[#13deb9] p-2 rounded-[.2rem] text-white'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                            </svg>
+                        </div>
+
+                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                            <p>Delivered</p>
+                            <p>6 Invoices</p>
+                        </div>
+
+                    </div>
+                    <div onClick={() => setTab(4)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#fef5e5] dark:!bg-[#4d3a2a]/75 duration-300 hover:opacity-[.8] ${tab === 4 && 'opacity-[.9]'}`}>
+
+                        <div className='bg-[#ffae1f] p-2 rounded-[.2rem] text-white'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4 6l7 0"></path>
+                                <path d="M4 12l7 0"></path>
+                                <path d="M4 18l9 0"></path>
+                                <path d="M15 9l3 -3l3 3"></path>
+                                <path d="M18 6l0 12"></path>
+                            </svg>
+                        </div>
+
+                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                            <p>Total</p>
+                            <p>7 Invoices</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
             {
                 loader ? <Loader className='container'/> :
                 <div className="panel p-0 overflow-hidden">
@@ -150,7 +228,7 @@ export default function Table ( props ) {
                     <div className='invoice-table'>
                         {
                             add || deletes || search || use_filters || settings || label ?
-                            <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-gray-100 dark:border-[#15243b]">
+                            <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-border/50 dark:border-border-dark/50">
 
                                 <div className="flex items-center gap-2 ltr:-ml-2 rtl:-mr-2 sm:ltr:m-0 sm:rtl:m-0">
                                     {
@@ -212,7 +290,7 @@ export default function Table ( props ) {
 
                                             <div className="dropdown shrink-0">
 
-                                                <Dropdown offset={[0, 8]} btnClassName="block p-2 rounded-lg border border-white-light dark:border-[#121e32] dark:bg-[#121e32] hover:text-primary"
+                                                <Dropdown offset={[0, 8]} btnClassName="block p-2 rounded-md border border-border dark:border-border-dark dark:bg-input-dark hover:text-primary"
                                                     button={
                                                         <svg className="hover:!text-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"></circle>
@@ -255,7 +333,7 @@ export default function Table ( props ) {
                         }
                         {
                             my_loader ?
-                            <div className='relative w-full h-[15rem]'>
+                            <div className='relative w-full h-[16.75rem]'>
                                 <Loader className='bg medium'/>
                             </div>:
                             <div>
@@ -322,8 +400,9 @@ export default function Table ( props ) {
 
                 </div>
             }
+
         </div>
 
-    );
+    )
 
 }

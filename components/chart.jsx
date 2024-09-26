@@ -15,10 +15,9 @@ export default function Chart ({ data, type, label, color, title, height, icon }
     const [frame, setFrame] = useState('daily');
     const [total, setTotal] = useState(data?.total || 0);
     const [series, setSeries] = useState(data ? data[frame]?.series || [] : []);
-    const [loader, setLoader] = useState(true);
 
     const area = {
-        series: [{name: label, data: series.filter(_ => _ > 0).length ? series : [1, 1, 1, 1, 1, 1, 1]}],
+        series: [{name: label, data: series.filter(_ => _ > 0).length ? series : [300, 290, 403, 500, 400, 300, 400]}],
         options: {
             chart: {
                 type: 'area',
@@ -45,7 +44,7 @@ export default function Chart ({ data, type, label, color, title, height, icon }
             },
             grid: {
                 padding: {
-                    top: series.filter(_ => _ > 0).length ? 90 : 150,
+                    top: series.filter(_ => _ > 0).length ? 90 : 90,
                     right: 0,
                     bottom: 0,
                     left: 0,
@@ -240,9 +239,9 @@ export default function Chart ({ data, type, label, color, title, height, icon }
             stroke: {
                 show: true,
                 width: 25,
-                colors: config.theme === 'dark' ? '#0e1726' : '#fff',
+                colors: config.theme === 'dark' ? '#1c222a' : '#fff',
             },
-            colors: config.theme === 'dark' ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+            colors: ['#e2a03f', '#e7515a', '#fa896b', '#5c1ac3'],
             legend: {
                 position: 'bottom',
                 horizontalAlign: 'center',
@@ -310,8 +309,7 @@ export default function Chart ({ data, type, label, color, title, height, icon }
     };
     useEffect(() => {
 
-        setTimeout(() => setMounted(true), 500);
-        setTimeout(() => setLoader(false), 1000);
+        setMounted(true);
         setSeries(data ? data[frame]?.series || [] : []);
 
     }, [frame, data]);
@@ -354,19 +352,13 @@ export default function Chart ({ data, type, label, color, title, height, icon }
 
                             </div>
 
-                            <div className="relative">
-
-                                <div className="rounded-lg bg-white dark:bg-black">
-                                    
-                                    <ReactApexChart series={revenue.series} options={revenue.options} type="area" height={height || 370} width={'100%'}/>
-
-                                </div>
-
+                            <div className="rounded-md bg-panel dark:bg-panel-dark">
+                                <ReactApexChart series={revenue.series} options={revenue.options} type="area" height={height || 370} width={'100%'}/>
                             </div>
 
                         </div>
                         : type === 'area' ?
-                        <div className={`p-0 h-full min-h-[${height || 170}px]`}>
+                        <div className='p-0 h-full'>
 
                             <div className="absolute flex w-full items-center justify-between p-5">
 
@@ -378,7 +370,7 @@ export default function Chart ({ data, type, label, color, title, height, icon }
 
                                 <h5 className="text-2xl default font-semibold ltr:text-right rtl:text-left dark:text-white-light">
 
-                                    {fix_number(total).replace(/.0+$/, '')}
+                                    {fix_number(data?.total).replace(/.0+$/, '')}
 
                                     <span className="block text-sm font-normal tracking-wide">{config.text[label]}</span>
 
@@ -386,33 +378,33 @@ export default function Chart ({ data, type, label, color, title, height, icon }
 
                             </div>
 
-                            <div className="rounded-lg bg-transparent pt-4">
+                            <div className='rounded-md bg-transparent pt-4 min-h-[170px]'>
                                 <ReactApexChart series={area.series} options={area.options} type='area' height={height || 170} width={'100%'}/>
                             </div>
 
                         </div>
                         : type === 'items' ?
-                        <div className={`p-4 h-full relative min-h-[${height || 400}px] ${loader && 'min-h-[360px]'}`}>
+                        <div className='p-4 h-full'>
 
-                            <div className="mb-5 flex items-center">
+                            <div className="mb-5 flex items-center px-2">
 
                                 <h5 className="text-lg font-semibold dark:text-white-light">{config.text[title || 'chart_items']}</h5>
 
                             </div>
 
-                            <div className="rounded-lg bg-white dark:bg-black pb-2">
+                            <div className='rounded-md bg-panel dark:bg-panel-dark pb-2 min-h-[300px]'>
                                 <ReactApexChart series={items.series} options={items.options} type="donut" height={height || 400} width={'100%'}/>
                             </div>
 
                         </div> : ''
                     }
                 </div> :
-                <div className={`panel relative min-h-[300px] w-full`}>
+                <div className='panel relative min-h-[300px] w-full'>
                     <Loader className='medium bg opacity-0'/>
                 </div>
             }
         </div>
 
-    );
+    )
 
-};
+}

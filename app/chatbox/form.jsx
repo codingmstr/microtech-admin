@@ -192,7 +192,7 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
                                                         </div> :
                                                         <div className={`flex items-start ${sender && 'justify-end'}`}>
 
-                                                            <div className={`${sender && 'order-2'}`}>
+                                                            <div className={`${sender && 'order-2'} ${room.messages[index-1]?.sender_id === message.sender_id && 'invisible'}`}>
 
                                                                 <Elements element='image' value={image} className='w-8 h-8'/>
 
@@ -202,7 +202,7 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
 
                                                                 <div className={`flex items-center ${sender && 'justify-end'}`}>
 
-                                                                    <div className={`dark:bg-gray-800 rounded-lg bg-black/10 relative tracking-wide ${sender && 'bg-black/10 !bg-primary text-white'}`}>
+                                                                    <div className={`bg-primary/30 dark:bg-primary/30 rounded-lg relative tracking-wide ${sender && '!bg-white-light/75 dark:!bg-menu-dark'}`}>
                                                                         {
                                                                             message.type === 'file' ?
                                                                             <Link href={file_url} target='_blank' download className='select-none hover:opacity-[.8]'>
@@ -234,10 +234,13 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
                                                                     </div>
 
                                                                 </div>
-
-                                                                <div className={`text-white-dark text-[.65rem] tracking-wide px-1 ${sender && 'ltr:text-right rtl:text-left'}`}>
-                                                                    { fix_time(message.created_at) }
-                                                                </div>
+                                                                
+                                                                {
+                                                                    room.messages[index+1]?.sender_id !== message.sender_id &&
+                                                                    <div className={`text-white-dark text-[.65rem] tracking-wide px-1 ${sender && 'ltr:text-right rtl:text-left'}`}>
+                                                                        { fix_time(message.created_at) }
+                                                                    </div>
+                                                                }
 
                                                             </div>
 
@@ -262,7 +265,7 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
 
                                     <form className="relative flex-1 input" onSubmit={(e) => { e.preventDefault(); _send_(); }}>
 
-                                        <input ref={ref} value={content} onChange={(e) => setContent(e.target.value)} className="form-input rounded-full border-0 bg-[#f4f4f4] px-12 py-2.5 text-[.9rem]" placeholder={config.text.type_msg} autoComplete='off' required/>
+                                        <input ref={ref} value={content} onChange={(e) => setContent(e.target.value)} className="form-input rounded-full bg-[#f4f4f4] px-12 py-2.5 text-[.9rem] border !border-border dark:!border-border-dark" placeholder={config.text.type_msg} autoComplete='off' required/>
 
                                         <button type="button" className="absolute ltr:left-4 rtl:right-4 top-1/2 -translate-y-1/2 hover:text-primary no-outline">
                                             <Icons icon='face'/>
@@ -276,12 +279,12 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
 
                                     <div className="flex items-center gap-x-3 rtl:space-x-reverse sm:py-0 py-3">
 
-                                        <button className="record-voice bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none hidden sm:block">
+                                        <button className="record-voice bg-input dark:bg-input-dark hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none hidden sm:block border border-border dark:border-border-dark">
                                             <Icons icon='voice'/>
                                         </button>
 
                                         <Elements element='upload' multiple={true} onChange={_send_}>
-                                            <button className="attach-file bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none">
+                                            <button className="attach-file bg-input dark:bg-input-dark hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none border border-border dark:border-border-dark">
                                                 <Icons icon='folder'/>
                                             </button>
                                         </Elements>
@@ -299,7 +302,7 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
                                 <Icons icon='menu' className='w-7 h-7'/>
                             </button>
 
-                            <div className="text-white dark:text-[#0e1726]">
+                            <div className="text-white dark:text-panel-dark">
                                 <Icons icon='chat' className='w-[280px] md:w-[430px] h-[calc(100vh_-_320px)] min-h-[120px]'/>
                             </div>
 

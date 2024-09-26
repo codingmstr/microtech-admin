@@ -55,7 +55,7 @@ export default function Elements ( props ) {
                 <div className={`image overflow-hidden bg-white-dark dark:bg-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-full h-full'}`}>
                     <img 
                         src={`${storage}/${value}`} 
-                        className={`w-full h-full rounded-${type !== 'md' ? 'full' : 'md'}`} 
+                        className={`w-full h-full object-cover rounded-${type !== 'md' ? 'full' : 'md'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -66,7 +66,7 @@ export default function Elements ( props ) {
                 <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] m-auto border border-primary/20 rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
                     <img 
                         src={src} 
-                        className={`${type === 'md' ? 'max-w-[90%] max-h-[90%]' : 'w-full h-full'}`} 
+                        className={`object-cover ${type === 'md' ? 'max-w-[90%] max-h-[90%]' : 'w-full h-full'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -189,7 +189,7 @@ export default function Elements ( props ) {
                 <div className={`w-full flex justify-start items-center select-none ${className}`}>
                     <label className="w-12 h-6 relative">
                         <input id={name} checked={value || false} onChange={() => onChange(!value)} ref={ref} type="checkbox" className="absolute w-full h-full opacity-0 z-10 cursor-pointer peer"/>
-                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 
+                        <span className="bg-[#ebedf2] dark:bg-menu-dark block h-full rounded-full before:absolute before:left-1 
                             before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 
                             before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary 
                             before:transition-all before:duration-300">
@@ -288,7 +288,7 @@ export default function Elements ( props ) {
             }
             {
                 element === 'scroll_down' &&
-                <div onClick={onClick} className={`absolute right-[1.3rem] bottom-[4.5rem] rtl:left-[1.3rem] rtl:right-auto w-[2.2rem] h-[2.2rem] text-[#4464ec] bg-[#f4f4f4] dark:bg-black rounded-full flex justify-center items-center cursor-pointer border border-primary hover:opacity-[.8] ${className}`}>
+                <div onClick={onClick} className={`absolute right-[1.3rem] bottom-[4.5rem] rtl:left-[1.3rem] rtl:right-auto w-[2.2rem] h-[2.2rem] text-white bg-primary rounded-full flex justify-center items-center cursor-pointer border border-primary hover:opacity-[.8] ${className}`}>
                     <span className="material-symbols-outlined icon mt-[2px]">expand_more</span>
                 </div>
             }
@@ -297,14 +297,14 @@ export default function Elements ( props ) {
                 <div className={`w-full select-none ${className}`}>
                     {
                         children.length ?
-                        <div className="w-full pt-6 border-t border-[#e0e6ed] dark:border-[#1b2e4b]">
+                        <div className="w-full pt-6 border-t border-border dark:border-border-dark">
                             
                             <div className="tracking-wide text-[1rem]">{config.text[label || 'attachements']}</div>
 
                             <div className="flex items-center flex-wrap mt-6">
                                 {
                                     children.map((file, index) => 
-                                        <a key={index} href={`${storage}/${file.url}`} download target='_blank' className="cursor-pointer flex items-center ltr:mr-4 rtl:ml-4 mb-4 border border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md hover:text-primary hover:border-primary transition-all duration-300 px-4 py-2.5 relative group">
+                                        <a key={index} href={`${storage}/${file.url}`} download target='_blank' className="cursor-pointer flex items-center ltr:mr-4 rtl:ml-4 mb-4 border border-border dark:border-border-dark rounded-md hover:text-primary hover:border-primary transition-all duration-300 px-4 py-2.5 relative group">
                                             {
                                                 file.type === 'image' ?
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
@@ -370,7 +370,7 @@ export default function Elements ( props ) {
             }
             {
                 element === 'hr' &&
-                <hr className={`border-[#e0e6ed] dark:border-[#1b2e4b] ${className.includes('my') ? className : `my-7 ${className}`}`}/>
+                <hr className={`border-border dark:border-border-dark ${className.includes('my') ? className : `my-7 ${className}`}`}/>
             }
         </div>
 

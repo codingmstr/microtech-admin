@@ -45,8 +45,8 @@ const Dropdown = (props, forwardedRef) => {
 
         </Fragment>
 
-    );
+    )
 
-};
+}
 
 export default forwardRef(Dropdown);

@@ -6,7 +6,7 @@ table > thead > tr > th.mantine-187dsit {
     background-color: rgb(224 230 237 / 0.3);
 }
 .datatables table tbody tr {
-    @apply bg-white dark:!border-[#191e3a] dark:bg-black;
+    @apply bg-white dark:bg-black;
 }
 
 .datatables table tr.mantine-1ublbff.mantine-1ublbff {
@@ -19,7 +19,7 @@ table tr .mantine-Checkbox-root {
     @apply flex;
 }
 .datatables table thead tr th {
-    @apply !border-b-0 !bg-white-light/30  text-black dark:!bg-[#1a2941] dark:!text-white-dark;
+    @apply !border-b-0 !bg-white-light/20 text-black dark:!bg-menu-dark dark:!text-white-dark;
 }
 
 .datatables .table-bordered table thead tr th,
@@ -45,7 +45,7 @@ table tr .mantine-Checkbox-root {
     direction: rtl;
 }
 .mantine-Table-root[data-hover] tbody tr:hover {
-    @apply !bg-[#e0e6ed33] dark:!bg-[#1a2941]/40;
+    @apply !bg-[#eee]/30 dark:!bg-menu-dark/30;
 }
 .mantine-Table-root[data-striped] tbody tr:nth-of-type(odd) {
     @apply bg-white-light/20 dark:!bg-[#1a2941]/40;
@@ -73,14 +73,35 @@ table tr .mantine-Checkbox-root {
     @apply hover:bg-inherit dark:!border-[#191e3a] dark:text-white-dark;
 }
 
+.mantine-Group-root.mantine-14cohzs button{
+    @apply !bg-white-light/50 dark:!bg-menu-dark;
+}
+.mantine-Group-root.mantine-14cohzs button:disabled{
+    @apply !text-black dark:!text-white;
+}
+.mantine-Group-root.mantine-14cohzs button:not(:disabled):hover, .mantine-Group-root.mantine-14cohzs button[data-active]{
+    @apply !bg-primary !border-primary;
+}
 .mantine-Table-root th.text-right .mantine-Group-root {
     @apply !justify-end;
 }
 .datatables .mantine-Group-root[role='navigation'] {
     @apply flex-auto justify-end gap-1;
 }
+.mantine-UnstyledButton-root.mantine-Button-root{
+    @apply !px-4 text-gray-600 !outline-border/30 dark:!outline-border-dark !rounded-md font-semibold;
+}
 .mantine-Menu-dropdown {
-    @apply dark:!border-[#191e3a] dark:!bg-[#1a2941] dark:text-white-dark;
+    @apply dark:!border-[#191e3a] dark:!bg-menu-dark dark:text-white-dark p-3 !rounded-sm shadow;
+}
+.mantine-Menu-dropdown .mantine-Menu-item{
+    @apply !rounded-md mt-1;
+}
+.mantine-Menu-dropdown .mantine-Menu-item:hover{
+    @apply !bg-primary/75;
+}
+.mantine-Menu-dropdown .mantine-Menu-item.mantine-nfnhos{
+    @apply !bg-primary/75 !text-white;
 }
 
 .mantine-Checkbox-body {

@@ -86,7 +86,7 @@ export function remove_cookie ( key ) {
 }
 export function active_link ( path ) {
 
-    document.querySelectorAll('.sidebar ul a, ul.horizontal-menu a, ul.horizontal-menu .nav-link').forEach(_ => _.classList.remove('active'));
+    document.querySelectorAll('.sidebar ul a, .sidebar ul button, ul.horizontal-menu a, ul.horizontal-menu .nav-link').forEach(_ => _.classList.remove('active'));
     document.querySelector(`.sidebar ul a[href='${path}']`)?.classList.add('active');
     document.querySelector(`ul.horizontal-menu a[href='${path}']`)?.classList.add('active');
     document.querySelector(`ul.horizontal-menu a[href='${path}']`)?.closest('li.menu')?.querySelectorAll('.nav-link')[0]?.classList.add('active');
@@ -483,3 +483,24 @@ export function alert_msg ( msg, type ) {
     else toast.success(message, options);
 
 }
+// setTimeout(() => {
+
+//     if ( !document ) return;
+//     let clicking = null;
+
+//     document?.addEventListener('click', function (e) {
+        
+//         if ( clicking ) return;
+//         clicking = e;
+//         setTimeout(() => clicking = null, 100);
+
+//         if ( e.target.nodeName === 'A' || e.target.closest('A') ) sound('click', 1, false);
+//         else if ( e.target.nodeName === 'BUTTON' || e.target.closest('button') ) sound('click', 1, false);
+//         else if ( e.target.nodeName === 'LI' || e.target.closest('LI') ) sound('click', 1, false);
+//         else if ( e.target.nodeName === 'INPUT' && e.target.type === 'checkbox' ) sound('click', 1, false);
+//         else if ( e.target.closest('LABEL') ) sound('click', 1, false);
+//         else if ( e.target.nodeName === 'SELECT' ) sound('click', 1, false);
+
+//     });
+
+// }, 3000);

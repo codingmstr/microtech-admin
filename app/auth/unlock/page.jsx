@@ -87,7 +87,7 @@ export default function Unlock () {
 
                 <div className="relative my-6 mb-4 h-5 text-center before:absolute before:inset-0 before:m-auto before:h-[1px] before:w-full before:bg-[#ebedf2] dark:before:bg-[#253b5c]">
                     
-                    <div className="relative z-[1] inline-block bg-white px-2 font-bold text-white-dark dark:bg-black">
+                    <div className="relative z-[1] inline-block bg-panel px-2 font-bold text-white-dark dark:bg-panel-dark">
                         <span>{config.text.or}</span>
                     </div>
 

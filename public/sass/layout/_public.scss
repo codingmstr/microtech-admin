@@ -4,9 +4,9 @@
     -webkit-tap-highlight-color: transparent;
     &::-webkit-scrollbar{ width: .35rem; height: .35rem; }
     &::-webkit-scrollbar-track{ background: none }
-    &::-webkit-scrollbar-thumb{ background: #375b9180; border-radius: 1rem; }
+    &::-webkit-scrollbar-thumb{ @apply bg-primary rounded-md; }
     &::-webkit-scrollbar-thumb { background: none; }
-    &:hover{ &::-webkit-scrollbar-thumb{ background: #375b9180; } }
+    &:hover{ &::-webkit-scrollbar-thumb{ @apply bg-primary; } }
 }
 
 .material-symbols-outlined{
@@ -42,8 +42,8 @@ body{
 
 .main-content{
     scroll-behavior: smooth;
-    &::-webkit-scrollbar{ width: .5rem; }
-    &::-webkit-scrollbar-thumb{ background: #375b9180; border-radius: 1rem; }
+    &::-webkit-scrollbar{ width: .45rem; }
+    &::-webkit-scrollbar-thumb{ @apply bg-primary rounded-md; }
 }
 
 .page-title{
@@ -190,21 +190,6 @@ body.dark{
     &.open{ nav{ margin: 0; } }
 }
 
-.chat-div{
-    .contacts{
-        &::-webkit-scrollbar{ width: .25rem; }
-    }
-    .chat-user{
-        &:hover, &.active{
-            background: var(--button-hover);
-            color: rgb(68, 110, 178);
-        }
-        &:first-child{
-            border: 0;
-        }
-    }
-}
-
 .mailbox{
     .mail-description{
         *:not(.text-primary){
@@ -309,15 +294,15 @@ body.dark{
                 span:not(.badge), a:not(.badge){ @apply line-clamp-2 max-w-[15rem]; }
                 a:not(.badge){ @apply pointer hover:text-primary max-w-[15rem]; }
                 .image{ @apply w-7 h-7; }
-                .badge-success{ @apply badge-outline-success; }
-                .badge-warning{ @apply badge-outline-warning; }
-                .badge-info{ @apply badge-outline-info; }
-                .badge-danger{ @apply badge-outline-danger; }
+                // .badge-success{ @apply badge-outline-success; }
+                // .badge-warning{ @apply badge-outline-warning; }
+                // .badge-info{ @apply badge-outline-info; }
+                // .badge-danger{ @apply badge-outline-danger; }
             }
         }
     }
     &.empty{
-        .mantine-Table-root{ min-height: 15rem; }
+        .mantine-Table-root{ min-height: 13rem; }
         .mantine-1dk8ajp{ opacity: .3; }
         .mantine-Text-root.mantine-rwoji2{ opacity: .9; margin: .5rem 0 1.3rem 0; }
         .mantine-Button-root{ display: none; }

@@ -51,13 +51,13 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
 
     return (
 
-        <Model model={model} setModel={setModel} className={'max-w-[27rem]'}>
+        <Model model={model} setModel={setModel} className={'max-w-[27rem] rounded-sm'}>
 
-            <button type="button" onClick={() => setModel(false)} className="absolute top-[.85rem] text-gray-400 outline-none hover:text-gray-800 ltr:right-4 rtl:left-4 dark:hover:text-gray-600">
+            <button type="button" onClick={() => setModel(false)} className="absolute top-[.85rem] text-gray-400 outline-none hover:text-gray-800 ltr:right-5 rtl:left-5 dark:hover:text-gray-600">
                 <Icons icon='close'/>
             </button>
 
-            <div className="bg-[#f9f9f9] py-[.85rem] text-[1.05rem] no-select font-medium ltr:pl-5 ltr:pr-[50px] rtl:pr-5 rtl:pl-[50px] dark:bg-[#121c2c]">
+            <div className="bg-[#f9f9f9] py-[.9rem] text-[1rem] select-none font-medium ltr:pl-6 ltr:pr-[50px] rtl:pr-6 rtl:pl-[50px] dark:bg-menu-dark/50">
                 { config.text.select } { config.text[label || 'user'] }
             </div>
 
@@ -73,7 +73,7 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                     {
                         items.length ? items.map((item, index) => 
 
-                            <div key={index} onClick={() => { setModel(false); onChange(item.id); }} className="flex border-t items-start border-[#e0e6ed] dark:border-[#1b2e4b] hover:bg-[#eee] dark:hover:bg-[#eee]/10 pointer contact-item" style={{ padding: '.6rem .5rem' }}>
+                            <div key={index} onClick={() => { setModel(false); onChange(item.id); }} className="flex border-t items-start border-border dark:border-border-dark hover:bg-[#eee] dark:hover:bg-[#eee]/5 pointer contact-item" style={{ padding: '.6rem .5rem' }}>
                                 
                                 <Elements element='image' value={item.image} type={type} className="w-10 h-10 ltr:mr-3 rtl:ml-3 mt-[3px] flex justify-center items-center"/>
 
@@ -107,7 +107,7 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                         ) :
                         <div className="w-full">
 
-                            <div className="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                            <div className="h-px w-full border-b border-border dark:border-border-dark"></div>
                             
                             <div className="w-full flex justify-center items-center py-10 no-select">
 
@@ -123,6 +123,6 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
 
         </Model>
 
-    );
+    )
 
-};
+}
