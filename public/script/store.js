@@ -6,7 +6,7 @@ const initialState = {
     setting: false,
     loader: false,
     lang: 'en',
-    theme: 'light',
+    theme: 'dark',
     menu: 'vertical',
     layout: 'boxed-layout',
     dir: 'ltr',

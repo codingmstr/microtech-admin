@@ -52,7 +52,7 @@ export default function Login () {
 
     return (
 
-        <div className="flex items-center justify-center w-full h-[100vh] bg-[url('/media/layout/map.svg')] bg-full bg-center bg-no-repeat dark:bg-[url('/media/layout/map-dark.svg')]">
+        <div className="flex items-center justify-center w-full h-[100vh]">
             
             <div className="panel relative w-full max-w-[400px] sm:w-[480px] select-none overflow-hidden">
 

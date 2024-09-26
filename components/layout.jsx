@@ -75,7 +75,7 @@ export default function Layout ({ children }) {
                 {
                     loader || config.loader ? <Loader className='fixed'/> :
                     
-                    <div className={`${config.nav} main-container min-h-screen text-black dark:text-white-dark`}>
+                    <div className={`${config.nav} main-container min-h-screen text-black dark:text-white-dark ${!auth && "bg-[url('/media/layout/map.svg')] bg-cover bg-center bg-no-repeat dark:bg-[url('/media/layout/map-dark.svg')]"}`}>
                         
                         <Setting />
 
