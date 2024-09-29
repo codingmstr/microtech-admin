@@ -75,7 +75,7 @@ export default function Content ({ data, setData, setTab }) {
 
                 <div className='panel'>
                         
-                    <h6 className="text-lg -mt-[3px] font-semibold mb-4 select-none">{config.text.logo}</h6>
+                    <h6 className="text-[1rem] -mt-[3px] font-semibold mb-4 select-none dark:text-white-light/75">{config.text.logo}</h6>
 
                     <div className="w-full grid grid-cols-1">
                         <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e.file})}/>
@@ -87,9 +87,9 @@ export default function Content ({ data, setData, setTab }) {
 
                     <h1 className='flex items-center opacity-[.8] select-none'>
 
-                        <Icons icon='setting'/>
+                        <Icons icon='setting' className='dark:!text-white-light'/>
 
-                        <span className='font-semibold text-[.95rem] px-2'>{config.text.invoice}</span>
+                        <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
                     </h1>
 

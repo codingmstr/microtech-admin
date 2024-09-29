@@ -1,28 +1,46 @@
 "use client";
+import { api, date } from '@/public/script/main';
 import { actions } from '@/public/script/store';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useDispatch, useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Elements from './elements';
 import Icons from './icons';
 
 export default function Sidebar () {
     
-    const dispatch = useDispatch();
+
     const config = useSelector((state) => state.config);
+    const dispatch = useDispatch();
+    const router = useRouter();
     const [currentMenu, setCurrentMenu] = useState('');
 
+    const logout = async( lock ) => {
+
+        dispatch( actions.toggle_loader(true) );
+
+        if ( lock ) {
+            dispatch(actions.toggle_user({...config.user, logged: false, update: date()}));
+            router.replace('/auth/unlock');
+        }
+        else{
+            const response = await api('auth/logout');
+            dispatch(actions.toggle_user(null));
+            router.replace('/auth/logout');
+        }
+
+    }
     return (
 
         <div>
 
             <div className={`${(!config.side && 'hidden') || ''} fixed inset-0 z-50 bg-[black]/60 lg:hidden`} onClick={() => dispatch(actions.toggle_side())}></div>
 
-            <nav className={`sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[260px] ltr:border-r rtl:border-l border-border dark:border-border-dark transition-all duration-300 ${config.dark ? 'text-white-dark' : ''}`}>
+            <nav className={`sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[270px] ltr:border-r rtl:border-l border-border dark:border-border-dark transition-all duration-300 ${config.dark ? 'text-white-dark' : ''}`}>
                 
-                <div className="h-full bg-panel dark:bg-panel-dark select-none">
+                <div className="h-full bg-panel dark:bg-panel-dark select-none p-[1px]">
 
                     <div className="flex items-center justify-between px-4 pt-6 pb-4 overflow-hidden">
 
@@ -57,8 +75,8 @@ export default function Sidebar () {
                             </div>
 
                             <div className="text-[1.1rem] font-bold tracking-wide lg:inline dark:text-white-light space-y-0.5">
-                                <p>Bookinzy.com</p>
-                                <p className='text-[.7rem] opacity-[.7]'>V0.1.2</p>
+                                <p>{config.text.logo1}</p>
+                                <p className='text-[.7rem] opacity-[.7]'>{config.text.v} 0.1.2</p>
                             </div>
 
                         </Link>
@@ -72,7 +90,7 @@ export default function Sidebar () {
 
                     </div>
 
-                    <PerfectScrollbar className={`relative h-[calc(100vh_-_185px)] ${config.menu === 'vertical' ? 'h-[calc(100vh_-_185px)]' : 'h-[calc(100vh_-_120px)]'}`}>
+                    <div className={`overflow-y-auto relative ${config.menu === 'vertical' ? 'h-[calc(100vh_-_180px)]' : 'h-[calc(100vh_-_120px)]'}`}>
 
                         <ul className="relative space-y-1 px-4">
 
@@ -81,7 +99,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='chart'/>
+                                            <Icons icon='chart' className='dark:!text-white-light/75'/>
                                             <span>{config.text.dashboard}</span>
                                         </div>
                                     </Link>
@@ -92,7 +110,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/mailbox">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='mail'/>
+                                            <Icons icon='mail' className='dark:!text-white-light/75'/>
                                             <span>{config.text.mail}</span>
                                         </div>
                                     </Link>
@@ -104,7 +122,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/chatbox">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='message'/>
+                                            <Icons icon='message' className='dark:!text-white-light/75'/>
                                             <span>{config.text.messages}</span>
                                         </div>
                                         <div className='w-[1.4rem] h-[1.4rem] rounded-full flex justify-center items-center text-[.8rem] font-semibold bg-primary/75 text-white'>
@@ -118,19 +136,18 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/contact">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='contact'/>
+                                            <Icons icon='contact' className='dark:!text-white-light/75'/>
                                             <span>{config.text.contacts}</span>
                                         </div>
                                     </Link>
                                 </li> : ''
                             }
-                            {/* <div><Elements element='hr' className='my-2'/></div> */}
                             {
                                 config.user.allow_categories ?
                                 <li className="nav-item">
                                     <Link href="/category">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='category'/>
+                                            <Icons icon='category' className='dark:!text-white-light/75'/>
                                             <span>{config.text.categories}</span>
                                         </div>
                                     </Link>
@@ -141,7 +158,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/product">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='product'/>
+                                            <Icons icon='product' className='dark:!text-white-light/75'/>
                                             <span>{config.text.products}</span>
                                         </div>
                                     </Link>
@@ -152,7 +169,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/coupon">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='coupon'/>
+                                            <Icons icon='coupon' className='dark:!text-white-light/75'/>
                                             <span>{config.text.coupons}</span>
                                         </div>
                                     </Link>
@@ -163,7 +180,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/order">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='order'/>
+                                            <Icons icon='order' className='dark:!text-white-light/75'/>
                                             <span>{config.text.orders}</span>
                                         </div>
                                     </Link>
@@ -174,19 +191,18 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/review">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='review'/>
+                                            <Icons icon='review' className='dark:!text-white-light/75'/>
                                             <span>{config.text.reviews}</span>
                                         </div>
                                     </Link>
                                 </li> : ''
                             }
-                            {/* <div><Elements element='hr' className='my-2'/></div> */}
                             <li className="menu nav-item">
 
                                 <button type="button" className={`${currentMenu === 'users' ? 'active' : ''} nav-link group w-full`} onClick={() => currentMenu === 'users' ? setCurrentMenu('') : setCurrentMenu('users')}>
                                     
                                     <div className="flex items-center gap-3">
-                                        <Icons icon='users'/>
+                                        <Icons icon='users' className='dark:!text-white-light/75'/>
                                         <span>{config.text.users}</span>
                                     </div>
 
@@ -212,7 +228,7 @@ export default function Sidebar () {
                                 <button type="button" className={`${currentMenu === 'more' ? 'active' : ''} nav-link group w-full`} onClick={() => currentMenu === 'more' ? setCurrentMenu('') : setCurrentMenu('more')}>
                                     
                                     <div className="flex items-center gap-3">
-                                        <Icons icon='apps'/>
+                                        <Icons icon='apps' className='dark:!text-white-light/75'/>
                                         <span>{config.text.more}</span>
                                     </div>
 
@@ -233,13 +249,12 @@ export default function Sidebar () {
                                 </AnimateHeight>
 
                             </li>
-                            {/* <div><Elements element='hr' className='my-2'/></div> */}
                             {
                                 config.user.id ?
                                 <li className="nav-item">
                                     <Link href="/account">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='user'/>
+                                            <Icons icon='user' className='dark:!text-white-light/75'/>
                                             <span>{config.text.account}</span>
                                         </div>
                                     </Link>
@@ -250,7 +265,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/setting">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='setting'/>
+                                            <Icons icon='setting' className='dark:!text-white-light/75'/>
                                             <span>{config.text.settings}</span>
                                         </div>
                                     </Link>
@@ -261,7 +276,7 @@ export default function Sidebar () {
                                 <li className="nav-item">
                                     <Link href="/report">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='report'/>
+                                            <Icons icon='report' className='dark:!text-white-light/75'/>
                                             <span>{config.text.reports}</span>
                                         </div>
                                     </Link>
@@ -270,11 +285,11 @@ export default function Sidebar () {
 
                         </ul>
 
-                    </PerfectScrollbar>
+                    </div>
 
                     <div className={`p-4 overflow-hidden ${config.menu !== 'vertical' && 'hidden'}`}>
 
-                        <div className='flex justify-between items-center rounded-sm bg-[#eff9ff] dark:bg-menu-dark/50 p-3 border border-border/50 dark:border-border-dark/50'>
+                        <div className='flex justify-between items-center rounded-sm bg-primary/10 dark:bg-[#1b3c48]/50 p-3 border border-border/50 dark:border-border-dark/50'>
                             
                             <div className='flex items-center gap-3'>
 
@@ -282,12 +297,12 @@ export default function Sidebar () {
 
                                 <div className='flex flex-col flex-1 gap-0.5'>
                                     <p className='w-[6.3rem] text-black dark:text-white-light font-semibold text-[.95rem] line-clamp-1'>{config.user.name}</p>
-                                    <p className='text-black/75 font-semibold dark:text-white-light/75 text-[.8rem]'>Admin</p>
+                                    <p className='text-black/75 font-semibold dark:text-white-light/75 text-[.8rem]'>{config.text.active}</p>
                                 </div>
 
                             </div>
 
-                            <div className='w-[2rem] h-[2rem] rounded-full bg-white-light/50 dark:bg-black/10 text-primary flex justify-center items-center cursor-pointer duration-300 hover:!bg-primary hover:text-white'>
+                            <div onClick={() => logout(true)} className='w-[2rem] h-[2rem] rounded-full text-primary flex justify-center items-center cursor-pointer duration-300 hover:!bg-primary hover:text-white'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M7 6a7.75 7.75 0 1 0 10 0"></path><path d="M12 4l0 8"></path>
                                 </svg>

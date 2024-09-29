@@ -7,6 +7,7 @@ import { DataTable } from 'mantine-datatable';
 import sortBy from 'lodash/sortBy';
 import Loader from './loader';
 import Dropdown from './menu';
+import Elements from './elements';
 
 export default function Table ( props ) {
 
@@ -22,7 +23,8 @@ export default function Table ( props ) {
     const [selected, set_selected] = useState([]);
     const [my_loader, set_my_loader] = useState(true);
     const [run, setRun] = useState(false);
-    const [tab, setTab] = useState(1);
+    const [tags, setTags] = useState({});
+    const [tab, setTab] = useState('');
     
     const {
         system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
@@ -47,6 +49,7 @@ export default function Table ( props ) {
         const response = await api(`${system}`, request);
 
         set_my_data(response.items || []);
+        setTags(response.tags || []);
         set_total_items(response.total || 0);
         set_total_pages( Math.ceil(response.total / limit) );
         set_selected([]);
@@ -126,7 +129,7 @@ export default function Table ( props ) {
 
         _search_();
 
-    }, [limit, filter, tab]);
+    }, [limit, filter]);
     useEffect(() => {
 
         let data = sortBy(my_data, sort.columnAccessor);
@@ -135,7 +138,12 @@ export default function Table ( props ) {
     }, [sort]);
     useEffect(() => {
 
-        document.title = config.text[`all_${system === 'category' ? 'categorie' : system === 'reply' ? 'replie' : system}s`];
+        if ( system === 'order' ) setFilter(tab);
+
+    }, [tab]);
+    useEffect(() => {
+
+        document.title = config.text[`all_${system}s`];
         setRun(true);
         setTimeout(() => setLoader(false), 500);
 
@@ -144,83 +152,95 @@ export default function Table ( props ) {
     return (
 
         <div className='w-full space-y-4'>
-            
             {
                 !item_filters &&
-                <div className='w-full grid grid-cols-4 gap-4'>
+                <Elements element='page_title' label={`all_${system}s`} name={`all_${system}s`}/>
+            }
+            {
+                (!item_filters && Object.keys(tags).length > 0) &&
+                <div className='w-full hidden lg:grid grid-cols-4 gap-4'>
+                    {
+                        Object.keys(tags).length > 0 &&
+                        <div onClick={() => setTab('')} className={`panel flex items-center gap-4 cursor-pointer !rounded-md !bg-[#fbf2ef] dark:!bg-[#402e32]/75 duration-300 hover:opacity-[.8] ${tab === 1 && 'opacity-[.9]'}`}>
 
-                    <div onClick={() => setTab(1)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#fbf2ef] dark:!bg-[#402e32]/75 duration-300 hover:opacity-[.8] ${tab === 1 && 'opacity-[.9]'}`}>
+                            <div className='bg-[#fa896b] p-2 rounded-sm text-white'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M13 5h8"></path>
+                                    <path d="M13 9h5"></path>
+                                    <path d="M13 15h8"></path>
+                                    <path d="M13 19h5"></path>
+                                    <path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                    <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                </svg>
+                            </div>
 
-                        <div className='bg-[#fa896b] p-2 rounded-[.2rem] text-white'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M13 5h8"></path>
-                                <path d="M13 9h5"></path>
-                                <path d="M13 15h8"></path>
-                                <path d="M13 19h5"></path>
-                                <path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
-                                <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
-                            </svg>
+                            <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                                <p>{config.text[Object.keys(tags)[0]]}</p>
+                                <p>{tags[Object.keys(tags)[0]]} {config.text.invoices}</p>
+                            </div>
+
                         </div>
+                    }
+                    {
+                        Object.keys(tags).length > 1 &&
+                        <div onClick={() => setTab(Object.keys(tags)[1])} className={`panel flex items-center gap-4 cursor-pointer !rounded-md !bg-[#eff9ff] dark:!bg-[#082e45]/75 duration-300 hover:opacity-[.8] ${tab === 2 && 'opacity-[.9]'}`}>
 
-                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
-                            <p>Total</p>
-                            <p>9 Invoices</p>
+                            <div className='bg-[#0074ba] p-2 rounded-sm text-white'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
+                                    <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
+                                </svg>
+                            </div>
+
+                            <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                                <p>{config.text[Object.keys(tags)[1]]}</p>
+                                <p>{tags[Object.keys(tags)[1]]} {config.text.invoices}</p>
+                            </div>
+
                         </div>
+                    }
+                    {
+                        Object.keys(tags).length > 2 &&
+                        <div onClick={() => setTab(Object.keys(tags)[2])} className={`panel flex items-center gap-4 cursor-pointer !rounded-md !bg-[#e6fffa] dark:!bg-[#1b3c48]/75 duration-300 hover:opacity-[.8] ${tab === 3 && 'opacity-[.9]'}`}>
 
-                    </div>
-                    <div onClick={() => setTab(2)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#eff9ff] dark:!bg-[#082e45]/75 duration-300 hover:opacity-[.8] ${tab === 2 && 'opacity-[.9]'}`}>
+                            <div className='bg-[#13deb9] p-2 rounded-sm text-white'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                    <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                    <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                                </svg>
+                            </div>
 
-                        <div className='bg-[#0074ba] p-2 rounded-[.2rem] text-white'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
-                                <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
-                            </svg>
+                            <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                                <p>{config.text[Object.keys(tags)[2]]}</p>
+                                <p>{tags[Object.keys(tags)[2]]} {config.text.invoices}</p>
+                            </div>
+
                         </div>
+                    }
+                    {
+                        Object.keys(tags).length > 3 &&
+                        <div onClick={() => setTab(Object.keys(tags)[3])} className={`panel flex items-center gap-4 cursor-pointer !rounded-md !bg-[#fef5e5] dark:!bg-[#4d3a2a]/75 duration-300 hover:opacity-[.8] ${tab === 4 && 'opacity-[.9]'}`}>
 
-                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
-                            <p>Shipped</p>
-                            <p>3 Invoices</p>
+                            <div className='bg-[#ffae1f] p-2 rounded-sm text-white'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M4 6l7 0"></path>
+                                    <path d="M4 12l7 0"></path>
+                                    <path d="M4 18l9 0"></path>
+                                    <path d="M15 9l3 -3l3 3"></path>
+                                    <path d="M18 6l0 12"></path>
+                                </svg>
+                            </div>
+
+                            <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
+                                <p>{config.text[Object.keys(tags)[3]]}</p>
+                                <p>{tags[Object.keys(tags)[3]]} {config.text.invoices}</p>
+                            </div>
+
                         </div>
-
-                    </div>
-                    <div onClick={() => setTab(3)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#e6fffa] dark:!bg-[#1b3c48]/75 duration-300 hover:opacity-[.8] ${tab === 3 && 'opacity-[.9]'}`}>
-
-                        <div className='bg-[#13deb9] p-2 rounded-[.2rem] text-white'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
-                            </svg>
-                        </div>
-
-                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
-                            <p>Delivered</p>
-                            <p>6 Invoices</p>
-                        </div>
-
-                    </div>
-                    <div onClick={() => setTab(4)} className={`panel flex items-center gap-4 cursor-pointer !rounded-sm !bg-[#fef5e5] dark:!bg-[#4d3a2a]/75 duration-300 hover:opacity-[.8] ${tab === 4 && 'opacity-[.9]'}`}>
-
-                        <div className='bg-[#ffae1f] p-2 rounded-[.2rem] text-white'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M4 6l7 0"></path>
-                                <path d="M4 12l7 0"></path>
-                                <path d="M4 18l9 0"></path>
-                                <path d="M15 9l3 -3l3 3"></path>
-                                <path d="M18 6l0 12"></path>
-                            </svg>
-                        </div>
-
-                        <div className='flex flex-col gap-1.5 text-[.9rem] font-semibold tracking-wide text-gray-800 dark:text-white-light'>
-                            <p>Total</p>
-                            <p>7 Invoices</p>
-                        </div>
-
-                    </div>
-
+                    }
                 </div>
             }
-
             {
                 loader ? <Loader className='container'/> :
                 <div className="panel p-0 overflow-hidden">
@@ -228,12 +248,12 @@ export default function Table ( props ) {
                     <div className='invoice-table'>
                         {
                             add || deletes || search || use_filters || settings || label ?
-                            <div className="py-4 flex justify-between flex-col px-5 space-y-3 lg:space-y-0 lg:flex-row lg:items-center select-none border-b border-border/50 dark:border-border-dark/50">
+                            <div className="py-4 flex justify-between flex-wrap px-5 gap-3 lg:items-center select-none border-b border-border/50 dark:border-border-dark/50">
 
-                                <div className="flex items-center gap-2 ltr:-ml-2 rtl:-mr-2 sm:ltr:m-0 sm:rtl:m-0">
+                                <div className="flex items-center gap-2">
                                     {
                                         label &&
-                                        <div className='text-[1rem] tracking-wide py-1'>{config.text[label]}</div>
+                                        <div className='text-[1rem] tracking-wide py-1 dark:text-white-light'>{config.text[label]}</div>
                                     }
                                     {
                                         deletes &&
@@ -260,7 +280,7 @@ export default function Table ( props ) {
                                     }
                                 </div>
 
-                                <div className='flex justify-center items-center gap-3'>
+                                <div className='flex justify-center items-center flex-wrap gap-3'>
                                     {
                                         search &&
                                         <input 
@@ -286,7 +306,7 @@ export default function Table ( props ) {
                                     }
                                     {
                                         settings &&
-                                        <div className='hidden justify-center items-center sm:flex'>
+                                        <div className='flex justify-center items-center'>
 
                                             <div className="dropdown shrink-0">
 
@@ -298,7 +318,7 @@ export default function Table ( props ) {
                                                         </svg>
                                                     }>
                                                     
-                                                    <ul className="w-[150px] py-4 font-semibold border border-gray-200 dark:border-[#1a2c48] shadow-md text-dark dark:text-white-dark dark:text-white-light/90">
+                                                    <ul className="w-[150px] py-4 font-semibold border border-gray-200 dark:border-[#1a2c48] !shadow-lg text-dark dark:!text-white-light/75">
 
                                                         <li>
                                                             <button onClick={_search_} type="button" className="flex w-full hover:text-primary opacity-[.8] hover:opacity-[1]">
@@ -400,7 +420,6 @@ export default function Table ( props ) {
 
                 </div>
             }
-
         </div>
 
     )

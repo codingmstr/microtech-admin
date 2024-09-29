@@ -23,6 +23,7 @@ export default function RootLayout ({ children }) {
                 <link rel="icon" href="/media/layout/logo-1.svg"/>
                 <link rel="manifest" href="/script/manifest.json"/>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"/>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"/>
             </head>
             <body>
                 <Provider store={store}>

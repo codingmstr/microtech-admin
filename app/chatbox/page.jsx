@@ -32,19 +32,23 @@ export default function Chatbox () {
 
     return (
     
-        <div className={`chat-div flex gap-5 relative h-[calc(100vh_-_100px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
+        <div className='w-full space-y-4'>
            
-            <Friends 
-                data={data} setData={setData} room={room} setRoom={setRoom} users={users} setUsers={setUsers} 
-                menu={menu} setMenu={setMenu} setLoader={setLoader} current_user={user}
-            />
+           <div className={`chat-div flex gap-5 relative h-[calc(100vh_-_100px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
 
-            <Form 
-                room={room} setRoom={setRoom} data={data} setData={setData} menu={menu} setMenu={setMenu} 
-                loader={loader} setLoader={setLoader} current_user={user}
-            />
+                <Friends 
+                    data={data} setData={setData} room={room} setRoom={setRoom} users={users} setUsers={setUsers} 
+                    menu={menu} setMenu={setMenu} setLoader={setLoader} current_user={user}
+                />
 
-            <Broadcast data={data} setData={setData} room={room} setRoom={setRoom} current_user={user}/>
+                <Form 
+                    room={room} setRoom={setRoom} data={data} setData={setData} menu={menu} setMenu={setMenu} 
+                    loader={loader} setLoader={setLoader} current_user={user}
+                />
+
+           </div>
+
+           <Broadcast data={data} setData={setData} room={room} setRoom={setRoom} current_user={user}/>
 
         </div>
 

@@ -35,15 +35,21 @@
     .panel {
         @apply relative rounded-md bg-panel p-5 dark:bg-panel-dark overflow-hidden border border-border dark:border-border-dark;
     }
+    header{
+        @apply bg-body dark:bg-body-dark;
+    }
+    .navbar-floating header > div:nth-child(1){
+        @apply rounded-t-sm;
+    }
+    .navbar-floating header > div:nth-child(2){
+        @apply rounded-b-sm;
+    }
     .navbar-sticky header,
     .navbar-floating header {
         @apply sticky top-0 z-20;
     }
     .navbar-floating header {
-        @apply bg-[#fafafa]/90 px-6 pt-4 dark:bg-[#060818]/90;
-    }
-    .navbar-floating header > div .horizontal-menu {
-        @apply rounded-b-md shadow-sm;
+        @apply px-6 pt-4;
     }
     .navbar-menu{
         @apply bg-panel text-black dark:bg-panel-dark dark:text-white-dark;
@@ -86,7 +92,7 @@
     }
 
     .main-container .main-content {
-        @apply transition-all duration-300 lg:ltr:ml-[260px] lg:rtl:mr-[260px];
+        @apply transition-all duration-300 lg:ltr:ml-[270px] lg:rtl:mr-[270px];
     }
 
     /* Horizontal layouts */
@@ -100,10 +106,10 @@
         @apply ltr:ml-0 rtl:mr-0;
     }
     .horizontal .sidebar {
-        @apply ltr:-left-[260px] rtl:-right-[260px];
+        @apply ltr:-left-[270px] rtl:-right-[270px];
     }
     .horizontal.toggle-sidebar .sidebar {
-        @apply ltr:left-0 rtl:right-0 lg:ltr:-left-[260px] lg:rtl:-right-[260px];
+        @apply ltr:left-0 rtl:right-0 lg:ltr:-left-[270px] lg:rtl:-right-[270px];
     }
 
     .horizontal .nav-item a div:first-child svg,
@@ -159,27 +165,27 @@
         @apply ltr:ml-0 rtl:mr-0;
     }
     .vertical .sidebar {
-        @apply ltr:-left-[260px] rtl:-right-[260px] lg:ltr:left-0 lg:rtl:right-0;
+        @apply ltr:-left-[270px] rtl:-right-[270px] lg:ltr:left-0 lg:rtl:right-0;
     }
     .vertical.toggle-sidebar .sidebar {
-        @apply ltr:left-0 rtl:right-0 lg:ltr:-left-[260px] lg:rtl:-right-[260px];
+        @apply ltr:left-0 rtl:right-0 lg:ltr:-left-[270px] lg:rtl:-right-[270px];
     }
 
     /* Collapsible vertical layouts */
     .collapsible-vertical .sidebar {
-        @apply hover:w-[260px] ltr:-left-[260px] rtl:-right-[260px] lg:w-[70px] lg:ltr:left-0 lg:rtl:right-0;
+        @apply hover:w-[270px] ltr:-left-[270px] rtl:-right-[270px] lg:w-[70px] lg:ltr:left-0 lg:rtl:right-0;
     }
     .collapsible-vertical.toggle-sidebar .sidebar {
         @apply ltr:left-0 rtl:right-0;
     }
     .collapsible-vertical.toggle-sidebar .sidebar {
-        @apply lg:w-[260px];
+        @apply lg:w-[270px];
     }
     .collapsible-vertical.toggle-sidebar .sidebar .nav-item > a {
         @apply w-auto;
     }
     .collapsible-vertical.toggle-sidebar .main-content {
-        @apply lg:w-[calc(100%-260px)] lg:ltr:ml-[260px] lg:rtl:mr-[260px];
+        @apply lg:w-[calc(100%-270px)] lg:ltr:ml-[270px] lg:rtl:mr-[270px];
     }
 
     .collapsible-vertical .sidebar .sub-menu {
@@ -296,7 +302,7 @@
     }
     /* Badge */
     .badge {
-        @apply relative my-1 select-none rounded-[.2rem] border border-transparent px-2 pt-[.12rem] pb-[.15rem] text-[.75rem] font-semibold text-white tracking-wide;
+        @apply relative my-1 select-none rounded-sm border border-transparent px-2 py-[.15rem] text-[.75rem] font-semibold text-white tracking-wide;
     }
     .badge-outline-primary {
         @apply border-primary text-primary hover:bg-primary-light dark:hover:bg-primary dark:hover:text-white-light;
@@ -319,12 +325,17 @@
     .badge-outline-dark {
         @apply border-dark text-dark hover:bg-dark-light dark:hover:bg-dark dark:hover:text-white-light;
     }
+    .badge-success{ @apply badge-outline-success bg-success text-white; }
+    .badge-warning{ @apply badge-outline-warning bg-warning text-white; }
+    .badge-info{ @apply badge-outline-info bg-info text-white; }
+    .badge-danger{ @apply badge-outline-danger bg-danger text-white; }
+
     /* Form */
     .form-input,
     .form-textarea,
     .form-select,
     .form-multiselect {
-        @apply w-full rounded-md border border-border bg-input px-4 py-2 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-border-dark dark:bg-input-dark dark:text-white-dark dark:focus:border-primary/50;
+        @apply w-full rounded-md border border-border bg-input px-4 py-2 text-sm font-semibold text-black dark:text-white-light !outline-none focus:border-primary focus:ring-transparent dark:border-border-dark dark:bg-input-dark dark:focus:border-primary/50 rtl:text-right;
     }
     .form-textarea{
         @apply !py-4 !rounded-sm;
@@ -343,7 +354,7 @@
         @apply py-1.5 text-xs;
     }
     label {
-        @apply mb-1.5 block font-semibold;
+        @apply mb-1.5 block font-semibold dark:text-white-light/75;
     }
     [dir='rtl'] select {
         background-position: left 0.5rem center;
@@ -496,8 +507,8 @@
     table tbody tr{
         @apply border-b !border-border/50 dark:!border-border-dark/50; 
     }
-    table.dataTable-table tbody tr th,
-    table.dataTable-table tbody tr td {
+    table tbody tr th,
+    table tbody tr td {
         @apply py-3 px-4 ltr:text-left rtl:text-right;
     }
     table.dataTable-table tbody tr:last-child td {

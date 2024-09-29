@@ -34,15 +34,14 @@ export default function Danger ({ data, setData }) {
         <div className="w-full flex flex-col cursor-default">
 
             <div className="relative w-full min-h-[80vh]">
-
                 {
                     loader ? <Loader /> :
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 cursor-default">
                         {
                             items.map((item, index) => 
                                 <div key={index} className="panel w-full h-full space-y-3 cursor-default">
-                                    <h5 className="font-semibold text-lg">{config.text.delete} {config.text[item]}</h5>
-                                    <p className='pb-1 leading-5'>
+                                    <h5 className="font-semibold text-[1.05rem] dark:text-white-light rtl:text-[1rem]">{config.text.delete} {config.text[item]}</h5>
+                                    <p className='pb-1 leading-6 dark:text-white-light/75 text-[.8rem]'>
                                         <span className="text-danger">{config.text.note} :</span>
                                         <span className='px-2'>{config.text.delete_settings_data}</span>
                                     </p>
@@ -54,7 +53,6 @@ export default function Danger ({ data, setData }) {
                         }
                     </div>
                 }
-
             </div>
             
         </div>

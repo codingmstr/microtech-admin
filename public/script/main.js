@@ -427,9 +427,11 @@ export function fix_date_time ( dt ) {
     return final_date;
 
 }
-export function copy ( text ) {
+export function copy ( text, element ) {
 
     navigator.clipboard.writeText(text);
+    element?.select();
+    alert_msg('Secret key copied ✔ .');
 
 }
 export function scroll_down ( e, smooth ) {
@@ -475,7 +477,6 @@ export function alert_msg ( msg, type ) {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-
     }
 
     const message = msg || '';

@@ -46,7 +46,7 @@ export default function Info ({ data, setData }) {
 
                     { loader && <Loader className='bg'/> }
 
-                    <h5 className="font-semibold text-lg mb-5 select-none">{config.text.general_information}</h5>
+                    <h5 className="font-semibold text-lg mb-5 select-none dark:text-white-light/75">{config.text.general_information}</h5>
 
                     <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-5 pb-8">
 
@@ -85,15 +85,15 @@ export default function Info ({ data, setData }) {
 
                     <h1 className='flex items-center opacity-[.8] select-none'>
 
-                        <Icons icon='setting'/>
+                        <Icons icon='setting' className='dark:!text-white-light'/>
 
-                        <span className='font-semibold text-[.95rem] px-2'>{config.text.invoice}</span>
+                        <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
                     </h1>
 
                     <Elements element='hr' className='my-7 mt-5'/>
 
-                    <div className='grid grid-cols-2 gap-4 pb-2'>
+                    <div className='grid grid-cols-2 gap-3 pb-2'>
 
                         <Elements element='save_button' onClick={_save_}/>
                         <Elements element='cancel_button'/>

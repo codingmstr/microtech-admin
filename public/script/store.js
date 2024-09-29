@@ -10,7 +10,7 @@ const initialState = {
     menu: 'vertical',
     layout: 'boxed-layout',
     dir: 'ltr',
-    animation: 'animate__zoomIn',
+    animation: 'animate__fadeIn',
     nav: 'navbar-sticky',
     text: {},
     user: {},

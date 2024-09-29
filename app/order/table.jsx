@@ -14,6 +14,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
         <Table
             id={id} system={system} setForm={setForm} setId={setId}
             searchParams={params} item_filters={item_filters} {...options}
+            filters={['pending', 'confirmed', 'cancelled', 'request']}
             columns={[
                 {
                     accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (

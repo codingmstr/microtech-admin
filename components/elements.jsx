@@ -1,10 +1,11 @@
 "use client";
-import { lower, storage, alert_msg, read_file, fix_date, fix_number, print } from "@/public/script/main";
+import { lower, storage, alert_msg, read_file, fix_date, fix_number, print, copy } from "@/public/script/main";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux';
 import { Countries } from "@/utils/countries";
 import { Languages } from "@/utils/languages";
 import { Currencies } from "@/utils/currencies";
+import Link from "next/link";
 import Dropdown from './menu';
 import Quill from './quill';
 import Select from './select';
@@ -17,7 +18,7 @@ export default function Elements ( props ) {
     const {
         element, value, name, label, type, rows, visible, readOnly, className='',
         onChange, onClick, children, button, multiple, focus, roles, slider,
-        color, icon, height
+        color, icon, height, copyable,
     } = props
     const config = useSelector((state) => state.config);
     const ref = useRef(null);
@@ -52,10 +53,10 @@ export default function Elements ( props ) {
         <div>
             {
                 element === 'image' &&
-                <div className={`image overflow-hidden bg-white-dark dark:bg-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-full h-full'}`}>
+                <div className={`image overflow-hidden bg-white-dark dark:bg-menu-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem]'} ${className || 'w-full h-full'}`}>
                     <img 
                         src={`${storage}/${value}`} 
-                        className={`w-full h-full object-cover rounded-${type !== 'md' ? 'full' : 'md'}`} 
+                        className={`w-full h-full object-cover ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem]'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -63,10 +64,10 @@ export default function Elements ( props ) {
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-[#060818] m-auto border border-primary/20 rounded-${type !== 'md' ? 'full' : 'md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark rounded-${type !== 'md' ? 'full' : 'sm'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
                     <img 
                         src={src} 
-                        className={`object-cover ${type === 'md' ? 'max-w-[90%] max-h-[90%]' : 'w-full h-full'}`} 
+                        className={`object-cover ${type === 'md' ? 'w-full h-full' : 'w-full h-full'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -97,7 +98,7 @@ export default function Elements ( props ) {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={type || 'text'} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
+                    <input id={name} type={type || 'text'} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
@@ -121,6 +122,7 @@ export default function Elements ( props ) {
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
                     <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        <option value="0">--</option>
                         { children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>) }
                     </select>
                 </div>
@@ -288,7 +290,7 @@ export default function Elements ( props ) {
             }
             {
                 element === 'scroll_down' &&
-                <div onClick={onClick} className={`absolute right-[1.3rem] bottom-[4.5rem] rtl:left-[1.3rem] rtl:right-auto w-[2.2rem] h-[2.2rem] text-white bg-primary rounded-full flex justify-center items-center cursor-pointer border border-primary hover:opacity-[.8] ${className}`}>
+                <div onClick={onClick} className={`absolute right-[1.3rem] bottom-[5rem] rtl:left-[1.3rem] rtl:right-auto w-[2.2rem] h-[2.2rem] text-white bg-primary rounded-full flex justify-center items-center cursor-pointer border border-primary hover:opacity-[.8] ${className}`}>
                     <span className="material-symbols-outlined icon mt-[2px]">expand_more</span>
                 </div>
             }
@@ -356,12 +358,40 @@ export default function Elements ( props ) {
             {
                 element === 'toggle_panel' &&
                 <div className={`panel w-full h-full space-y-3 ${className}`}>
-                    <h5 className="font-semibold text-lg tracking-wide">{config.text[label || name]}</h5>
-                    <p className='pb-1 leading-5 line-clamp-2' title={config.text[type]}>{config.text[type]}</p>
+                    <h5 className="font-semibold text-[1.05rem] tracking-wide dark:text-white-light rtl:text-[1rem]">{config.text[label || name]}</h5>
+                    <p className='pb-1 leading-6 line-clamp-2 dark:text-white-light/75 text-[.8rem]' title={config.text[type]}>{config.text[type]}</p>
                     <label className="w-12 h-6 relative">
                         <input type="checkbox" checked={value || false} onChange={() => onChange(!value)} className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"/>
-                        <span htmlFor="custom_switch_checkbox1" className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
+                        <span htmlFor="custom_switch_checkbox1" className="bg-[#ebedf2] dark:bg-menu-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
                     </label>
+                </div>
+            }
+            {
+                element === 'page_title' &&
+                <div className="panel !p-6 flex justify-between items-center gap-4 cursor-default !bg-primary/10 dark:!bg-[#1b3c48]/50">
+
+                    <div className='flex flex-col gap-4'>
+
+                        <p className='text-[1.1rem] font-semibold dark:text-white tracking-wide'>
+                            {config.text[label]}
+                        </p>
+                        
+                        <div className='flex items-center gap-2 text-[.9rem]'>
+                            <Link href='/' className='dark:text-white-light/75 hover:underline'>{config.text.home}</Link>
+                            <span>•</span>
+                            <p className='dark:text-white-light'>
+                                {config.text[name]}
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div className='w-[6rem] h-[6rem] sm:w-[8rem] sm:h-[8rem] absolute -bottom-8 ltr:right-8 rtl:left-8'>
+                        <div className='layer-div'>
+                            <img src="/media/layout/chatbc.png" className='max-w-full h-full'/>
+                        </div>
+                    </div>
+
                 </div>
             }
             {

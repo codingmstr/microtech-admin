@@ -12,7 +12,7 @@ export default function Model ({ children, model, setModel, className }) {
 
                 <div className="fixed inset-0 overflow-y-auto bg-[black]/60">
 
-                    <div className="flex min-h-full items-center justify-center px-4 edit-item-info">
+                    <div className="flex min-h-full items-center justify-center px-4">
 
                         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
                             
@@ -32,6 +32,6 @@ export default function Model ({ children, model, setModel, className }) {
 
         </Transition>
 
-    );
+    )
 
-};
+}

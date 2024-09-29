@@ -49,16 +49,15 @@ export default function _Form_ ({ system, id, setForm, params }) {
             ]}
             sidebar={[
                 {
-                    options: {cols: 2, gap: 5, hr: true},
+                    options: {cols: 1, gap: 1, hr: true},
                     inputs: [
-                        {element: 'input', type: 'number', name: 'id', label: 'item_id', readOnly: true},
                         {element: 'select_status', name: 'status'},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: true},
                     inputs: [
-                        {element: 'input', type: 'text', value: '--', name: 'secret_key', readOnly: true},
+                        {element: 'input', type: 'text', value: '--', name: 'secret_key', readOnly: true, copyable: id},
                     ],
                 },
                 {

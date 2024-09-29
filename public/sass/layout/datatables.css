@@ -1,6 +1,6 @@
 table > thead > tr > th,
 table > tbody > tr > td {
-    @apply !py-3 !px-4 text-sm;
+    @apply !py-3.5 !px-4 !text-[.9rem] dark:!text-white-light/75;
 }
 table > thead > tr > th.mantine-187dsit {
     background-color: rgb(224 230 237 / 0.3);
@@ -19,7 +19,7 @@ table tr .mantine-Checkbox-root {
     @apply flex;
 }
 .datatables table thead tr th {
-    @apply !border-b-0 !bg-white-light/20 text-black dark:!bg-menu-dark dark:!text-white-dark;
+    @apply !border-b-0 !bg-white-light/20 text-black dark:!bg-menu-dark dark:!text-white-light;
 }
 
 .datatables .table-bordered table thead tr th,

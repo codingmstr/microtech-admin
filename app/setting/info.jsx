@@ -35,7 +35,7 @@ export default function Info ({ data, setData }) {
 
                     { loader && <Loader className="bg"/> }
                 
-                    <h6 className="text-lg font-semibold mb-5 select-none">{config.text.information}</h6>
+                    <h6 className="text-lg font-semibold mb-5 select-none dark:!text-white-light/75">{config.text.information}</h6>
 
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
@@ -83,9 +83,9 @@ export default function Info ({ data, setData }) {
 
                     <h1 className='flex items-center opacity-[.8] select-none'>
 
-                        <Icons icon='setting'/>
+                        <Icons icon='setting' className='dark:!text-white-light'/>
 
-                        <span className='font-semibold text-[.95rem] px-2'>{config.text.invoice}</span>
+                        <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
                     </h1>
 

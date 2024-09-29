@@ -1,5 +1,5 @@
 "use client";
-import { storage, fix_date_time } from "@/public/script/main";
+import { fix_date_time } from "@/public/script/main";
 import { useSelector } from 'react-redux';
 import Elements from "@/components/elements";
 import Icons from "@/components/icons";

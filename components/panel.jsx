@@ -1,8 +1,9 @@
 "use client";
 import { print } from '@/public/script/main';
+import { useEffect } from 'react';
 import Elements from './elements';
 
-export default function Form ({ items, data, setData }) {
+export default function Panel ({ items, data, setData, system }) {
 
     const set_data = ( item, e ) => {
 
@@ -18,6 +19,16 @@ export default function Form ({ items, data, setData }) {
         setData({..._data_});
 
     }
+    useEffect(() => {
+
+        if ( system !== 'order' ) return;
+        let new_price = data.products?.find(_ => _.id == data.product_id)?.new_price || 0;
+        let discount = data.coupons?.find(_ => _.id == data.coupon_id)?.discount || 0;
+        let price = new_price - (new_price * discount / 100);
+        setData({...data, price: price});
+
+    }, [data.product_id, data.coupon_id]);
+
     return (
 
         <div>
@@ -36,6 +47,7 @@ export default function Form ({ items, data, setData }) {
                                         value={data[item.name]} 
                                         onChange={(e) => set_data(item, e)} 
                                         readOnly={item.readOnly} 
+                                        copyable={item.copyable} 
                                         visible={item.visible} 
                                         focus={item.focus} 
                                         color={item.color} 

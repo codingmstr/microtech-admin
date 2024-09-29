@@ -6,6 +6,7 @@ import Table from "./table";
 import Form from "./form";
 import Display from "./display";
 import Broadcast from "./broadcast";
+import Elements from "@/components/elements";
 
 export default function Mailbox () {
 
@@ -129,15 +130,21 @@ export default function Mailbox () {
 
     return(
 
-        <div className={`mailbox panel p-0 relative flex overflow-visible h-[calc(100vh_-_100px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
+        <div className="w-full space-y-4">
 
-            { tab === 'table' && <Table mails={mails} rows={rows} data={data} setData={setData} setSelected={setSelected} setTab={setTab} type={type} setType={setType} loader={loader} pager={pager} setPager={setPager} checked={checked} setChecked={setChecked} search={search} setSearch={setSearch} setStar={_star_} setImportant={_important_} reload={_get_}/> }
+            <Elements element='page_title' label='mail' name='mail'/>
 
-            { tab === 'display' && <Display  mail={selected} setSelected={setSelected} setTab={setTab} setStar={_star_} setImportant={_important_}/> }
+            <div className={`mailbox panel p-0 relative flex overflow-visible h-[calc(100vh_-_225px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
+                
+                { tab === 'table' && <Table mails={mails} rows={rows} data={data} setData={setData} setSelected={setSelected} setTab={setTab} type={type} setType={setType} loader={loader} pager={pager} setPager={setPager} checked={checked} setChecked={setChecked} search={search} setSearch={setSearch} setStar={_star_} setImportant={_important_} reload={_get_}/> }
 
-            { tab === 'form' && <Form data={data} setData={setData} setTab={setTab} setType={setType} users={users}/> }
+                { tab === 'display' && <Display  mail={selected} setSelected={setSelected} setTab={setTab} setStar={_star_} setImportant={_important_}/> }
 
-            <Broadcast data={data} setData={setData} current_user={config.user}/>
+                { tab === 'form' && <Form data={data} setData={setData} setTab={setTab} setType={setType} users={users}/> }
+
+                <Broadcast data={data} setData={setData} current_user={config.user}/>
+
+            </div>
 
         </div>
 

@@ -49,11 +49,11 @@ export default function Header () {
 
                     <div className="horizontal-logo flex items-center justify-between ltr:mr-4 rtl:ml-4 lg:hidden">
 
-                        <button type="button" onClick={() => dispatch(actions.toggle_side())} className="collapse-icon ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden">
+                        <button type="button" onClick={() => dispatch(actions.toggle_side())} className="collapse-icon ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-menu-dark/50 dark:text-[#d0d2d6] dark:hover:bg-menu-dark dark:hover:text-primary lg:hidden">
                             <Icons icon='menu'/>
                         </button>
 
-                        <Link href="/" className="flex items-center gap-3 ltr:mr-4 rtl:ml-4">
+                        <Link href="/" className="hidden md:flex items-center gap-3 ltr:mr-4 rtl:ml-4">
                             
                             <div>
                                 <svg className='fill-primary w-8 h-8' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 553.048 553.048" xmlSpace="preserve">
@@ -91,19 +91,19 @@ export default function Header () {
 
                     </div>
 
-                    <div className='flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70'>
+                    <div className='hidden md:flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70'>
 
-                        <Link href='/' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1.2rem] -mt-[2px]'>Dashboard</span>
-                            <span>Dashboard</span>
+                        <Link href='/' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[2px]'>Dashboard</span>
+                            <span>{config.text.dashboard}</span>
                         </Link>
-                        <Link href='/chatbox' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1.2rem] -mt-[1px]'>chat</span>
-                            <span>Chatbox</span>
+                        <Link href='/chatbox' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>chat</span>
+                            <span>{config.text.chatbox}</span>
                         </Link>
-                        <Link href='/order' className='flex items-center gap-2.5 text-[.95rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>shopping_cart</span>
-                            <span>Orders</span>
+                        <Link href='/order' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                            <span className='material-symbols-outlined !text-[1rem] -mt-[1px]'>shopping_cart</span>
+                            <span>{config.text.orders}</span>
                         </Link>
 
                     </div>
@@ -132,7 +132,7 @@ export default function Header () {
 
                             </div>
 
-                            <div className="dropdown shrink-0">
+                            <div className="dropdown">
 
                                 <Dropdown offset={[0, 8]} placement={`${config.dir === 'rtl' ? 'bottom-start' : 'bottom-end'}`}
                                     btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-menu-dark/75 hover:text-primary hover:bg-white-light/90 dark:hover:bg-menu-dark"
@@ -144,7 +144,7 @@ export default function Header () {
 
                                                 <li key={item.code}>
 
-                                                    <button type="button" className={`flex w-full rounded-md hover:text-primary ${lang === item.code ? 'bg-primary/10 text-primary' : ''}`}
+                                                    <button type="button" className={`flex w-full rounded-md dark:text-white-light/75 hover:text-primary ${lang === item.code ? 'bg-primary/10 text-primary' : ''}`}
                                                         onClick={() => { dispatch(actions.toggle_lang(item.code)); setLang(item.code); }}>
                                                         <img src={`/media/flags/${item.code.toUpperCase()}.svg`} alt="flag" className="h-5 w-5 rounded-full object-cover" />
                                                         <span className="ltr:ml-3 rtl:mr-3">{config.text[item.code]}</span>
@@ -203,7 +203,7 @@ export default function Header () {
                                             
                                             <div className="ltr:pl-3 rtl:pr-3 w-[10rem]">
 
-                                                <h4 className="text-base truncate w-full -mt-[1px]">
+                                                <h4 className="text-base dark:text-white-light/75 truncate w-full -mt-[1px]">
                                                     {config.user.name}
                                                 </h4>
 
@@ -214,14 +214,14 @@ export default function Header () {
                                     </li>
                                     <li>
 
-                                        <button onClick={() => router.push('/account')} type='button'>
+                                        <button onClick={() => router.push('/account')} type='button' className='dark:text-white-light/75 !py-2.5 gap-3'>
 
-                                            <svg className="ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="12" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
-                                                <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"/>
+                                                <path opacity="1" stroke="currentColor" strokeWidth="1.5" d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"/>
                                             </svg>
 
-                                            {config.text.account}
+                                            <span className='text-[.9rem] tracking-wide'>{config.text.account}</span>
 
                                         </button>
 
@@ -230,14 +230,14 @@ export default function Header () {
                                         config.user.allow_mails ?
                                         <li>
 
-                                            <button onClick={() => router.push('/mailbox')} type='button'>
+                                            <button onClick={() => router.push('/mailbox')} type='button' className='dark:text-white-light/75 !py-2.5 gap-3'>
 
-                                                <svg className="ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"/>
                                                     <path stroke="currentColor" strokeWidth="1.5" d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" strokeLinecap="round"/>
                                                 </svg>
 
-                                                {config.text.mail}
+                                                <span className='text-[.9rem] tracking-wide'>{config.text.mail}</span>
 
                                             </button>
 
@@ -245,33 +245,33 @@ export default function Header () {
                                     }
                                     <li>
 
-                                        <button onClick={() => logout(true)} type='button'>
+                                        <button onClick={() => logout(true)} type='button' className='dark:text-white-light/75 !py-2.5 gap-3'>
                                             
-                                            <svg className="ltr:mr-2 rtl:ml-2 -mt-[1px]" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='-mt-[2px]'>
                                                 <path stroke="currentColor" strokeWidth="1.5" d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"/>
-                                                <path opacity="0.5" d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                                <g opacity="0.5">
+                                                <path opacity="1" d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                                <g opacity="1">
                                                     <path d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z" fill="currentColor" />
                                                     <path fill="currentColor" d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"/>
                                                     <path fill="currentColor" d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"/>
                                                 </g>
                                             </svg>
 
-                                            {config.text.lockscreen}
+                                            <span className='text-[.9rem] tracking-wide'>{config.text.lockscreen}</span>
 
                                         </button>
 
                                     </li>
                                     <li className="mt-2 border-t border-white-light dark:border-white-light/10">
 
-                                        <button onClick={() => logout()} type='button' className="!py-3 text-danger">
+                                        <button onClick={() => logout()} type='button' className="!py-3 text-danger gap-3">
 
-                                            <svg className="rotate-90 ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg className="rotate-90" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" d="M17 9.00195C19.175 9.01406 20.3529 9.11051 21.1213 9.8789C22 10.7576 22 12.1718 22 15.0002V16.0002C22 18.8286 22 20.2429 21.1213 21.1215C20.2426 22.0002 18.8284 22.0002 16 22.0002H8C5.17157 22.0002 3.75736 22.0002 2.87868 21.1215C2 20.2429 2 18.8286 2 16.0002L2 15.0002C2 12.1718 2 10.7576 2.87868 9.87889C3.64706 9.11051 4.82497 9.01406 7 9.00195"/>
                                                 <path d="M12 15L12 2M12 2L15 5.5M12 2L9 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
 
-                                            {config.text.logout}
+                                            <span className='text-[.9rem] tracking-wide'>{config.text.logout}</span>
 
                                         </button>
 
@@ -298,7 +298,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='chart'/>
+                                    <Icons icon='chart' className='dark:!text-white-light/75'/>
                                     <span>{config.text.dashboard}</span>
                                 </div>
                             </Link>
@@ -309,7 +309,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/mailbox" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='mail'/>
+                                    <Icons icon='mail' className='dark:!text-white-light/75'/>
                                     <span>{config.text.mailbox}</span>
                                 </div>
                             </Link>
@@ -320,7 +320,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/chatbox" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='message'/>
+                                    <Icons icon='message' className='dark:!text-white-light/75'/>
                                     <span>{config.text.chatbox}</span>
                                 </div>
                             </Link>
@@ -331,7 +331,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/setting" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='setting'/>
+                                    <Icons icon='setting' className='dark:!text-white-light/75'/>
                                     <span>{config.text.settings}</span>
                                 </div>
                             </Link>
@@ -342,7 +342,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/report" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='report'/>
+                                    <Icons icon='report' className='dark:!text-white-light/75'/>
                                     <span>{config.text.reports}</span>
                                 </div>
                             </Link>
@@ -353,7 +353,7 @@ export default function Header () {
                         <li className="nav-item relative">
                             <Link href="/account" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='user'/>
+                                    <Icons icon='user' className='dark:!text-white-light/75'/>
                                     <span>{config.text.account}</span>
                                 </div>
                             </Link>
@@ -366,11 +366,11 @@ export default function Header () {
                             <button type="button" className="nav-link">
 
                                 <div className="flex items-center gap-2.5">
-                                    <Icons icon='users'/>
+                                    <Icons icon='users' className='dark:!text-white-light/75'/>
                                     <span>{config.text.users}</span>
                                 </div>
 
-                                <div className="right_arrow ltr:pl-1 rtl:pr-1">
+                                <div className="right_arrow ltr:pl-3 rtl:pr-3">
                                     <svg className="rotate-90" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 5L15 12L9 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
@@ -395,11 +395,11 @@ export default function Header () {
                             <button type="button" className="nav-link">
 
                                 <div className="flex items-center gap-2.5">
-                                    <Icons icon='apps'/>
+                                    <Icons icon='apps' className='dark:!text-white-light/75'/>
                                     <span>{config.text.apps}</span>
                                 </div>
 
-                                <div className="right_arrow ltr:pl-1 rtl:pr-1">
+                                <div className="right_arrow ltr:pl-3 rtl:pr-3">
                                     <svg className="rotate-90" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 5L15 12L9 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>

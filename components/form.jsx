@@ -189,9 +189,9 @@ export default function Form ( props ) {
 
                             <div className='xl:min-h-[calc(100vh_-_170px)]'>
 
-                                { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData}/></div> }
-                                { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData}/></div> }
-                                { tab === 'statistics' && <Panel items={statistics} data={data.statistics || {}} setData={setData}/> }
+                                { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'statistics' && <Panel items={statistics} data={data.statistics || {}} setData={setData} system={system}/> }
 
                                 {
                                     id && related.length ?
@@ -215,7 +215,7 @@ export default function Form ( props ) {
 
                             <div className='panel'>
                             
-                                <Panel items={sidebar} data={data} setData={setData}/>
+                                <Panel items={sidebar} data={data} setData={setData} system={system}/>
 
                             </div>
                             
@@ -223,15 +223,15 @@ export default function Form ( props ) {
 
                                 <h1 className='flex items-center opacity-[.8] select-none'>
 
-                                    <Icons icon='setting'/>
+                                    <Icons icon='setting' className='dark:!text-white-light'/>
 
-                                    <span className='font-semibold text-[.95rem] px-2'>{config.text.invoice}</span>
+                                    <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
                                 </h1>
 
                                 <Elements element='hr' className='mt-5'/>
 
-                                <div className='grid grid-cols-2 gap-4 pb-2'>
+                                <div className='grid grid-cols-2 gap-3 pb-2'>
 
                                     { save && <Elements element='save_button' onClick={_save_}/> }
                                     <Elements element='cancel_button' onClick={_cancel_}/>

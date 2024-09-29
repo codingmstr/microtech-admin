@@ -12,20 +12,16 @@
 .ltr .ql-snow .ql-editor img {
   margin-left: 0px;
 }
-
 .rtl .ql-snow .ql-editor img {
   margin-right: 0px;
 }
-
 .dark .ql-toolbar.ql-snow,
 .dark .ql-container.ql-snow {
   @apply !border-border dark:!border-border-dark;
 }
-
 .dark .ql-container.ql-snow {
   @apply !bg-input dark:!bg-input-dark;
 }
-
 .ql-toolbar.ql-snow {
   box-sizing: border-box;
   border-top-left-radius: 6px;
@@ -35,12 +31,10 @@
   padding: 8px;
   font-family: Nunito, sans-serif;
 }
-
 .dark .ql-toolbar.ql-snow,
 .dark .ql-container.ql-snow {
   @apply !border-border dark:!border-border-dark;
 }
-
 .ql-container.ql-snow {
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -48,49 +42,53 @@
   border-top: 0px !important;
   border-color: #e0e6ed !important;
 }
-
 .ql-snow .ql-editor {
   max-height: 200px;
   min-height: 200px;
   overflow: auto;
 }
-
 .rtl .ql-snow .ql-editor {
   text-align: right;
 }
-
 .dark .ql-snow .ql-stroke {
   stroke: #888ea8;
 }
-
 .dark .ql-snow .ql-picker,
 .dark .ql-snow .ql-editor h1,
 .dark .ql-snow .ql-editor p {
   color: #888ea8;
 }
-
 .rtl .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   right: auto !important;
   left: 0px;
 }
-
 .dark .ql-snow .ql-tooltip {
   background-color: #060818;
   border-color: #17263c;
   color: #888ea8;
 }
-
 .ql-snow .ql-tooltip input[type='text'] {
   outline: none !important;
   box-shadow: none !important;
 }
-
 .dark .ql-snow .ql-tooltip input[type='text'] {
   color: #888ea8;
   @apply border-border-dark bg-input-dark;
 }
-
 .rtl .ql-toolbar.ql-snow .ql-formats {
   margin-right: 0px !important;
   margin-left: 15px;
+}
+
+.ql-editor-small .ql-editor, .small .editor .ql-editor{
+  min-height: 9rem;
+  max-height: 9rem;
+}
+.ql-editor-medium .ql-editor, .medium .editor .ql-editor{
+  min-height: 12rem;
+  max-height: 12rem;
+}
+.ql-editor-big .ql-editor, .big .editor .ql-editor{
+  min-height: 15rem;
+  max-height: 15rem;
 }

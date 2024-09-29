@@ -62,10 +62,9 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'number', name: 'bathrooms', class: 'flex'},
-                        {element: 'input', type: 'number', name: 'rooms', class: 'flex'},
-                        {element: 'input', type: 'number', name: 'beds', class: 'flex'},
-                        {element: 'input', type: 'number', name: 'adults', class: 'flex'},
+                        {element: 'input', type: 'number', name: 'max_persons', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'duration_min', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'max_orders', class: 'flex free-label'},
                     ],
                 },
                 {
@@ -82,27 +81,9 @@ export default function _Form_ ({ system, id, setForm }) {
                     ],
                 },
                 {
-                    options: {cols: 1, gap: 1, hr: true},
-                    inputs: [
-                        {element: 'editor', name: 'availability'},
-                    ],
-                },
-                {
-                    options: {cols: 1, gap: 1, hr: true},
-                    inputs: [
-                        {element: 'editor', name: 'policy', label: 'cancellation_policy'},
-                    ],
-                },
-                {
-                    options: {cols: 1, gap: 1, hr: true},
-                    inputs: [
-                        {element: 'editor', name: 'rules', label: 'house_rules'},
-                    ],
-                },
-                {
                     options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'editor', name: 'safety'},
+                        {element: 'editor', name: 'policy', label: 'cancellation_policy'},
                     ],
                 },
             ]}
@@ -110,9 +91,9 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 5, hr: true},
                     inputs: [
-                        {element: 'input', type: 'number', name: 'id', label: 'item_id', readOnly: true},
                         {element: 'input', type: 'number', name: 'views', readOnly: true},
                         {element: 'input', type: 'number', name: 'reviews', readOnly: true},
+                        {element: 'input', type: 'number', name: 'rate', readOnly: true},
                         {element: 'input', type: 'number', name: 'orders', readOnly: true},
                     ],
                 },
@@ -126,34 +107,12 @@ export default function _Form_ ({ system, id, setForm }) {
             ]}
             settings={[
                 {
-                    options: {cols: 3, gap: 6, hr: true},
+                    options: {cols: 3, gap: 6, hr: false},
                     inputs: [
                         {element: 'toggle', name: 'allow_reviews'},
                         {element: 'toggle', name: 'allow_coupons'},
                         {element: 'toggle', name: 'allow_orders'},
                         {element: 'toggle', name: 'active'},
-                    ],
-                },
-                {
-                    options: {cols: 3, gap: 6, hr: false},
-                    inputs: [
-                        {element: 'toggle', name: 'desert_view'},
-                        {element: 'toggle', name: 'sea_view'},
-                        {element: 'toggle', name: 'hair_dryer'},
-                        {element: 'toggle', name: 'cleaning_properties'},
-                        {element: 'toggle', name: 'washing_machine'},
-                        {element: 'toggle', name: 'iron'},
-                        {element: 'toggle', name: 'indoor_stove'},
-                        {element: 'toggle', name: 'wifi'},
-                        {element: 'toggle', name: 'kitchen'},
-                        {element: 'toggle', name: 'refrigerator'},
-                        {element: 'toggle', name: 'oven'},
-                        {element: 'toggle', name: 'television'},
-                        {element: 'toggle', name: 'air_conditioner'},
-                        {element: 'toggle', name: 'dining_table'},
-                        {element: 'toggle', name: 'ceiling_fan'},
-                        {element: 'toggle', name: 'desk_fan'},
-                        {element: 'toggle', name: 'necessities'},
                     ],
                 },
             ]}
@@ -164,7 +123,6 @@ export default function _Form_ ({ system, id, setForm }) {
                         {element: 'chart', type: 'area', name: 'orders', icon: 'order', color: 'info'},
                         {element: 'chart', type: 'area', name: 'reviews', icon: 'review', color: 'success'},
                         {element: 'chart', type: 'area', name: 'coupons', icon: 'coupon', color: 'danger'},
-                        // {element: 'chart', type: 'items', name: 'category_chart', charts: ['orders', 'reviews', 'coupons']},
                     ],
                 },
                 {

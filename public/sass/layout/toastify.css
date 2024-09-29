@@ -1,18 +1,30 @@
 
 .Toastify__toast-container{
-    @apply left-[50%] translate-x-[-50%] w-[25rem];
+    @apply left-[50%] -translate-x-[50%] sm:ltr:left-auto sm:rtl:right-auto sm:ltr:right-6 sm:rtl:left-6 top-16 sm:translate-x-0 w-auto;
 }
 
 .Toastify .Toastify__toast{
-    @apply bg-white dark:bg-[#3b3f5c] select-none text-dark/75 dark:text-white/75 tracking-wide p-3 pb-4 w-full left-0;
+    @apply bg-white dark:bg-menu-dark select-none text-white tracking-wide px-3 py-4 w-full left-0 !rounded-[.3rem] !shadow-lg;
 }
 
 .Toastify .Toastify__toast-body{
-    @apply rtl:text-right gap-3 items-start;
+    @apply rtl:text-right gap-3 !text-[.95rem] ltr:mr-7 rtl:ml-7;
 }
 
 .Toastify .Toastify__toast-body .Toastify__toast-icon{
-    @apply rtl:order-2 m-0 w-6 bg-white rounded-full;
+    @apply rtl:order-2 m-0 -mt-[1px] w-6 rounded-full bg-white border-2 border-white ltr:mr-1 rtl:ml-1;
+}
+
+.Toastify__toast-body > div:last-child{
+    @apply min-w-[10rem] w-[14rem] sm:w-auto sm:max-w-[20rem] rtl:-mt-[2px] ltr:mr-6 rtl:ml-6;
+}
+
+.Toastify__toast--success{
+    @apply !bg-success;
+}
+
+.Toastify__toast--error{
+    @apply !bg-danger;
 }
 
 .Toastify .Toastify__toast-body .Toastify__toast-icon path{
@@ -24,15 +36,19 @@
 }
 
 .Toastify .Toastify__progress-bar--success{
-    @apply bg-success;
+    @apply bg-white;
 }
 
 .Toastify .Toastify__progress-bar--error{
-    @apply bg-danger;
+    @apply bg-white;
 }
 
 .Toastify .Toastify__close-button{
-    @apply text-dark/75 dark:text-white/75 opacity-[1] duration-0 rtl:left-3 rtl:absolute;
+    @apply text-white opacity-[1] duration-0 absolute top-[48%] -translate-y-[50%] ltr:right-4 rtl:left-4;
+}
+
+.Toastify .Toastify__close-button svg{
+    @apply w-4.5 h-4.5;
 }
 
 .Toastify .Toastify__close-button:hover{

@@ -29,7 +29,9 @@ export default function Home () {
 
         <div className="flex flex-col gap-5">
 
-            <div className="w-full grid grid-cols-6 gap-4">
+            <Elements element='page_title' label='dashboard' name='dashboard'/>
+
+            <div className="w-full grid grid-cols-1 lg:grid-cols-6 gap-4">
 
                 <div className="w-full h-[10rem] panel !bg-[#fbf2ef] dark:!bg-[#402e32]/50 cursor-default flex justify-center items-center flex-col gap-4">
 
@@ -38,8 +40,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#fa896b]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Employees</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">96</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.vendors}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.vendors?.total)}</p>
                     </div>
 
                 </div>
@@ -50,8 +52,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#ffae1f]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Clients</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">3,650</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.clients}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.clients?.total)}</p>
                     </div>
 
                 </div>
@@ -62,8 +64,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#0074ba]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Products</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">356</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.categories}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.categories?.total)}</p>
                     </div>
 
                 </div>
@@ -74,8 +76,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#fa896b]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Events</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">696</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.products}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.products?.total)}</p>
                     </div>
 
                 </div>
@@ -86,8 +88,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#13deb9]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Payroll</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">$96k</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.orders}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.orders?.total)}</p>
                     </div>
 
                 </div>
@@ -98,8 +100,8 @@ export default function Home () {
                     </div>
                     
                     <div className="w-full flex justify-center items-center flex-col gap-2 text-[#539bff]">
-                        <p className="text-[1rem] font-semibold tracking-wide">Reports</p>
-                        <p className="text-[1.1rem] font-bold tracking-wide">59</p>
+                        <p className="text-[1rem] font-semibold tracking-wide">{config.text.coupons}</p>
+                        <p className="text-[1.1rem] font-bold tracking-wide">{fix_number(data.coupons?.total)}</p>
                     </div>
 
                 </div>
@@ -136,7 +138,7 @@ export default function Home () {
                     <Chart type='items' title='orders' height='460' data={[{name: 'orders', ...data.orders}, {name: 'confirmed', ...data.confirmed_orders}, {name: 'cancelled', ...data.cancelled_orders}]}/>
                 </div>
 
-                <div className="w-[65%]">
+                <div className="w-full md:w-[65%]">
                     <Chart type='revenue' title='statistics' height='375' data={[{name: 'clients', ...data.clients}, {name: 'products', ...data.products}, {name: 'orders', ...data.orders}, {name: 'coupons', ...data.coupons}]}/>
                 </div>
 
@@ -146,7 +148,7 @@ export default function Home () {
 
                 <Table
                     system={'order'} label={'recently_orders'} use_filters={false} rows={10} pagination={false} 
-                    add={false} settings={true} search={false} deletes={false} checkbox={false} push_url={true}
+                    add={false} settings={true} search={false} deletes={false} checkbox={false} push_url={true} item_filters={{}}
                     columns={[
                         {
                             accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
@@ -214,7 +216,7 @@ export default function Home () {
 
             </div>
 
-            <div className="w-full grid grid-cols-2 gap-4">
+            {/* <div className="w-full grid grid-cols-2 gap-4">
 
                 <div className="w-full">
 
@@ -288,7 +290,7 @@ export default function Home () {
 
                 </div>
 
-            </div>
+            </div> */}
 
         </div>
 

@@ -148,8 +148,8 @@ module.exports = {
                 nunito: ['Nunito', 'sans-serif'],
             },
             borderRadius: {
-                sm: '.5rem',
-                md: '.5rem',
+                sm: '1rem',
+                md: '2rem',
             },
             spacing: {
                 4.5: '18px',

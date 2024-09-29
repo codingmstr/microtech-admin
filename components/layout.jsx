@@ -91,12 +91,12 @@ export default function Layout ({ children }) {
                             <div className={`main-content overflow-y-auto overflow-x-hidden scroll-smooth h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
                                 {
                                     animation &&
-                                    <div className={`${animation} ${config.layout} animate__animated py-5 px-8`}>
+                                    <div className={`${animation} ${config.layout} animate__animated p-5 sm:px-8`}>
                                         <div className='relative'>{children}</div>
                                     </div>
                                 }
                             </div> :
-                            <div className={`${animation} ${config.layout} animate__animated px-5`}>
+                            <div className={`${animation} ${config.layout} animate__animated px-5 sm:px-8`}>
                                 <div className='relative'>{children}</div>
                             </div>
                         }

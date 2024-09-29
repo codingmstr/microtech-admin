@@ -38,11 +38,11 @@ export default function Password ({ setTab }) {
 
                 { loader && <Loader className='bg'/> }
 
-                <h5 className="flex justify-start gap-4 items-center font-semibold text-lg mb-6 select-none">
+                <h5 className="flex justify-start gap-4 items-center font-semibold text-lg mb-6 select-none dark:text-white-light/75">
                     {config.text.change_password}
                 </h5>
 
-                <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-8 p-4 pt-6 pb-2">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-8 pt-6 pb-2">
 
                     <Elements element='password' name='old_password' className='flex free-label' visible value={data.old_password} onChange={(e) => setData({...data, old_password: e})}/>
                     <Elements element='password' name='new_password' className='flex free-label' visible value={data.password} onChange={(e) => setData({...data, password: e})}/>
@@ -50,17 +50,13 @@ export default function Password ({ setTab }) {
                     <Elements element='hr' className='my-5 mb-0'/>
 
                     <div className="flex justify-end items-center gap-4">
-                        <Elements onClick={() => setTab('info')} element='cancel_button' className='min-w-[8rem] bg-danger border-danger'/>
                         <Elements onClick={_save_} element='save_button' className='min-w-[8rem]'/>
+                        <Elements onClick={() => setTab('info')} element='cancel_button' className='min-w-[8rem] bg-danger border-danger'/>
                     </div>
 
                 </div>
 
             </div>
-
-            {/* <div className='hidden justify-center items-center select-none layer-div xl:flex'>
-                <img src="/media/layout/password.png" className="w-[5rem] opacity-[.5]"/>
-            </div> */}
 
         </div>
 

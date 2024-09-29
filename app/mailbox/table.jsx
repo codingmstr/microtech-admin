@@ -64,13 +64,13 @@ export default function Table ( props ) {
 
             <div className="w-full flex justify-between items-center flex-wrap gap-4 p-4 select-none border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
 
-                <div className="w-full sm:w-auto flex justify-center items-center flex-col sm:flex-row gap-4">
+                <div className="w-full sm:w-auto flex justify-center items-center flex-col sm:flex-row gap-2">
 
                     <button type="button" onClick={() => setTab('form')} className="btn btn-outline-primary text-white bg-primary hover:opacity-[.8] w-full sm:w-auto">
                         {config.text.new_message}
                     </button>
 
-                    <div className="w-full sm:w-auto flex justify-center items-center gap-4">
+                    <div className="w-full sm:w-auto flex justify-center items-center gap-2">
 
                         <button type="button" onClick={() => { setSearch(''); setType('inbox'); }} className={`w-full btn shadow-none flex justify-center items-center gap-2 hover:opacity-[.8] ${type === 'inbox' ? 'btn-danger' : 'btn-outline-danger'}`}>
                             <Icons icon='inbox'/>

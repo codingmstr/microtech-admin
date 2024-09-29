@@ -59,11 +59,11 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
         <Fragment>
 
-            <div className={`panel select-none absolute z-10 w-full h-full max-w-full sm:max-w-xs overflow-hidden p-4 xl:relative hidden xl:block sm:border-r border-primary/30 xl:border ${menu ? '!block' : ''}`}>
+            <div className={`panel select-none absolute z-10 w-full h-full max-w-full sm:max-w-xs overflow-hidden p-4 xl:relative hidden xl:block sm:border-r border-border dark:border-border-dark xl:border ${menu ? '!block' : ''}`}>
 
                 <div className="w-full flex justify-between items-center">
 
-                    <div onClick={() => router.push('/account')} className="pointer flex items-center overflow-hidden hover:text-primary">
+                    <div onClick={() => router.push('/account')} className="pointer flex items-center overflow-hidden text-[.9rem] dark:text-white-light/75 hover:text-primary">
 
                         <Elements element='image' value={config.user.image} className='w-8 h-8'/>
 
@@ -71,7 +71,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
                     </div>
 
-                    <button onClick={() => setModel(true)} type='button' className="flex justify-center items-center w-9 h-9 mt-[-2px] rounded-full cursor-pointer hover:text-primary bg-white-light/30 hover:bg-white-light dark:bg-menu-dark/50 dark:hover:bg-menu-dark">
+                    <button onClick={() => setModel(true)} type='button' className="flex justify-center items-center w-9 h-9 mt-[-2px] rounded-full cursor-pointer border border-border dark:border-border-dark hover:text-primary bg-white-light/30 hover:bg-white-light dark:bg-menu-dark/50 dark:hover:bg-menu-dark">
                     
                         <Icons icon='message' className='scale-[.9]'/>
                         
@@ -108,7 +108,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                         
                                             <div className="mx-3 ltr:text-left rtl:text-right">
                         
-                                                <p className="font-semibold max-w-[8rem] truncate">{item.user.name}</p>
+                                                <p className="font-semibold max-w-[8rem] truncate dark:text-white-light/75">{item.user.name}</p>
                         
                                                 <p className="flex text-xs text-white-dark truncate max-w-[8rem] mt-[.2rem]">
                                                     {
