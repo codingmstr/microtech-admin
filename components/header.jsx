@@ -35,7 +35,7 @@ export default function Header () {
         else{
             const response = await api('auth/logout');
             dispatch(actions.toggle_user(null));
-            router.replace('/auth/logout');
+            router.replace('/auth/login');
         }
 
     }
@@ -91,24 +91,27 @@ export default function Header () {
 
                     </div>
 
-                    <div className='hidden md:flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70'>
+                    {
+                        config.menu !== 'horizontal' &&
+                        <div className='hidden md:flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70 ltr:mr-8 rtl:ml-8'>
 
-                        <Link href='/' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[2px]'>Dashboard</span>
-                            <span>{config.text.dashboard}</span>
-                        </Link>
-                        <Link href='/chatbox' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>chat</span>
-                            <span>{config.text.chatbox}</span>
-                        </Link>
-                        <Link href='/order' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                            <span className='material-symbols-outlined !text-[1rem] -mt-[1px]'>shopping_cart</span>
-                            <span>{config.text.orders}</span>
-                        </Link>
+                            <Link href='/' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
+                                <span className='material-symbols-outlined !text-[1.1rem] -mt-[2px]'>Dashboard</span>
+                                <span>{config.text.dashboard}</span>
+                            </Link>
+                            <Link href='/chatbox' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                                <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>chat</span>
+                                <span>{config.text.chatbox}</span>
+                            </Link>
+                            <Link href='/order' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                                <span className='material-symbols-outlined !text-[1rem] -mt-[1px]'>shopping_cart</span>
+                                <span>{config.text.orders}</span>
+                            </Link>
 
-                    </div>
+                        </div>
+                    }
 
-                    <div className='items-center flex-1 hidden md:flex px-8'>
+                    <div className='items-center flex-1 hidden md:flex'>
                       
                         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyUp={(e) => { e.key === 'Enter' && search() }} type="text" className="form-input w-[20rem] tracking-wide" placeholder={`${config.text.search} ...`}/>
                    
@@ -305,6 +308,17 @@ export default function Header () {
                         </li> : ''
                     }
                     {
+                        config.user.id ?
+                        <li className="nav-item relative">
+                            <Link href="/account" className="nav-link">
+                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
+                                    <Icons icon='user' className='dark:!text-white-light/75'/>
+                                    <span>{config.text.account}</span>
+                                </div>
+                            </Link>
+                        </li> : ''
+                    }
+                    {
                         config.user.allow_mails ?
                         <li className="nav-item relative">
                             <Link href="/mailbox" className="nav-link">
@@ -327,34 +341,12 @@ export default function Header () {
                         </li> : ''
                     }
                     {
-                        config.user.super ?
+                        config.user.allow_contacts ?
                         <li className="nav-item relative">
-                            <Link href="/setting" className="nav-link">
+                            <Link href="/contact" className="nav-link">
                                 <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='setting' className='dark:!text-white-light/75'/>
-                                    <span>{config.text.settings}</span>
-                                </div>
-                            </Link>
-                        </li> : ''
-                    }
-                    {
-                        config.user.allow_reports ?
-                        <li className="nav-item relative">
-                            <Link href="/report" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='report' className='dark:!text-white-light/75'/>
-                                    <span>{config.text.reports}</span>
-                                </div>
-                            </Link>
-                        </li> : ''
-                    }
-                    {
-                        config.user.id ?
-                        <li className="nav-item relative">
-                            <Link href="/account" className="nav-link">
-                                <div className="flex items-center ltr:pr-1 rtl:pl-1 gap-2.5">
-                                    <Icons icon='user' className='dark:!text-white-light/75'/>
-                                    <span>{config.text.account}</span>
+                                    <Icons icon='contact' className='dark:!text-white-light/75'/>
+                                    <span>{config.text.contacts}</span>
                                 </div>
                             </Link>
                         </li> : ''
@@ -413,13 +405,41 @@ export default function Header () {
                                 { config.user.allow_products ? <li><Link href="/product" rel="preload">{config.text.products}</Link></li> : '' }
                                 { config.user.allow_coupons ? <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> : '' }
                                 { config.user.allow_orders ? <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> : '' }
-                                <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.allow_reviews ? <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> : '' }
-                                { config.user.allow_contacts ? <li><Link href="/contact" rel="preload">{config.text.contacts}</Link></li> : '' }
                                 <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.allow_blogs ? <li><Link href="/blog">{config.text.blogs}</Link></li> : '' }
                                 { config.user.allow_comments ? <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> : '' }
                                 { config.user.allow_replies ? <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> : '' }
+                                
+                            </ul>
+
+                        </li> : ''
+                    }
+                    {
+                        config.user.id ?
+                        <li className="menu nav-item relative">
+
+                            <button type="button" className="nav-link">
+
+                                <div className="flex items-center gap-2.5">
+                                    <Icons icon='apps' className='dark:!text-white-light/75'/>
+                                    <span>{config.text.more}</span>
+                                </div>
+
+                                <div className="right_arrow ltr:pl-3 rtl:pr-3">
+                                    <svg className="rotate-90" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5L15 12L9 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+
+                            </button>
+
+                            <ul className="sub-menu">
+
+                                { config.user.allow_reports ? <li><Link href="/report">{config.text.reports}</Link></li> : '' }
+                                { config.user.super ? <li><Link href="/setting">{config.text.settings}</Link></li> : '' }
+                                { config.user.super ? <li><Link href="/payment">{config.text.payments}</Link></li> : '' }
+                                { config.user.super ? <li><Link href="/content">{config.text.content_manager}</Link></li> : '' }
                                 
                             </ul>
 

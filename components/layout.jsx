@@ -22,26 +22,20 @@ export default function Layout ({ children }) {
    
     useEffect(() => {
 
+        setAuth(config.user?.logged);
+
+    }, [config.user]);
+    useEffect(() => {
+
         const lang = localStorage.getItem('lang');
         dispatch(actions.toggle_dir(lang === 'ar' ? 'rtl' : 'ltr'));
 
         let current_text = English;
         if ( lang === 'ar' ) current_text = Arabic;
         if ( lang === 'en' ) current_text = English;
-        // if ( lang === 'fr' ) current_text = English;
-        // if ( lang === 'it' ) current_text = English;
-        // if ( lang === 'du' ) current_text = English;
-        // if ( lang === 'su' ) current_text = English;
-        // if ( lang === 'ru' ) current_text = English;
-        // if ( lang === 'tr' ) current_text = English;
         dispatch(actions.toggle_text(current_text));
 
     }, [dispatch, config.lang, pathname]);
-    useEffect(() => {
-
-        setAuth(config.user?.logged);
-
-    }, [config.user]);
     useEffect(() => {
 
         setAnimation(false);
@@ -49,7 +43,6 @@ export default function Layout ({ children }) {
         setTimeout(() => { setLoader(false); dispatch(actions.toggle_loader(false)); }, 500);
         setTimeout(() => active_link(pathname), 200);
         setTimeout(() => active_link(pathname), 500);
-        setTimeout(() => active_link(pathname), 1000);
 
     }, [pathname, config.animation]);
     useEffect(() => {

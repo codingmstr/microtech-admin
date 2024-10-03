@@ -1,5 +1,5 @@
 "use client";
-import { date, scroll_down, sound, print } from '@/public/script/main';
+import { api, date, scroll_down, sound, print } from '@/public/script/main';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Echo from "@/utils/echo";

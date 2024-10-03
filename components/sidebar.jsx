@@ -28,7 +28,7 @@ export default function Sidebar () {
         else{
             const response = await api('auth/logout');
             dispatch(actions.toggle_user(null));
-            router.replace('/auth/logout');
+            router.replace('/auth/login');
         }
 
     }
@@ -106,6 +106,17 @@ export default function Sidebar () {
                                 </li> : ''
                             }
                             {
+                                config.user.id ?
+                                <li className="nav-item">
+                                    <Link href="/account">
+                                        <div className="flex items-center gap-3">
+                                            <Icons icon='user' className='dark:!text-white-light/75'/>
+                                            <span>{config.text.account}</span>
+                                        </div>
+                                    </Link>
+                                </li> : ''
+                            }
+                            {
                                 config.user.allow_mails ?
                                 <li className="nav-item">
                                     <Link href="/mailbox">
@@ -116,7 +127,6 @@ export default function Sidebar () {
                                     </Link>
                                 </li> : ''
                             }
-                            {/* <div><Elements element='hr' className='my-2'/></div> */}
                             {
                                 config.user.allow_messages ?
                                 <li className="nav-item">
@@ -250,12 +260,12 @@ export default function Sidebar () {
 
                             </li>
                             {
-                                config.user.id ?
+                                config.user.allow_reports ?
                                 <li className="nav-item">
-                                    <Link href="/account">
+                                    <Link href="/report">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='user' className='dark:!text-white-light/75'/>
-                                            <span>{config.text.account}</span>
+                                            <Icons icon='report' className='dark:!text-white-light/75'/>
+                                            <span>{config.text.reports}</span>
                                         </div>
                                     </Link>
                                 </li> : ''
@@ -272,12 +282,23 @@ export default function Sidebar () {
                                 </li> : ''
                             }
                             {
-                                config.user.allow_reports ?
+                                config.user.super ?
                                 <li className="nav-item">
-                                    <Link href="/report">
+                                    <Link href="/payment">
                                         <div className="flex items-center gap-3">
-                                            <Icons icon='report' className='dark:!text-white-light/75'/>
-                                            <span>{config.text.reports}</span>
+                                            <Icons icon='payment' className='dark:!text-white-light/75'/>
+                                            <span>{config.text.payments}</span>
+                                        </div>
+                                    </Link>
+                                </li> : ''
+                            }
+                            {
+                                config.user.super ?
+                                <li className="nav-item">
+                                    <Link href="/content">
+                                        <div className="flex items-center gap-3">
+                                            <Icons icon='content' className='dark:!text-white-light/75'/>
+                                            <span>{config.text.content_manager}</span>
                                         </div>
                                     </Link>
                                 </li> : ''

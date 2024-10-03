@@ -261,7 +261,7 @@ export const English = {
     destroy: 'Destroy',
     empty: 'Empty',
     type_msg: 'Type a Message',
-    content_manager: 'Content Manager',
+    content_manager: 'CMS Manager',
     logo: 'Logo',
     site_logo: 'Site Logo',
     mailbox: 'Mailbox',
@@ -484,5 +484,5 @@ export const English = {
     tr: 'Turkish',
     curr: 'R.S',
     v: 'V',
-
+    
 }

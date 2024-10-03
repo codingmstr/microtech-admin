@@ -43,6 +43,7 @@ body{
     scroll-behavior: smooth;
     &::-webkit-scrollbar{ width: .45rem; }
     &::-webkit-scrollbar-thumb{ @apply bg-primary rounded-md; }
+    &:hover{ &::-webkit-scrollbar-thumb{ @apply bg-primary; } }
 }
 
 .no-select, img, video{

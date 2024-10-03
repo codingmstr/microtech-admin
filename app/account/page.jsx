@@ -17,6 +17,8 @@ export default function Account () {
 
         <div className="w-full flex flex-col gap-5">
 
+            <Elements element='page_title' label='account' name='account'/>
+
             <Elements element='tabs'>
                 <li onClick={() => setTab('info')} className={`${tab === 'info' && 'active'}`}>
                     <Icons icon='information'/>
