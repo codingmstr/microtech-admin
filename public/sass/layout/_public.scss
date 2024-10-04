@@ -53,6 +53,10 @@ body{
     text-decoration: none;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 .layer-div{
     position: relative;
     &::after{

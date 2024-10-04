@@ -1,6 +1,6 @@
 export const Currencies = [
     { "code": "EGP", "name": "EGP"},
-    { "code": "SU", "name": "SU"},
+    { "code": "SAR", "name": "SAR"},
     { "code": "USD", "name": "USD"},
     { "code": "EUR", "name": "EUR"},
 ]
