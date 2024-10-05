@@ -108,7 +108,7 @@ table tr .mantine-Checkbox-root {
     @apply grid h-5 w-5 place-content-center overflow-hidden rounded  border-0  bg-transparent text-primary;
 }
 .mantine-Checkbox-inner > .mantine-Checkbox-input {
-    @apply border-2 border-white-light bg-transparent dark:!border-[#253b5c];
+    @apply border-2 border-border bg-transparent dark:!border-border-dark;
 }
 .mantine-Checkbox-inner > .mantine-Checkbox-input:checked {
     @apply !border-primary bg-primary;
