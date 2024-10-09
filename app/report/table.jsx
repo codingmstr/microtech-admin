@@ -68,7 +68,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                                 : status === 'request' ?
                                 <span className='badge badge-info'>{config.text.request}</span>
                                 : status === 'pending' ?
-                                <span className='badge badge-warning'>{config.text.pending}</span> : '--'
+                                <span className='badge badge-warning'>{config.text.pending}</span> : config.text[status] || '--'
                             }
                         </div>
                     )

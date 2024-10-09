@@ -1,9 +1,9 @@
 "use client";
+import { api, date, alert_msg, print } from "@/public/script/main";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '@/public/script/store';
-import { api, date, alert_msg } from "@/public/script/main";
 import Loader from "@/components/loader";
 import Link from "next/link";
 

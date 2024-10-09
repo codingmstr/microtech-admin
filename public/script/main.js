@@ -3,40 +3,24 @@ import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
 export const storage = process.env.NEXT_PUBLIC_STORAGE_URL;
 
-export async function api ( url, data, method ) {
+export async function api ( url, data ) {
 
-    url = url ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/${url}` : '';
-    data = data ? data : {host: location.host};
-    method = method ? method.toUpperCase() : 'POST';
+    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/${url}`;
 
-    async function _get_ () {
+    let form = new FormData();
+    Object.keys(data || {}).forEach(_ => form.append(_, data[_]));
 
-        const response = await fetch(url);
-        let res = await response.text();
-        try{ return JSON.parse(res); }catch(e) { return res; }
-
-    }
-    async function _other_ () {
-
-        let form = new FormData();
-        Object.keys(data).forEach(_ => form.append(_, data[_]));
-        const response = await fetch(url, {
-            method: method,
-            body: form,
-            cache: 'no-store',
-            headers: {
-                'Authorization': `Bearer ${get_cookie('user')?.token || ''}`
-            }
-        });
-        let res = await response.text();
-        try{ return JSON.parse(res); }catch(e) { return res; }
-
-    }
-
-    if ( method === 'GET' ) try{ return await _get_(); } catch(e){}
-    else try{ return await _other_(); } catch(e){}
+    const response = await fetch(url, {
+        method: 'POST',
+        body: form,
+        cache: 'no-store',
+        headers: {
+            'Authorization': `Bearer ${get_cookie('user')?.token}`,
+        }
+    });
     
-    return false;
+    const res = await response.text();
+    try{ return JSON.parse(res); }catch(e){ return res; }
 
 }
 export function sound ( src, vol, lazey=true ) {
@@ -327,6 +311,12 @@ export function round ( num, _ ) {
     if ( !_ ) return parseInt(num) || 0;
 
     return parseFloat(num).toFixed(_);
+
+}
+export function parse ( _ ) {
+
+    if ( Array.isArray(_)  ) return _;
+    return JSON.parse(_ || '[]') || [];
 
 }
 export function language () {

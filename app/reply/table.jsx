@@ -14,7 +14,6 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
         <Table
             id={id} system={system} setForm={setForm} setId={setId}
             searchParams={params} item_filters={item_filters} {...options}
-            add={false}
             columns={[
                 {
                     accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (

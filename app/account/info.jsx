@@ -56,12 +56,11 @@ export default function Info ({ data, setData }) {
                         <Elements element='input' type='text' name='company' value={data.company} onChange={(e) => setData({...data, company: e})}/>
                         <Elements element='input' type='number' name='age' value={data.age} onChange={(e) => setData({...data, age: e})}/>
 
-                        <Elements element='languages' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
-                        <Elements element='select_currency' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
-                        <Elements element='countries' name='country' value={data.country} onChange={(e) => setData({...data, country: e})}/>
+                        <Elements element='languages' name='language' value={data.language || 'ar'} onChange={(e) => setData({...data, language: e})}/>
+                        <Elements element='select_currency' name='currency' value={data.currency || 'usd'} onChange={(e) => setData({...data, currency: e})}/>
+                        <Elements element='countries' name='country' value={data.country || 'EG'} onChange={(e) => setData({...data, country: e})}/>
                         <Elements element='input' type='text' name='city' value={data.city} onChange={(e) => setData({...data, city: e})}/>
 
-                        <Elements element='input' type='text' name='salary' value={fix_number(data.salary, true)} readOnly/>
                         <Elements element='input' name='device' value={data.ip} readOnly/>
                         <Elements element='input' name='last_login' value={fix_date(data.login_at)} readOnly/>
 

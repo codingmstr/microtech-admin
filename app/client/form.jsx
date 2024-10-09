@@ -2,14 +2,14 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 
     return (
 
         <Form
-            id={id} system={system} setForm={setForm}
+            id={id} system={system} setForm={setForm} wallet={true}
             related={[
                 {
                     name: 'order',
@@ -22,16 +22,9 @@ export default function _Form_ ({ system, id, setForm }) {
                     name: 'review',
                     label: 'reviews',
                     icon: 'review',
-                    filters: { user_id: id },
+                    filters: { client_id: id },
                     options: { use_filters: false },
                 },
-                {
-                    name: 'comment',
-                    label: 'comments',
-                    icon: 'comment',
-                    filters: { user_id: id },
-                    options: { use_filters: false },
-                }
             ]}
             general={[
                 {
@@ -54,13 +47,12 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'text', name: 'balance', class: 'flex', readOnly: true},
-                        {element: 'input', type: 'number', name: 'age', class: 'flex'},
-                        {element: 'languages', name: 'language', class: 'flex'},
-                        {element: 'countries', name: 'country', class: 'flex'},
+                        {element: 'input', type: 'date', name: 'birth_date', class: 'flex'},
+                        {element: 'select_gender', name: 'gender', class: 'flex', value: 'male'},
+                        {element: 'languages', name: 'language', class: 'flex', value: 'ar'},
+                        {element: 'countries', name: 'country', class: 'flex', value: 'EG'},
                         {element: 'input', type: 'text', name: 'city', class: 'flex'},
                         {element: 'input', type: 'text', name: 'street', class: 'flex'},
-                        
                     ],
                 },
                 {
@@ -78,14 +70,14 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: false},
                     inputs: [
-                        {element: 'toggle', name: 'allow_login'},
+                        {element: 'toggle', name: 'allow_orders', label: 'orders'},
                         {element: 'toggle', name: 'active'},
                     ],
                 },
             ]}
             settings={[
                 {
-                    options: {cols: 3, gap: 6, hr: false},
+                    options: {cols: 3, gap: 1, hr: false, class: 'gap-y-6'},
                     inputs: [
                         {element: 'toggle', name: 'allow_orders'},
                         {element: 'toggle', name: 'allow_coupons'},

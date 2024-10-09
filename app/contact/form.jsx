@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 

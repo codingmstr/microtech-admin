@@ -31,7 +31,7 @@ export default function Quill ({ value, onChange, className }) {
                 modules={modules} 
                 className={className} 
                 value={value || ''} 
-                onChange={(content, delta, source, editor) => onChange(content, editor.getText())}
+                onChange={(content, delta, source, editor) => onChange(content, editor.getText() === '\n' ? '' : editor.getText())}
             />
 
         </div>

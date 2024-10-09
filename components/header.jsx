@@ -53,7 +53,7 @@ export default function Header () {
                             <Icons icon='menu'/>
                         </button>
 
-                        <Link href="/" className="hidden md:flex items-center gap-3 ltr:mr-4 rtl:ml-4">
+                        <Link href="/" className="hidden md:flex items-center gap-3 ltr:mr-5 rtl:ml-5 ltr:ml-2 rtl:mr-2">
                             
                             <div>
                                 <svg className='fill-primary w-8 h-8' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 553.048 553.048" xmlSpace="preserve">
@@ -84,7 +84,7 @@ export default function Header () {
                             </div>
 
                             <div className="text-[1.1rem] font-bold tracking-wide lg:inline dark:text-white-light">
-                                <p>Bookinzy.com</p>
+                                <p>{config.text.logo1}</p>
                             </div>
 
                         </Link>
@@ -96,17 +96,23 @@ export default function Header () {
                         <div className='hidden md:flex items-center gap-1 text-gray-600 dark:text-[#b8dded]/70 ltr:mr-8 rtl:ml-8'>
 
                             <Link href='/' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide text-primary bg-primary/10'>
-                                <span className='material-symbols-outlined !text-[1.1rem] -mt-[2px]'>Dashboard</span>
+                                <span className='material-symbols-outlined !text-[1.3rem] -mt-[1px]'>Dashboard</span>
                                 <span>{config.text.dashboard}</span>
                             </Link>
-                            <Link href='/chatbox' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                                <span className='material-symbols-outlined !text-[1.1rem] -mt-[1px]'>chat</span>
-                                <span>{config.text.chatbox}</span>
-                            </Link>
-                            <Link href='/order' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
-                                <span className='material-symbols-outlined !text-[1rem] -mt-[1px]'>shopping_cart</span>
-                                <span>{config.text.orders}</span>
-                            </Link>
+                            {
+                                config.user.allow_messages &&
+                                <Link href='/chatbox' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                                    <span className='material-symbols-outlined !text-[1.3rem]'>chat</span>
+                                    <span>{config.text.chatbox}</span>
+                                </Link>
+                            }
+                            {
+                                config.user.allow_orders &&
+                                <Link href='/order' className='flex items-center gap-2.5 text-[.9rem] rounded-md py-2.5 px-4 tracking-wide hover:text-primary hover:bg-primary/10'>
+                                    <span className='material-symbols-outlined !text-[1.2rem] -mt-[1px]'>shopping_cart</span>
+                                    <span>{config.text.orders}</span>
+                                </Link>
+                            }
 
                         </div>
                     }

@@ -74,7 +74,7 @@ export default function Sidebar () {
                                 </svg>
                             </div>
 
-                            <div className="text-[1.1rem] font-bold tracking-wide lg:inline dark:text-white-light space-y-0.5">
+                            <div className={`text-[1.1rem] font-bold tracking-wide dark:text-white-light space-y-0.5 ${config.menu === 'collapsible-vertical' && 'text-[1rem] mx-3'}`}>
                                 <p>{config.text.logo1}</p>
                                 <p className='text-[.7rem] opacity-[.7]'>{config.text.v} 0.1.2</p>
                             </div>

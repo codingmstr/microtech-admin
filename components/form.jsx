@@ -8,12 +8,13 @@ import Loader from './loader';
 import Elements from './elements';
 import Icons from './icons';
 import Panel from "./panel";
+import Wallet from "./wallet";
 
 export default function Form ( props ) {
 
     const config = useSelector((state) => state.config);
     const router = useRouter();
-    const { system='', id=0, save=true, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
+    const { system='', id=0, save=true, wallet, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
     const [loader, setLoader] = useState(true);
     const [items, setItems] = useState([...general, ...settings, ...sidebar]);
     const [data, setData] = useState({});
@@ -163,6 +164,13 @@ export default function Form ( props ) {
                                     <span>{config.text.information}</span>
                                 </li>
                                 {
+                                    wallet && id && config.user[`allow_${system}s_wallet`] ?
+                                    <li onClick={() => setTab('wallet')} className={`${tab === 'wallet' && 'active'}`}>
+                                        <span className='material-symbols-outlined !text-[1.3rem]'>account_balance_wallet</span>
+                                        <span>{config.text.wallet}</span>
+                                    </li> : ''
+                                }
+                                {
                                     settings.length ?
                                     <li onClick={() => setTab('settings')} className={`${tab === 'settings' && 'active'}`}>
                                         <Icons icon='setting'/>
@@ -170,7 +178,7 @@ export default function Form ( props ) {
                                     </li> : ''
                                 }
                                 {
-                                    id && statistics.length ?
+                                    id && statistics.length && config.user.allow_statistics ?
                                     <li onClick={() => setTab('statistics')} className={`${tab === 'statistics' && 'active'}`}>
                                         <Icons icon='chart'/>
                                         <span>{config.text.statistics}</span>
@@ -179,10 +187,13 @@ export default function Form ( props ) {
                                 {
                                     id && related.length ?
                                     related.map((system, index) => 
-                                        <li key={index} onClick={() => setTab(system.name)} className={`${tab === system.name && 'active'}`}>
-                                            <Icons icon={system.icon}/>
-                                            <span>{config.text[system.label || system.name]}</span>
-                                        </li>
+                                        {
+                                            return config.user[`allow_${system.name === 'reply' ? 'replie' : system.name}s`] ?
+                                            <li key={index} onClick={() => setTab(system.name)} className={`${tab === system.name && 'active'}`}>
+                                                <Icons icon={system.icon}/>
+                                                <span>{config.text[system.label || system.name]}</span>
+                                            </li> : ''
+                                        }
                                     ) : ''
                                 }
                             </Elements>
@@ -190,6 +201,7 @@ export default function Form ( props ) {
                             <div className='xl:min-h-[calc(100vh_-_170px)]'>
 
                                 { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'wallet' && <div className='panel p-6'><Wallet system={system} id={id}/></div> }
                                 { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData} system={system}/></div> }
                                 { tab === 'statistics' && <Panel items={statistics} data={data.statistics || {}} setData={setData} system={system}/> }
 

@@ -173,7 +173,7 @@
 
     /* Collapsible vertical layouts */
     .collapsible-vertical .sidebar {
-        @apply hover:w-[270px] ltr:-left-[270px] rtl:-right-[270px] lg:w-[70px] lg:ltr:left-0 lg:rtl:right-0;
+        @apply hover:w-[270px] ltr:-left-[270px] rtl:-right-[270px] lg:w-[80px] lg:ltr:left-0 lg:rtl:right-0;
     }
     .collapsible-vertical.toggle-sidebar .sidebar {
         @apply ltr:left-0 rtl:right-0;
@@ -181,8 +181,11 @@
     .collapsible-vertical.toggle-sidebar .sidebar {
         @apply lg:w-[270px];
     }
-    .collapsible-vertical.toggle-sidebar .sidebar .nav-item > a {
-        @apply w-auto;
+    .collapsible-vertical .sidebar .nav-item > a {
+        @apply w-full;
+    }
+    .collapsible-vertical .sidebar .nav-item > a div{
+        @apply gap-4;
     }
     .collapsible-vertical.toggle-sidebar .main-content {
         @apply lg:w-[calc(100%-270px)] lg:ltr:ml-[270px] lg:rtl:mr-[270px];
@@ -358,6 +361,10 @@
     }
     [dir='rtl'] select {
         background-position: left 0.5rem center;
+    }
+    input[type='text_number']{
+        font-family: 'Nunito', 'sans-serif';
+        @apply tracking-wide !text-[.9rem];
     }
 
     .has-error .form-input,

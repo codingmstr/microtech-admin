@@ -1,5 +1,5 @@
 "use client";
-import { lower, storage, alert_msg, read_file, fix_date, fix_number, print, copy } from "@/public/script/main";
+import { lower, storage, alert_msg, read_file, fix_date, fix_number, print, copy, parse } from "@/public/script/main";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux';
 import { Countries } from "@/utils/countries";
@@ -18,13 +18,15 @@ export default function Elements ( props ) {
     const {
         element, value, name, label, type, rows, visible, readOnly, className='',
         onChange, onClick, children, button, multiple, focus, roles, slider,
-        color, icon, height, copyable,
+        color, icon, height, copyable, onKeyUp, inputRef,
     } = props
     const config = useSelector((state) => state.config);
     const ref = useRef(null);
     const [visibility, setVisibility] = useState(visible || false);
     const [model, setModel] = useState(false);
     const [src, setSrc] = useState(`${storage}/${value}`);
+    const [count, setCount] = useState(1);
+    const [list, setList] = useState([]);
 
     const change_file = async( f, type ) => {
 
@@ -45,7 +47,14 @@ export default function Elements ( props ) {
 
         setSrc(`${storage}/${value}`);
         if ( focus ) setTimeout(_ => ref.current?.focus(), 100);
-        
+
+        if ( ['time_list', 'include_list', 'expected_list'].includes(element) ) {
+            
+            setList(parse(value) || []);
+            setCount(parse(value)?.length || 1);
+            
+        }
+
     }, [value]);
 
     return (
@@ -56,7 +65,7 @@ export default function Elements ( props ) {
                 <div className={`image overflow-hidden bg-white-dark dark:bg-menu-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem]'} ${className || 'w-full h-full'}`}>
                     <img 
                         src={`${storage}/${value}`} 
-                        className={`w-full h-full object-cover ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem]'}`} 
+                        className={`w-full h-full object-cover ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem] md'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -64,10 +73,10 @@ export default function Elements ( props ) {
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark rounded-${type !== 'md' ? 'full' : 'sm'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark ${type !== 'md' ? 'rounded-full' : 'rounded-sm'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
                     <img 
                         src={src} 
-                        className={`object-cover ${type === 'md' ? 'w-full h-full' : 'w-full h-full'}`} 
+                        className={`object-cover ${type === 'md' ? 'w-full h-full md' : 'w-full h-full'}`} 
                         onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
@@ -98,7 +107,7 @@ export default function Elements ( props ) {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={type || 'text'} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={ref} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
+                    <input id={name} type={type || 'text'} onKeyUp={onKeyUp} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={focus ? ref : inputRef} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
@@ -146,10 +155,19 @@ export default function Elements ( props ) {
                 </div>
             }
             {
+                element === 'select_gender' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        { ['male', 'female', 'none'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) }
+                    </select>
+                </div>
+            }
+            {
                 element === 'select_currency' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'SAR'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || 'USD'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { Currencies?.map((item, index) => <option key={index} value={item.code}>{item.name}</option>) }
                     </select>
                 </div>
@@ -158,7 +176,7 @@ export default function Elements ( props ) {
                 element === 'countries' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'SA'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || 'EG'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { Countries?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
                     </select>
                 </div>
@@ -167,7 +185,7 @@ export default function Elements ( props ) {
                 element === 'languages' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'AR'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                    <select id={name} value={value || 'ar'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
                         { Languages?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
                     </select>
                 </div>
@@ -251,7 +269,7 @@ export default function Elements ( props ) {
                         </div> : ''
                     }
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={'text'} value={children.find(_ => _.id == value)?.name || children.find(_ => _.id == value)?.title || '--'} readOnly={true} onClick={() => !readOnly && setModel(true)} className={`form-input flex-1 ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}/>
+                    <input id={name} type={'text'} value={children.find(_ => _.id == value)?.name || children.find(_ => _.id == value)?.title || children.find(_ => _.id == value)?.content || '--'} readOnly={true} onClick={() => !readOnly && setModel(true)} className={`form-input flex-1 ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}/>
                     { !readOnly && <Select model={model} setModel={setModel} data={children} label={lower(label || name)} onChange={onChange} roles={roles} type={(name.includes('client') || name.includes('vendor') || name.includes('admin') || name.includes('user')) ? '' : 'md'}/> }
                 </div>
             }
@@ -390,6 +408,185 @@ export default function Elements ( props ) {
                         <div className='layer-div'>
                             <img src="/media/layout/chatbc.png" className='max-w-full h-full'/>
                         </div>
+                    </div>
+
+                </div>
+            }
+            {
+                element === 'time_list' &&
+                <div className="flex flex-col gap-4">
+
+                    <label className='cursor-default line-clamp-1'>{config.text.available_times}</label>
+
+                    <div className="panel !px-6 !py-8 w-full grid grid-cols-2 md:grid-cols-2 gap-5 duration-300 transition-all">
+                        {
+                            Array.from({ length: count }, (_, i) => 
+                                <div key={i} className="w-full relative px-4 py-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
+
+                                    <label htmlFor={i} className='cursor-default line-clamp-1 mb-4'>{config.text.time} {i+1}</label>
+
+                                    <input 
+                                        id={i}
+                                        type="time" 
+                                        className="form-input" 
+                                        value={list[i] || ''} 
+                                        onChange={(e) => {
+                                            const newValues = [...list];
+                                            newValues[i] = e.target.value;
+                                            onChange(JSON.stringify(newValues));
+                                        }} 
+                                    />
+
+                                    <div onClick={() => { onChange(JSON.stringify(list.filter((_, index) => index !== i))); setCount( count-1 || 1); }} className="absolute top-4 ltr:right-4 rtl:left-4 w-[1.7rem] h-[1.7rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]">
+                                        <Icons icon='close' className='!w-4 -h-4'/>
+                                    </div>
+
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <div className="w-full flex justify-end items-center gap-3 pt-2 select-none">
+
+                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
+                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
+                            <span>{config.text.add_new}</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            }
+            {
+                element === 'include_list' &&
+                <div className="flex flex-col gap-5">
+
+                    <label className='cursor-default line-clamp-1 mb-4'>{config.text.what_include}</label>
+
+                    <div className="panel !px-6 !py-8 w-full grid grid-cols-2 md:grid-cols-2 gap-5 duration-300 transition-all">
+
+                        {
+                            Array.from({ length: count }, (_, i) => 
+                                <div key={i} className="w-full relative px-4 py-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
+
+                                    <input 
+                                        id={i}
+                                        type="text" 
+                                        className="form-input !py-3 !px-5" 
+                                        value={list[i] || ''} 
+                                        onChange={(e) => {
+                                            const newValues = [...list];
+                                            newValues[i] = e.target.value;
+                                            onChange(JSON.stringify(newValues));
+                                        }} 
+                                    />
+
+                                    <div onClick={() => { onChange(JSON.stringify(list.filter((_, index) => index !== i))); setCount( count-1 || 1); }} className="absolute top-7 ltr:right-7 rtl:left-7 w-[1.7rem] h-[1.7rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]">
+                                        <Icons icon='close' className='!w-4 -h-4'/>
+                                    </div>
+
+                                </div>
+                            )
+                        }
+
+                    </div>
+
+                    <div className="w-full flex justify-end items-center gap-3 select-none">
+
+                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
+                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
+                            <span>{config.text.add_new}</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            }
+            {
+                element === 'expected_list' &&
+                <div className="flex flex-col gap-5">
+
+                    <label className='cursor-default line-clamp-1 mb-4'>{config.text.what_expected}</label>
+
+                    <div className="panel !px-6 !py-8 w-full grid grid-cols-1 gap-5 duration-300 transition-all">
+
+                        {
+                            Array.from({ length: count }, (_, i) => 
+                                <div key={i} className="w-full relative p-5 px-6 space-y-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
+                                    
+                                    <div className="w-full flex justify-between items-center">
+                                        
+                                        <label className='cursor-default line-clamp-1 w-[5.5rem] text-[1.2rem] font-semibold'>{i+1}</label>
+
+                                        <div className="w-[1.8rem] h-[1.8rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]"
+                                            onClick={() => { 
+                                                onChange(JSON.stringify(list.filter((_, index) => index !== i))); 
+                                                setList(list.filter((_, index) => index !== i)); 
+                                                setCount(count-1 || 1);
+                                            }}>
+
+                                            <Icons icon='close' className='!w-5 -h-5'/>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-5">
+
+                                        <input 
+                                            type="text" 
+                                            className="form-input" 
+                                            placeholder={config.text.place_name}
+                                            value={list[i]?.name || ''} 
+                                            onChange={(e) => {
+                                                const newValues = [...list];
+                                                newValues[i] = {...list[i], name: e.target.value};
+                                                onChange(JSON.stringify(newValues));
+                                                setList(newValues);
+                                            }} 
+                                        />
+
+                                        <input 
+                                            type="text" 
+                                            className="form-input" 
+                                            placeholder={config.text.expected_time}
+                                            value={list[i]?.time || ''} 
+                                            onChange={(e) => {
+                                                const newValues = [...list];
+                                                newValues[i] = {...list[i], time: e.target.value};
+                                                onChange(JSON.stringify(newValues));
+                                                setList(newValues);
+                                            }} 
+                                        />
+
+                                    </div>
+
+                                    <div className="pt-2">
+                                        <Quill 
+                                            className='ql-editor-small' 
+                                            value={list[i]?.content || ''} 
+                                            onChange={(e, text) => {
+                                                const newValues = [...list];
+                                                newValues[i] = {...list[i], content: e, description: text};
+                                                onChange(JSON.stringify(newValues));
+                                                setList(newValues);
+                                            }} 
+                                        />
+                                    </div>
+
+                                </div>
+                            )
+                        }
+
+                    </div>
+
+                    <div className="w-full flex justify-end items-center gap-3 select-none">
+
+                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
+                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
+                            <span>{config.text.add_new}</span>
+                        </button>
+
                     </div>
 
                 </div>

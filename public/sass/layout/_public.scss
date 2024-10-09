@@ -18,7 +18,6 @@
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
@@ -79,7 +78,7 @@ body{
 
 .empty-image{
     @apply opacity-[.7] dark:opacity-[.3];
-    &.rounded-md{ @apply max-w-[80%] max-h-[80%]; }
+    &.md{ @apply w-auto h-auto max-w-[90%] max-h-[90%] object-fill; }
 }
 
 .datatables{
@@ -176,8 +175,8 @@ body{
     *:not(.material-symbols-outlined){
         font-family: 'Tajawal', sans-serif;
         font-weight: 500;
+        input:not([type="text"]){ font-family: 'Nunito', 'sans-serif'; }
     }
-    
 }
 
 @media (max-width: 800px) {

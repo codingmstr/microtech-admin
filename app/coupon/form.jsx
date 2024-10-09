@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 
@@ -20,10 +20,10 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'select_menu', name: 'vendor_id', label: 'vendor', class: 'flex', children: 'vendors'},
-                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories'},
-                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products'},
-                        {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients'},
+                        {element: 'select_menu', name: 'vendor_id', label: 'vendor', class: 'flex', children: 'vendors', value: params.vendor_id},
+                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories', value: params.category_id},
+                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products', value: params.product_id},
+                        {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', value: params.client_id},
                         {element: 'input', type: 'text', name: 'name', class: 'flex', required: true},
                         {element: 'input', type: 'number', name: 'discount', class: 'flex', required: true},
                     ],

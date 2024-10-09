@@ -81,7 +81,7 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                                     
                                     <h6 className="text-base name text-[.9rem]">
                                         
-                                        <p className='line-clamp-2 text-ellipsis'>{item.name || item.title || ''}</p>
+                                        <p className='line-clamp-2 text-ellipsis'>{item.name || item.title || item.content || ''}</p>
                                         
                                     </h6>
 

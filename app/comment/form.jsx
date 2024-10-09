@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 
@@ -27,8 +27,8 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id, required: !id},
-                        {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', readOnly: id},
+                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id, required: !id, value: params.blog_id},
+                        {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', readOnly: id, value: params.client_id},
                     ],
                 },
                 {

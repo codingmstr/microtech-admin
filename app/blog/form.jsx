@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 
@@ -15,6 +15,13 @@ export default function _Form_ ({ system, id, setForm }) {
                     name: 'comment',
                     label: 'comments',
                     icon: 'comment',
+                    filters: { blog_id: id },
+                    options: { use_filters: false },
+                },
+                {
+                    name: 'reply',
+                    label: 'replies',
+                    icon: 'reply',
                     filters: { blog_id: id },
                     options: { use_filters: false },
                 },

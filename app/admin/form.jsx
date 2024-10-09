@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import Form from "@/components/form";
 
-export default function _Form_ ({ system, id, setForm }) {
+export default function _Form_ ({ system, id, setForm, params }) {
 
     const config = useSelector((state) => state.config);
 
@@ -23,7 +23,7 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 3, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'text', name: 'id', label: 'item_id', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'number', name: 'id', label: 'item_id', class: 'flex', readOnly: true},
                         {element: 'input', type: 'text', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
                         {element: 'input', type: 'text', name: 'ip', label: 'device', class: 'flex', readOnly: true},
                     ],
@@ -40,13 +40,12 @@ export default function _Form_ ({ system, id, setForm }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'number', name: 'salary', class: 'flex'},
-                        {element: 'input', type: 'number', name: 'age', class: 'flex'},
-                        {element: 'languages', name: 'language', class: 'flex'},
-                        {element: 'countries', name: 'country', class: 'flex'},
+                        {element: 'input', type: 'date', name: 'birth_date', class: 'flex'},
+                        {element: 'select_gender', name: 'gender', class: 'flex', value: 'male'},
+                        {element: 'languages', name: 'language', class: 'flex', value: 'ar'},
+                        {element: 'countries', name: 'country', class: 'flex', value: 'EG'},
                         {element: 'input', type: 'text', name: 'city', class: 'flex'},
                         {element: 'input', type: 'text', name: 'street', class: 'flex'},
-                        
                     ],
                 },
                 {
@@ -62,7 +61,7 @@ export default function _Form_ ({ system, id, setForm }) {
                     inputs: [{element: 'image_edit', name: 'image', class: 'w-[10rem] h-[10rem]'}],
                 },
                 {
-                    options: {cols: 2, gap: 6, hr: false},
+                    options: {cols: 2, gap: 1, hr: false},
                     inputs: [
                         {element: 'toggle', name: 'supervisor', value: false},
                         {element: 'toggle', name: 'active'},
@@ -71,7 +70,7 @@ export default function _Form_ ({ system, id, setForm }) {
             ]}
             settings={[
                 {
-                    options: {cols: 3, gap: 6, hr: false},
+                    options: {cols: 3, gap: 1, hr: false, class: 'gap-y-6'},
                     inputs: [
                         {element: 'toggle', name: 'allow_categories'},
                         {element: 'toggle', name: 'allow_products'},
@@ -88,6 +87,8 @@ export default function _Form_ ({ system, id, setForm }) {
                         {element: 'toggle', name: 'allow_messages'},
                         {element: 'toggle', name: 'allow_statistics'},
                         {element: 'toggle', name: 'allow_login'},
+                        {element: 'toggle', name: 'allow_vendors_wallet', value: false},
+                        {element: 'toggle', name: 'allow_clients_wallet', value: false},
                         {element: 'toggle', name: 'allow_reports', value: false},
                         {element: 'toggle', name: 'supervisor', value: false},
                         {element: 'toggle', name: 'active'},

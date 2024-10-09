@@ -41,8 +41,9 @@ export default function Layout ({ children }) {
         setAnimation(false);
         setTimeout(() => setAnimation(config.animation));
         setTimeout(() => { setLoader(false); dispatch(actions.toggle_loader(false)); }, 500);
-        setTimeout(() => active_link(pathname), 200);
-        setTimeout(() => active_link(pathname), 500);
+        setTimeout(() => active_link(pathname), 300);
+        setTimeout(() => active_link(pathname), 700);
+        setTimeout(() => active_link(pathname), 1000);
 
     }, [pathname, config.animation]);
     useEffect(() => {
