@@ -550,5 +550,8 @@ export const Arabic = {
     from_buy_to_buy: 'من رصيد الشراء للشراء',
     vendor_wallet: 'محفظة البائع',
     client_wallet: 'محفظة العميل',
+    deposit_money: 'إضافة رصيد',
+    withdraw_money: 'سحب رصيد',
+    convert_balances: 'تحويل الأرصدة',
 
 }

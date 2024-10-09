@@ -7,7 +7,7 @@ import Model from './model';
 import Icons from './icons';
 import Loader from './loader';
 
-export default function _Form_ ({ system, id }) {
+export default function Wallet ({ system, id }) {
 
     const config = useSelector((state) => state.config);
     const ref = useRef(null);
@@ -15,7 +15,8 @@ export default function _Form_ ({ system, id }) {
     const [total, setTotal] = useState(0);
     const [amount, setAmount] = useState('');
     const [data, setData] = useState({});
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
+    const [mailLoader, setMailLoader] = useState(true);
     const [error, setError] = useState(false);
     const [model, setModel] = useState(false);
     const [model1, setModel1] = useState(false);
@@ -26,10 +27,9 @@ export default function _Form_ ({ system, id }) {
 
     const _get_ = async() => {
 
-        setLoader(true);
         const response = await api(`${system}/${id}/wallet`);
         setData(response.wallet || {});
-        setLoader(false);
+        setMailLoader(false);
 
     }
     const _deposit_ = async() => {
@@ -150,7 +150,7 @@ export default function _Form_ ({ system, id }) {
 
         <div className='w-full relative'>
 
-            { loader && <Loader className='bg medium'/> }
+            { mailLoader && <Loader className='bg'/> }
 
             <div className='dark:text-white-light/75 mt-2 mb-7 flex items-center gap-3'>
                 <span className='material-symbols-outlined text-[1.4rem]'>account_balance_wallet</span>
@@ -175,12 +175,12 @@ export default function _Form_ ({ system, id }) {
                 <div className='w-full flex justify-between items-center gap-3 gap-y-7 select-none'>
 
                     <div className='flex items-center gap-3'>
-                        <button onClick={() => setModel(true)} className='btn btn-success shadow-none hover:opacity-[.8] !py-2.5 !px-6'>{config.text.add_balance}</button>
-                        <button onClick={() => setModel1(true)} className='btn btn-danger shadow-none hover:opacity-[.8] !py-2.5 !px-6'>{config.text.withdraw}</button>
+                        <button onClick={() => setModel(true)} className='btn btn-success shadow-none hover:opacity-[.8] !py-2.5 !px-6 font-semibold tracking-wide'>{config.text.deposit_money}</button>
+                        <button onClick={() => setModel1(true)} className='btn btn-danger shadow-none hover:opacity-[.8] !py-2.5 !px-6 font-semibold tracking-wide'>{config.text.withdraw_money}</button>
                     </div>
 
                     <div className='flex items-center gap-3'>
-                        <button onClick={() => setModel2(true)} className='btn btn-info shadow-none hover:opacity-[.8] !py-2.5 !px-6'>{config.text.convert_balance}</button>
+                        <button onClick={() => setModel2(true)} className='btn btn-info shadow-none hover:opacity-[.8] !py-2.5 !px-6 font-semibold tracking-wide'>{config.text.convert_balances}</button>
                     </div>
 
                 </div>
@@ -242,8 +242,8 @@ export default function _Form_ ({ system, id }) {
                     </div>
                     
                     <div className='flex items-center gap-3 p-5 border-t border-border dark:border-border-dark select-none'>
-                        <button onClick={_deposit_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.add}</button>
                         <button onClick={() => setModel(false)} className='btn btn-danger shadow-none hover:opacity-[.8]'>{config.text.cancel}</button>
+                        <button onClick={_deposit_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.add}</button>
                     </div>
 
                 </div>
@@ -315,8 +315,8 @@ export default function _Form_ ({ system, id }) {
                     </div>
                     
                     <div className='flex items-center gap-3 p-5 border-t border-border dark:border-border-dark select-none'>
-                        <button onClick={_withdraw_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.withdraw}</button>
                         <button onClick={() => setModel1(false)} className='btn btn-danger shadow-none hover:opacity-[.8]'>{config.text.cancel}</button>
+                        <button onClick={_withdraw_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.withdraw}</button>
                     </div>
 
                 </div>
@@ -416,8 +416,8 @@ export default function _Form_ ({ system, id }) {
                     </div>
                     
                     <div className='flex items-center gap-3 p-5 border-t border-border dark:border-border-dark select-none'>
-                        <button onClick={_convert_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.convert}</button>
                         <button onClick={() => setModel2(false)} className='btn btn-danger shadow-none hover:opacity-[.8]'>{config.text.cancel}</button>
+                        <button onClick={_convert_} className='btn btn-success shadow-none hover:opacity-[.8]'>{config.text.convert}</button>
                     </div>
 
                 </div>

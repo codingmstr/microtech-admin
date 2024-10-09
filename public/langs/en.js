@@ -550,5 +550,8 @@ export const English = {
     from_buy_to_buy: 'From buy to buy',
     vendor_wallet: 'Vendor Wallet',
     client_wallet: 'Client Wallet',
+    deposit_money: 'Deposit',
+    withdraw_money: 'Withdraw',
+    convert_balances: 'Convert Balances',
 
 }
