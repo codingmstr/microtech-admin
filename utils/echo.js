@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import { get_cookie } from '@/public/script/main';
+import { get_cookie, api_url } from '@/public/script/main';
 
 let echo;
 
@@ -18,7 +18,7 @@ if ( typeof window !== 'undefined' ) {
             wssPort: process.env.NEXT_PUBLIC_REVERB_WS_PORT,
             enabledTransports: ['ws', 'wss'],
             forceTLS: false,
-            authEndpoint: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/broadcasting/auth`,
+            authEndpoint: `${api_url}/api/broadcasting/auth`,
             auth: {
                 headers: {
                     Authorization: `Bearer ${get_cookie('user')?.token}`
@@ -36,7 +36,7 @@ if ( typeof window !== 'undefined' ) {
             cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
             encrypted: true,
             forceTLS: false,
-            authEndpoint: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/broadcasting/auth`,
+            authEndpoint: `${api_url}/api/broadcasting/auth`,
             auth: {
                 headers: {
                     Authorization: `Bearer ${get_cookie('user')?.token}`

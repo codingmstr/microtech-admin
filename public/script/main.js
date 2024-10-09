@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
 import CryptoJS from "./crypto";
 import { toast } from 'react-toastify';
-export const storage = process.env.NEXT_PUBLIC_STORAGE_URL;
+export const api_url = process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL : process.env.NEXT_PUBLIC_BACKEND_URL;
+export const storage = process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_LOCAL_STORAGE_URL : process.env.NEXT_PUBLIC_STORAGE_URL;
 
 export async function api ( url, data ) {
 
-    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/${url}`;
+    url = `${api_url}/api/admin/${url}`;
 
     let form = new FormData();
     Object.keys(data || {}).forEach(_ => form.append(_, data[_]));
@@ -495,3 +496,7 @@ export function alert_msg ( msg, type ) {
 //     });
 
 // }, 3000);
+
+print(process.env.NODE_ENV);
+print(api_url);
+print(storage);

@@ -150,7 +150,7 @@ export default function Wallet ({ system, id }) {
 
         <div className='w-full relative'>
 
-            { mailLoader && <Loader className='bg'/> }
+            { mailLoader && <Loader className='bg medium'/> }
 
             <div className='dark:text-white-light/75 mt-2 mb-7 flex items-center gap-3'>
                 <span className='material-symbols-outlined text-[1.4rem]'>account_balance_wallet</span>
