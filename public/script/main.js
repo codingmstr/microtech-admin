@@ -7,7 +7,6 @@ export const storage = process.env.NODE_ENV === 'development' ? process.env.NEXT
 export async function api ( url, data ) {
 
     url = `${api_url}/api/admin/${url}`;
-
     let form = new FormData();
     Object.keys(data || {}).forEach(_ => form.append(_, data[_]));
 
@@ -496,7 +495,3 @@ export function alert_msg ( msg, type ) {
 //     });
 
 // }, 3000);
-
-print(process.env.NODE_ENV);
-print(api_url);
-print(storage);
