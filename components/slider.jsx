@@ -82,8 +82,7 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
 
             <div className="slider w-full h-[12rem] sm:h-[20rem] flex items-center border border-border dark:border-border-dark text-black dark:text-white bg-[#fafafa] dark:bg-black/20 rounded-md overflow-hidden">
 
-                <Swiper modules={[Navigation, Pagination, Autoplay]} navigation={true} onSwiper={setSwiper} onSlideChange={(e) => setIndex(e.realIndex+1)} className='w-full h-full'>
-                    
+                <Swiper key={config.dir} modules={[Navigation, Pagination, Autoplay]} navigation={true} onSwiper={setSwiper} onSlideChange={(e) => setIndex(e.realIndex+1)} className='w-full h-full'>
                     {
                         files.length ? files.map((item, index) => 
 
@@ -95,10 +94,10 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
                                         !readOnly &&
                                         <div className="w-full flex justify-end items-center gap-x-1 sm:gap-x-3 opacity-[.8]">
                                             <a href={item.url} download target="_blank" className='scale-[.8] sm:scale-[1] flex justify-center items-center w-[1.85rem] h-[1.85rem] rounded-sm cursor-pointer border border-primary text-primary hover:bg-primary hover:text-white'>
-                                                <span className="material-symbols-outlined icon scale-[.7]">arrow_downward</span>
+                                                <span className="material-symbols-outlined icon scale-[.7] text-[1.5rem]">arrow_downward</span>
                                             </a>
                                             <a onClick={() => del_file(index, item.id)} className='scale-[.8] sm:scale-[1] flex justify-center items-center w-[1.85rem] h-[1.85rem] rounded-sm cursor-pointer border border-danger text-danger hover:bg-danger hover:text-white'>
-                                                <span className="material-symbols-outlined icon scale-[.7]">close</span>
+                                                <span className="material-symbols-outlined icon scale-[.7] text-[1.5rem]">close</span>
                                             </a>
                                         </div>
                                     }
@@ -122,7 +121,6 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
                             </div>
                         </SwiperSlide>
                     }
-
                 </Swiper>
 
             </div>
@@ -131,10 +129,10 @@ export default function Slider ({ data, slider, onChange, readOnly }) {
                 !readOnly &&
                 <div className="w-full flex justify-between items-start flex-wrap mt-5 mb-[-.3rem] select-none">
                     <Elements element='upload' onChange={add_file} type='image_video' multiple/>
-                    <div className='flex items-center space-x-2 text-[.9rem] tracking-wide px-2'>
-                        <p>{files.length ? index || 1 : 0}</p>
-                        <p>/</p>
-                        <p>{files.length}</p>
+                    <div className='flex items-center gap-x-2 text-[.95rem] tracking-wide px-2'>
+                        <p className='!font-nunito'>{files.length ? index || 1 : 0}</p>
+                        <p className='!font-nunito'>/</p>
+                        <p className='!font-nunito'>{files.length}</p>
                         <p>{config.text.files}</p>
                     </div>
                 </div>

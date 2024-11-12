@@ -27,7 +27,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id, required: !id, value: params.blog_id},
+                        {element: 'select_menu', name: 'blog_id', label: 'blog', class: 'flex', children: 'blogs', readOnly: id, required: !id, value: params.blog_id, translate: true},
                         {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', readOnly: id, value: params.client_id},
                     ],
                 },
@@ -44,7 +44,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     inputs: [
                         {element: 'input', type: 'number', name: 'id', label: 'item_id', readOnly: true},
                         {element: 'input', type: 'number', name: 'replies', readOnly: true},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', readOnly: true},
                     ],
                 },
                 {

@@ -32,7 +32,7 @@ export default function Password ({ setTab }) {
 
     return (
 
-        <div className="flex justify-center items-start xl:flex-row flex-col gap-5">
+        <div className={`flex justify-center items-start xl:flex-row flex-col gap-5 ${config.animation} animate__animated`}>
 
             <div className="panel flex flex-col relative cursor-default w-full xl:w-[40%]">
 

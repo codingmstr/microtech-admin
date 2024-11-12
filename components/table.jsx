@@ -129,7 +129,7 @@ export default function Table ( props ) {
 
         _search_();
 
-    }, [limit, filter]);
+    }, [limit, filter, config.lang]);
     useEffect(() => {
 
         let data = sortBy(my_data, sort.columnAccessor);
@@ -151,7 +151,7 @@ export default function Table ( props ) {
 
     return (
 
-        <div className='w-full space-y-4'>
+        <div className={`w-full space-y-5 ${config.animation} animate__animated`}>
             {
                 !item_filters &&
                 <Elements element='page_title' label={`all_${system}s`} name={`all_${system}s`}/>
@@ -243,17 +243,27 @@ export default function Table ( props ) {
             }
             {
                 loader ? <Loader className='container'/> :
-                <div className="panel p-0 overflow-hidden">
+                <div className={`panel p-0 overflow-hidden ${config.animation} animate__animated`}>
 
                     <div className='invoice-table'>
                         {
                             add || deletes || search || use_filters || settings || label ?
                             <div className="py-4 flex justify-between flex-wrap px-5 gap-3 lg:items-center select-none border-b border-border/50 dark:border-border-dark/50">
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-3">
                                     {
                                         label &&
                                         <div className='text-[1rem] tracking-wide py-1 dark:text-white-light'>{config.text[label]}</div>
+                                    }
+                                    {
+                                        add &&
+                                        <button onClick={_add_} type="button" className="btn btn-primary gap-1 shadow-md hover:opacity-[.8] border-primary">
+                                            <svg className="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                            <span className='font-thin tracking-wide'>{config.text.add_new}</span>
+                                        </button>
                                     }
                                     {
                                         deletes &&
@@ -266,16 +276,6 @@ export default function Table ( props ) {
                                                 <path opacity="0.5" stroke="currentColor" strokeWidth="1.5" d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"></path>
                                             </svg>
                                             <span className='font-thin tracking-wide'>{config.text.delete}</span>
-                                        </button>
-                                    }
-                                    {
-                                        add &&
-                                        <button onClick={_add_} type="button" className="btn btn-primary gap-1 shadow-none hover:opacity-[.8] border-primary">
-                                            <svg className="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            </svg>
-                                            <span className='font-thin tracking-wide'>{config.text.add_new}</span>
                                         </button>
                                     }
                                 </div>
@@ -377,7 +377,7 @@ export default function Table ( props ) {
                                                 ...columns.map(_ => {
                                                     _.sortable = true;
                                                     _.textAlignment = config.dir === 'rtl' ? 'right' : 'left';
-                                                    _.title = config.text[lower(_.title)] || '';
+                                                    _.title = config.text[lower(_.label)] || '';
                                                     return _;
                                                 }).filter(_ => !_.hidden),
                                                 {
@@ -385,16 +385,16 @@ export default function Table ( props ) {
                                                     title: config.text.invoice,
                                                     textAlignment: config.dir === 'rtl' ? 'right' : 'left',
                                                     render: ({ id }) => (
-                                                        <div className="buttons mx-auto flex w-full items-center gap-2 opacity-[.8] select-none">
+                                                        <div className="buttons mx-auto flex w-full items-center !gap-3 select-none">
                                                             {
                                                                 edit &&
-                                                                <button type="button" onClick={() => _edit_(id)} className="btn rounded-md text-primary border-primary shadow-none hover:bg-primary hover:text-white px-3 py-[5px] text-[.8rem] tracking-wide">
+                                                                <button type="button" onClick={() => _edit_(id)} className="btn rounded-md text-primary border-primary shadow-none hover:bg-primary hover:text-white px-4 py-[5px] text-[.8rem] tracking-wide">
                                                                     {config.text.open}
                                                                 </button>
                                                             }
                                                             {
                                                                 deletes &&
-                                                                <button type="button" onClick={() => _delete_one_(id)} className="btn rounded-md text-danger border-danger shadow-none hover:bg-danger hover:text-white px-3 py-[5px] text-[.8rem] tracking-wide">
+                                                                <button type="button" onClick={() => _delete_one_(id)} className="btn rounded-md text-danger border-danger shadow-none hover:bg-danger hover:text-white px-4 py-[5px] text-[.8rem] tracking-wide">
                                                                     {config.text.delete}
                                                                 </button>
                                                             }
@@ -405,7 +405,7 @@ export default function Table ( props ) {
                                                 ...columns.map(_ => {
                                                     _.sortable = true,
                                                     _.textAlignment = config.dir === 'rtl' ? 'right' : 'left',
-                                                    _.title = config.text[lower(_.title)] || ''
+                                                    _.title = config.text[lower(_.label)] || ''
                                                     return _;
                                                 }).filter(_ => !_.hidden),
                                             ]

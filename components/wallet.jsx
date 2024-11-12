@@ -152,7 +152,7 @@ export default function Wallet ({ system, id }) {
 
             { mailLoader && <Loader className='bg medium'/> }
 
-            <div className='dark:text-white-light/75 mt-2 mb-7 flex items-center gap-3'>
+            <div className='dark:text-white-light/75 mt-2 mb-10 flex items-center gap-3'>
                 <span className='material-symbols-outlined text-[1.4rem]'>account_balance_wallet</span>
                 <span className='text-[1.15rem] font-bold'>{ config.text[`${system}_wallet`] }</span>
             </div>

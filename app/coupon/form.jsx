@@ -21,8 +21,8 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
                         {element: 'select_menu', name: 'vendor_id', label: 'vendor', class: 'flex', children: 'vendors', value: params.vendor_id},
-                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories', value: params.category_id},
-                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products', value: params.product_id},
+                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories', value: params.category_id, translate: true},
+                        {element: 'select_menu', name: 'product_id', label: 'product', class: 'flex', children: 'products', value: params.product_id, translate: true},
                         {element: 'select_menu', name: 'client_id', label: 'client', class: 'flex', children: 'clients', value: params.client_id},
                         {element: 'input', type: 'text', name: 'name', class: 'flex', required: true},
                         {element: 'input', type: 'number', name: 'discount', class: 'flex', required: true},
@@ -41,7 +41,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     inputs: [
                         {element: 'input', type: 'number', name: 'id', label: 'item_id', readOnly: true},
                         {element: 'input', type: 'number', name: 'orders', readOnly: true},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', readOnly: true},
                     ],
                 },
                 {

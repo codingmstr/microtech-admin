@@ -64,15 +64,15 @@ export default function Table ( props ) {
 
             <div className="w-full flex justify-between items-center flex-wrap gap-4 p-4 select-none border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
 
-                <div className="w-full sm:w-auto flex justify-center items-center flex-col sm:flex-row gap-2">
+                <div className="w-full sm:w-auto flex justify-center items-center flex-col sm:flex-row gap-3">
 
-                    <button type="button" onClick={() => setTab('form')} className="btn btn-outline-primary text-white bg-primary hover:opacity-[.8] w-full sm:w-auto">
+                    <button type="button" onClick={() => setTab('form')} className="btn btn-outline-primary text-white bg-primary !shadow-md hover:opacity-[.8] w-full !py-2.5 !px-0 text-[.95rem] sm:w-[10rem]">
                         {config.text.new_message}
                     </button>
 
-                    <div className="w-full sm:w-auto flex justify-center items-center gap-2">
+                    <div className="w-full sm:w-[20rem] grid grid-cols-2 gap-3">
 
-                        <button type="button" onClick={() => { setSearch(''); setType('inbox'); }} className={`w-full btn shadow-none flex justify-center items-center gap-2 hover:opacity-[.8] ${type === 'inbox' ? 'btn-danger' : 'btn-outline-danger'}`}>
+                        <button type="button" onClick={() => { setSearch(''); setType('inbox'); }} className={`w-full btn shadow-none flex flex-1 justify-center items-center gap-2 hover:opacity-[.8] !py-2.5 !px-0 text-[.95rem] ${type === 'inbox' ? 'btn-danger' : 'btn-outline-danger'}`}>
                             <Icons icon='inbox'/>
                             {config.text.inbox}
                             {
@@ -83,7 +83,7 @@ export default function Table ( props ) {
                             }
                         </button>
 
-                        <button type="button" onClick={() => { setSearch(''); setType('sent'); }} className={`w-full btn shadow-none flex justify-center items-center gap-2 hover:opacity-[.8] ${type === 'sent' ? 'btn-success' : 'btn-outline-success'}`}>
+                        <button type="button" onClick={() => { setSearch(''); setType('sent'); }} className={`w-full btn shadow-none flex flex-1 justify-center items-center gap-2 hover:opacity-[.8] !py-2.5 !px-0 text-[.95rem] ${type === 'sent' ? 'btn-success' : 'btn-outline-success'}`}>
                             <Icons icon='send' className='max-w-4 max-h-4'/>
                             {config.text.send}
                         </button>
@@ -229,7 +229,10 @@ export default function Table ( props ) {
                         </tbody>
                     </table> :
                     <div className="grid place-content-center h-full select-none tracking-wide">
-                        {config.text.no_data}
+                        <div className="w-full h-full flex justify-center items-center flex-col gap-2 py-10 no-select layer-div">
+                            <img src="/media/layout/empty-mail.png" className='w-[6rem] opacity-[.8]'/>
+                            <p className='text-[.95rem]'>{config.text.no_data}</p>
+                        </div>
                     </div>
                 }
 

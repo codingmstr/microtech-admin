@@ -58,6 +58,9 @@
   color: #888ea8;
   @apply dark:text-white-light;
 }
+.dark .ql-snow .ql-editor p{
+  @apply text-[.95rem];
+}
 .rtl .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   right: auto !important;
   left: 0px;

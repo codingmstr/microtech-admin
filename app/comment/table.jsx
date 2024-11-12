@@ -16,12 +16,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             searchParams={params} item_filters={item_filters} {...options}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'client', title: 'client', hidden: item_filters, render: ({ client }) => (
+                    accessor: 'client', label: 'client', hidden: item_filters?.client_id, render: ({ client }) => (
                         <div className='max-w-[12rem]'>
                             { client && <Elements element='image' value={client.image}/> }
                             { client ? <Link href={`/client?edit=${client.id}`}>{client.name}</Link> : <span>--</span> }
@@ -29,7 +29,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'blog', title: 'blog', hidden: item_filters, render: ({ blog }) => (
+                    accessor: 'blog', label: 'blog', hidden: item_filters?.blog_id, render: ({ blog }) => (
                         <div className='max-w-[12rem]'>
                             { blog && <Elements element='image' value={blog.image} type='md'/> }
                             { blog ? <Link href={`/blog?edit=${blog.id}`}>{blog.title}</Link> : <span>--</span> }
@@ -37,22 +37,22 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'content', title: 'content', hidden: false, render: ({ content }) => (
+                    accessor: 'content', label: 'content', hidden: false, render: ({ content }) => (
                         <span>{content || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'replies', title: 'replies', hidden: false, render: ({ replies }) => (
-                        <span>{fix_number(replies)}</span>
+                    accessor: 'replies', label: 'replies', hidden: false, render: ({ replies }) => (
+                        <span className='!font-nunito'>{fix_number(replies)}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

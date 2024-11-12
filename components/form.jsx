@@ -84,6 +84,7 @@ export default function Form ( props ) {
         bring.forEach(_ => _data_[_] = response[_] || []);
         setData(_data_);
         setLoader(false);
+        document.title = `${config.text.edit} ${config.text[system]} : ( ${_data_.id} )`;
 
     }
     const _save_ = async() => {
@@ -149,14 +150,14 @@ export default function Form ( props ) {
 
     return (
 
-        <div>
+        <div className={`${config.animation} animate__animated`}>
             {
                 loader ? <Loader className='container'/>:
-                <div className="flex xl:flex-row flex-col gap-y-5 cursor-default">
+                <div className={`flex xl:flex-row flex-col xl:gap-x-1 gap-y-5 cursor-default ${config.animation} animate__animated`}>
 
-                    <div className="flex flex-col flex-1 xl:w-[72%]">
+                    <div className="flex flex-col flex-1 xl:w-[71%]">
 
-                        <div className="flex-1 ltr:xl:mr-6 rtl:xl:ml-6 space-y-4">
+                        <div className="flex-1 ltr:xl:mr-6 rtl:xl:ml-6 space-y-5">
 
                             <Elements element='tabs'>
                                 <li onClick={() => setTab('info')} className={`${tab === 'info' && 'active'}`}>
@@ -200,10 +201,10 @@ export default function Form ( props ) {
 
                             <div className='xl:min-h-[calc(100vh_-_170px)]'>
 
-                                { tab === 'info' && <div className='panel p-6'><Panel items={general} data={data} setData={setData} system={system}/></div> }
-                                { tab === 'wallet' && <div className='panel p-6'><Wallet system={system} id={id}/></div> }
-                                { tab === 'settings' && <div className='panel p-6'><Panel items={settings} data={data} setData={setData} system={system}/></div> }
-                                { tab === 'statistics' && <Panel items={statistics} data={data.statistics || {}} setData={setData} system={system}/> }
+                                { tab === 'info' && <div className={`panel p-6 ${config.animation} animate__animated`}><Panel items={general} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'wallet' && <div className={`panel p-6 ${config.animation} animate__animated`}><Wallet system={system} id={id}/></div> }
+                                { tab === 'settings' && <div className={`panel p-6 ${config.animation} animate__animated`}><Panel items={settings} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'statistics' && <div className={`${config.animation} animate__animated`}><Panel items={statistics} data={data.statistics || {}} setData={setData} system={system}/></div> }
 
                                 {
                                     id && related.length ?
@@ -221,11 +222,11 @@ export default function Form ( props ) {
 
                     </div>
 
-                    <div className='flex flex-col xl:w-[28%]'>
+                    <div className='flex flex-col xl:w-[29%]'>
 
-                        <div className={`space-y-5 select-none sticky top-[1.3rem]`}>
+                        <div className='space-y-5 select-none sticky top-[1.5rem]'>
 
-                            <div className='panel'>
+                            <div className='panel left-panel'>
                             
                                 <Panel items={sidebar} data={data} setData={setData} system={system}/>
 
@@ -237,13 +238,13 @@ export default function Form ( props ) {
 
                                     <Icons icon='setting' className='dark:!text-white-light'/>
 
-                                    <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
+                                    <span className='font-semibold text-[1.05rem] px-2.5 dark:text-white-light'>{config.text.invoice}</span>
 
                                 </h1>
 
                                 <Elements element='hr' className='mt-5'/>
 
-                                <div className='grid grid-cols-2 gap-3 pb-2'>
+                                <div className='grid grid-cols-2 gap-3 gap-y-4 pb-2'>
 
                                     { save && <Elements element='save_button' onClick={_save_}/> }
                                     <Elements element='cancel_button' onClick={_cancel_}/>

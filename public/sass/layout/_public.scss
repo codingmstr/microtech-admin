@@ -94,10 +94,10 @@ body{
             tr td {
                 @apply font-semibold select-text cursor-default;
 
-                > div:not(.badge){ @apply flex items-center gap-2.5; }
+                > div:not(.badge){ @apply flex items-center gap-4; }
                 span:not(.badge), a:not(.badge){ @apply line-clamp-2 max-w-[15rem]; }
                 a:not(.badge){ @apply hover:text-primary max-w-[15rem]; cursor: pointer; }
-                .image{ @apply w-7 h-7; }
+                .image{ @apply w-8 h-8; }
             }
         }
     }
@@ -120,9 +120,16 @@ body{
 }
 
 .panel-tabs{
+    // li{
+    //     @apply cursor-pointer flex gap-2.5 p-4.5 px-5 text-[.95rem] dark:text-white-light/75 border-b border-transparent hover:border-primary hover:!text-primary;
+    //     &.active{  @apply border-primary !text-primary; }
+    // }
+    ul{
+        @apply py-4 px-4 gap-2.5;
+    }
     li{
-        @apply cursor-pointer flex gap-2.5 p-4.5 px-5 dark:text-white-light/75 border-b border-transparent hover:border-primary hover:!text-primary;
-        &.active{  @apply border-primary !text-primary; }
+        @apply cursor-pointer flex gap-2 py-3 px-5 text-[.95rem] bg-white-light/20 dark:bg-black/30 rounded-md dark:text-white-light/75 border border-border dark:border-border-dark duration-300 hover:bg-white-light/30 dark:hover:bg-menu-dark;
+        &.active{  @apply bg-white-light/30 dark:bg-menu-dark shadow-md; }
     }
 }
 

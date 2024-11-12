@@ -130,11 +130,11 @@ export default function Mailbox () {
 
     return(
 
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-5">
 
             <Elements element='page_title' label='mail' name='mail'/>
 
-            <div className={`mailbox panel p-0 relative flex overflow-visible h-[calc(100vh_-_225px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
+            <div className={`mailbox panel p-0 relative flex overflow-visible h-[calc(100vh_-_240px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_295px)]'}`}>
                 
                 { tab === 'table' && <Table mails={mails} rows={rows} data={data} setData={setData} setSelected={setSelected} setTab={setTab} type={type} setType={setType} loader={loader} pager={pager} setPager={setPager} checked={checked} setChecked={setChecked} search={search} setSearch={setSearch} setStar={_star_} setImportant={_important_} reload={_get_}/> }
 

@@ -2,7 +2,6 @@
 import { actions } from '@/public/script/store';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 export default function Setting () {
 
@@ -42,7 +41,7 @@ export default function Setting () {
 
                         </div>
 
-                        <PerfectScrollbar className="perfect-scrollbar h-[calc(100%_-_65px)] overflow-y-auto overflow-x-hidden p-5">
+                        <div className="h-[calc(100%_-_65px)] overflow-y-auto overflow-x-hidden p-5">
 
                             <div className="mb-3 rounded-md border border-border py-6 px-5 dark:border-border-dark">
 
@@ -177,7 +176,7 @@ export default function Setting () {
 
                             </div>
 
-                        </PerfectScrollbar>
+                        </div>
 
                     </div>
                     

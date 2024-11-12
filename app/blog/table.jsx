@@ -3,7 +3,6 @@ import { fix_date, fix_number } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
 import Elements from "@/components/elements";
-import Link from 'next/link';
 
 export default function _Table_ ({ system, id, setId, setForm, params, item_filters, options }) {
 
@@ -16,12 +15,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             searchParams={params} item_filters={item_filters} {...options}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'info', title: 'name', hidden: false, render: ({ info }) => (
+                    accessor: 'info', label: 'name', hidden: false, render: ({ info }) => (
                         <div>
                             <Elements element='image' value={info.image} type='md'/>
                             <span>{info.title}</span>
@@ -29,32 +28,32 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'views', title: 'views', hidden: false, render: ({ views }) => (
+                    accessor: 'views', label: 'views', hidden: false, render: ({ views }) => (
                         <span>{fix_number(views)}</span>
                     )
                 },
                 {
-                    accessor: 'likes', title: 'likes', hidden: false, render: ({ likes }) => (
-                        <span>{fix_number(likes)}</span>
+                    accessor: 'likes', label: 'likes', hidden: false, render: ({ likes }) => (
+                        <span className='!font-nunito'>{fix_number(likes)}</span>
                     )
                 },
                 {
-                    accessor: 'dislikes', title: 'dislikes', hidden: false, render: ({ dislikes }) => (
-                        <span>{fix_number(dislikes)}</span>
+                    accessor: 'dislikes', label: 'dislikes', hidden: false, render: ({ dislikes }) => (
+                        <span className='!font-nunito'>{fix_number(dislikes)}</span>
                     )
                 },
                 {
-                    accessor: 'comments', title: 'comments', hidden: false, render: ({ comments }) => (
-                        <span>{comments}</span>
+                    accessor: 'comments', label: 'comments', hidden: false, render: ({ comments }) => (
+                        <span className='!font-nunito'>{fix_number(comments)}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

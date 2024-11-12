@@ -5,6 +5,14 @@ import Elements from './elements';
 
 export default function Panel ({ items, data, setData, system }) {
 
+    const is_hidden = ( item ) => {
+
+        let hidden = false;
+        if ( !item.hidden_when ) return hidden;
+        Object.keys(item.hidden_when).forEach(_ => hidden = data[_] === item.hidden_when[_]);
+        return hidden;
+
+    }
     const set_data = ( item, e ) => {
 
         let _data_ = data;
@@ -33,11 +41,12 @@ export default function Panel ({ items, data, setData, system }) {
 
         <div>
             {
-                items.map((group, index) => !group.options?.hidden &&
+                items.map((group, index) => (!group.options?.hidden && !is_hidden(group.options)) &&
                     <div key={index}>
                         <div className={`panel-grid grid grid-cols-${group.options?.cols || 1} gap-${group.options?.gap || 1} ${group.options?.class}`}>
                             {
                                 group.inputs.map((item, index) =>
+                                    !is_hidden(item) &&
                                     <Elements 
                                         key={index} 
                                         element={item.element} 
@@ -49,9 +58,11 @@ export default function Panel ({ items, data, setData, system }) {
                                         readOnly={item.readOnly} 
                                         copyable={item.copyable} 
                                         visible={item.visible} 
+                                        rows={item.rows} 
                                         focus={item.focus} 
                                         color={item.color} 
                                         icon={item.icon} 
+                                        items={item.items} 
                                         height={item.height} 
                                         className={item.class} 
                                         required={item.required}

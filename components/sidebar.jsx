@@ -10,7 +10,6 @@ import Elements from './elements';
 import Icons from './icons';
 
 export default function Sidebar () {
-    
 
     const config = useSelector((state) => state.config);
     const dispatch = useDispatch();

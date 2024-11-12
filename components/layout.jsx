@@ -82,10 +82,10 @@ export default function Layout ({ children }) {
                         }
                         {
                             auth ?
-                            <div className={`main-content overflow-y-auto overflow-x-hidden scroll-smooth h-[calc(100vh_-_60px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_112px)]'}`}>
+                            <div className={`main-content overflow-y-auto overflow-x-hidden scroll-smooth h-[calc(100vh_-_65px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_120px)]'}`}>
                                 {
                                     animation &&
-                                    <div className={`${animation} ${config.layout} animate__animated p-5 sm:px-8`}>
+                                    <div className={`w-full ${animation} ${config.layout} animate__animated py-6 px-5 sm:px-8`}>
                                         <div className='relative'>{children}</div>
                                     </div>
                                 }

@@ -34,41 +34,50 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 1, gap: 1, hr: true},
                     inputs: [
+                        {element: 'choice', name: 'type', label: 'service_type', value: 'online', items: [{id: 'online', name: 'online_service'}, {id: 'offline', name: 'offline_service'}]},
+                    ],
+                },
+                {
+                    options: {cols: 1, gap: 1, hr: true},
+                    inputs: [
                         {element: 'slider', name: 'images'},
                     ],
                 },
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
+                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories', value: params.category_id, langs: true},
                         {element: 'select_menu', name: 'vendor_id', label: 'vendor', class: 'flex', children: 'vendors', value: params.vendor_id},
-                        {element: 'select_menu', name: 'category_id', label: 'category', class: 'flex', children: 'categories', value: params.category_id},
-                        {element: 'input', type: 'text', name: 'name', class: 'flex', required: true},
-                        {element: 'input', type: 'number', name: 'old_price', class: 'flex'},
-                        {element: 'input', type: 'number', name: 'new_price', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
-                    ],
-                },
-                {
-                    options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
-                    inputs: [
-                        {element: 'input', type: 'text', name: 'company', class: 'flex'},
-                        {element: 'input', type: 'phone', name: 'phone', class: 'flex'},
-                        {element: 'languages', name: 'language', class: 'flex', value: 'ar'},
-                        {element: 'countries', name: 'country', class: 'flex', value: 'EG'},
-                        {element: 'input', type: 'text', name: 'city', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'street', class: 'flex'},
-                    ],
-                },
-                {
-                    options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
-                    inputs: [
-                        {element: 'input', type: 'number', name: 'max_persons', class: 'flex free-label'},
-                        {element: 'input', type: 'number', name: 'duration', label: 'duration_min', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'old_price', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'new_price', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'max_persons', class: 'flex free-label', hidden_when: {type: 'online'}},
                         {element: 'input', type: 'number', name: 'max_orders', class: 'flex free-label'},
+                        {element: 'input', type: 'number', name: 'duration', label: 'duration_min', class: 'flex free-label'},
                     ],
                 },
                 {
-                    options: {cols: 1, gap: 1, hr: true},
+                    options: {cols: 1, gap: 1, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
+                    inputs: [
+                        {element: 'json_textarea', rows: 2, name: 'name', required: true},
+                        {element: 'json_textarea', rows: 2, name: 'company', hidden_when: {type: 'online'}},
+                        {element: 'json_textarea', rows: 2, name: 'location', hidden_when: {type: 'online'}},
+                    ],
+                },
+                {
+                    options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
+                    inputs: [
+                        {element: 'input', type: 'phone', name: 'phone', class: 'flex', hidden_when: {type: 'online'}},
+                        {element: 'input', type: 'whatsapp', name: 'whatsapp', class: 'flex', hidden_when: {type: 'online'}},
+                        {element: 'select', type: 'language', name: 'language', class: 'flex', value: 'ar'},
+                        {element: 'select', type: 'genders', name: 'gender', class: 'flex', value: 'all'},
+                        {element: 'select', type: 'country', name: 'country', class: 'flex', value: 'EG', hidden_when: {type: 'online'}},
+                        {element: 'input', type: 'text', name: 'city', class: 'flex', hidden_when: {type: 'online'}},
+                        {element: 'input', type: 'text', name: 'street', class: 'flex', hidden_when: {type: 'online'}},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
+                    ],
+                },
+                {
+                    options: {cols: 1, gap: 1, hr: true, hidden_when: {type: 'online'}},
                     inputs: [
                         {element: 'time_list', name: 'times', label: 'available_times'},
                     ],
@@ -76,32 +85,31 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 1, gap: 1, hr: true},
                     inputs: [
-                        {element: 'include_list', name: 'includes', label: 'what_includes'},
+                        {element: 'json_include_list', name: 'includes', label: 'what_includes'},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: true},
                     inputs: [
-                        {element: 'expected_list', name: 'expected', label: 'what_expect'},
-                    ],
-                },
-                {
-                    options: {cols: 2, gap: 6, hr: true},
-                    inputs: [
-                        {element: 'textarea', name: 'description'},
-                        {element: 'textarea', name: 'notes'},
+                        {element: 'json_textarea', name: 'description'},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: true},
                     inputs: [
-                        {element: 'editor', name: 'details'},
+                        {element: 'json_editor', name: 'details'},
+                    ],
+                },
+                {
+                    options: {cols: 1, gap: 1, hr: true},
+                    inputs: [
+                        {element: 'json_editor', name: 'policy', label: 'cancellation_policy'},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'editor', name: 'policy', label: 'cancellation_policy'},
+                        {element: 'textarea', name: 'notes'},
                     ],
                 },
             ]}
@@ -116,7 +124,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     ],
                 },
                 {
-                    options: {cols: 2, gap: 6, hr: false},
+                    options: {cols: 2, gap: 1, hr: false},
                     inputs: [
                         {element: 'toggle', name: 'allow'},
                         {element: 'toggle', name: 'active'},
@@ -127,11 +135,13 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 3, gap: 6, hr: false},
                     inputs: [
+                        {element: 'toggle', name: 'only_adults', value: false, hidden_when: {type: 'online'}},
+                        {element: 'toggle', name: 'only_childrens', value: false, hidden_when: {type: 'online'}},
+                        {element: 'toggle', name: 'pay_later', hidden_when: {type: 'online'}},
                         {element: 'toggle', name: 'allow_reviews'},
                         {element: 'toggle', name: 'allow_coupons'},
                         {element: 'toggle', name: 'allow_orders'},
                         {element: 'toggle', name: 'allow_cancel'},
-                        {element: 'toggle', name: 'pay_later'},
                         {element: 'toggle', name: 'allow'},
                         {element: 'toggle', name: 'active'},
                     ],

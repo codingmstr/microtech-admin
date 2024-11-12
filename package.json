@@ -34,7 +34,7 @@
         "laravel-echo": "^1.16.1",
         "mantine-datatable": "^1.7.35",
         "next": "^14.2.5",
-        "next-auth": "^4.24.7",
+        "next-auth": "^4.24.10",
         "pusher": "^5.2.0",
         "pusher-js": "^8.4.0-rc2",
         "quill": "^2.0.2",

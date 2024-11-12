@@ -36,26 +36,26 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'text', name: 'title', class: 'flex', required: true},
-                        {element: 'input', type: 'text', name: 'slug', class: 'flex', readOnly: true},
-                        {element: 'languages', name: 'language', class: 'flex'},
-                        {element: 'countries', name: 'country', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'phone', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'company', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'phone', name: 'phone', class: 'flex'},
+                        {element: 'select', type: 'country', name: 'country', class: 'flex', value: 'EG'},
+                        {element: 'select', type: 'language', name: 'language', class: 'flex', value: 'ar'},
+                        {element: 'input', type: 'text_date', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
                     ],
                 },
                 {
-                    options: {cols: 2, gap: 6, hr: true},
+                    options: {cols: 1, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'textarea', name: 'description'},
-                        {element: 'textarea', name: 'notes'},
+                        {element: 'json_textarea', rows: 2, name: 'title', required: true},
+                        {element: 'json_textarea', rows: 2, name: 'location'},
+                        {element: 'json_textarea', rows: 2, name: 'company'},
+                        {element: 'json_textarea', rows: 2, name: 'description'},
+                        {element: 'json_editor', rows: 2, name: 'content', class: 'medium'},
                     ],
                 },
                 {
                     options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'editor', name: 'content', class: 'medium'},
+                        {element: 'textarea', name: 'notes'},
                     ],
                 },
             ]}

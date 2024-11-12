@@ -9,6 +9,8 @@ export async function api ( url, data ) {
     url = `${api_url}/api/admin/${url}`;
     let form = new FormData();
     Object.keys(data || {}).forEach(_ => form.append(_, data[_]));
+    form.append('local_lang', localStorage.getItem('lang') || 'ar');
+    form.append('local_location', localStorage.getItem('location'));
 
     const response = await fetch(url, {
         method: 'POST',
@@ -155,6 +157,15 @@ export function date ( query, _ ) {
     else if ("datetimes".includes(query)) return `${years}-${months}-${days} ${hrs}:${minutes}:${seconds} ${p}`;
     else if ("todays".includes(query)) return `${Days[Week_day]}, ${Months[months-1].slice(0, 3)} ${days.replace(/^0/, '')}, ${years}`;
     return `${years}-${months}-${days} ${hours}:${minutes}:${seconds}`;
+
+}
+export function local_date( utc_date ) {
+
+    const utcDate = new Date(utc_date);
+    const timezoneOffset = -(new Date().getTimezoneOffset() / 60);
+    const localTime = new Date(utcDate.getTime() + timezoneOffset * 60 * 60 * 1000);
+    const local_date = date('', localTime);
+    return local_date;
 
 }
 export function diff_date ( start, end ) {
@@ -313,10 +324,21 @@ export function round ( num, _ ) {
     return parseFloat(num).toFixed(_);
 
 }
-export function parse ( _ ) {
+export function parse ( _, dict ) {
 
     if ( Array.isArray(_)  ) return _;
+    if ( dict ) return JSON.parse(_ || '{}') || {};
     return JSON.parse(_ || '[]') || [];
+
+}
+export function localize ( _ ) {
+
+    try{
+        let data = JSON.parse(_ || '{}') || {};
+        return data[localStorage.getItem('lang') || 'ar'] || '';
+    } catch(e) {
+        return _ || '';
+    }
 
 }
 export function language () {
@@ -356,9 +378,9 @@ export function fix_number ( num, float ) {
     return `${number}${decimal ? `.${decimal.toString().slice(0, 2)}` : ''}`;
 
 }
-export function fix_time ( dt ) {
+export function fix_time ( dt, local=true ) {
     
-    dt = dt || ''
+    dt = dt ? local ? local_date(dt) : dt : '';
     let hours = parseInt(dt?.split(" ")[1]?.split(':')?.slice(0, 2)[0] || 0);
     let minutes = parseInt(dt?.split(" ")[1]?.split(':')?.slice(0, 2)[1] || 0);
     let p = 'AM';
@@ -371,22 +393,23 @@ export function fix_time ( dt ) {
 }
 export function fix_date ( dt, time ) {
     
-    dt = dt || '';
+    dt = dt ? local_date(dt) : '';
     let today = `${date('year')}-${date('month')}-${date('day')} 0:0:0`;
     let diff = new Date(today).getTime() - new Date(dt).getTime();
     let text = JSON.parse(localStorage.getItem('text'));
 
     if ( diff <= 0 ) {
-        if ( time ) return fix_time(dt);
-        else return text['today'];
+        if ( time ) return fix_time(dt, false);
+        else return 'Today';
     }
-    else if ( Math.floor(diff / 1000 / 60 / 60) < 24 ) return text['yasterday'];
+    else if ( Math.floor(diff / 1000 / 60 / 60) < 24 ) return 'Yasterday';
     else dt = dt?.split(" ")[0];
     return dt;
 
 }
 export function fix_date_time ( dt ) {
 
+    dt = dt ? local_date(dt) : '';
     const displayDt = new Date(dt);
     const currentDt = new Date();
     let final_date = ''

@@ -30,9 +30,9 @@ export default function _Form_ ({ system, id, setForm, params }) {
                 {
                     options: {cols: 3, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'text', name: 'id', label: 'item_id', class: 'flex', readOnly: true},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
-                        {element: 'input', type: 'text', name: 'ip', label: 'device', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'id', label: 'item_id', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'ip', label: 'device', class: 'flex', readOnly: true},
                     ],
                 },
                 {
@@ -48,9 +48,9 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
                         {element: 'input', type: 'date', name: 'birth_date', class: 'flex'},
-                        {element: 'select_gender', name: 'gender', class: 'flex', value: 'male'},
-                        {element: 'languages', name: 'language', class: 'flex', value: 'ar'},
-                        {element: 'countries', name: 'country', class: 'flex', value: 'EG'},
+                        {element: 'select', type: 'gender', name: 'gender', class: 'flex', value: 'male'},
+                        {element: 'select', type: 'language', name: 'language', class: 'flex', value: 'ar'},
+                        {element: 'select', type: 'country', name: 'country', class: 'flex', value: 'EG'},
                         {element: 'input', type: 'text', name: 'city', class: 'flex'},
                         {element: 'input', type: 'text', name: 'street', class: 'flex'},
                     ],

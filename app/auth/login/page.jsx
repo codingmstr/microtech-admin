@@ -29,11 +29,15 @@ export default function Login () {
 
             if ( response.errors.email ) {
                 setLoader(false);
-                alert_msg(config.text.error_email, 'error');
+                alert_msg(config.text.error_account, 'error');
             }
             else if ( response.errors.password ) {
                 setLoader(false);
                 alert_msg(config.text.error_password, 'error');
+            }
+            else if ( response.errors.permission ) {
+                setLoader(false);
+                alert_msg(config.text.error_permission, 'error');
             }
 
         }
@@ -52,7 +56,7 @@ export default function Login () {
 
     return (
 
-        <div className="flex items-center justify-center w-full h-[100vh]">
+        <div className="flex items-center justify-center flex-col w-full h-[100vh]">
             
             <div className="panel relative w-full max-w-[400px] sm:w-[480px] select-none overflow-hidden">
 

@@ -9,7 +9,7 @@ import Broadcast from "./broadcast";
 export default function Chatbox () {
 
     const config = useSelector((state) => state.config);
-    const [user, setUser] = useState({id: 1, name: 'Admin Panel', image: 'user/6.png'});
+    const [user, setUser] = useState({id: 1, name: config.user?.name, image: config.user?.image});
     const [menu, setMenu] = useState(false);
     const [room, setRoom] = useState({});
     const [data, setData] = useState([]);
@@ -32,9 +32,9 @@ export default function Chatbox () {
 
     return (
     
-        <div className='w-full space-y-4'>
+        <div className='w-full space-y-5'>
            
-           <div className={`chat-div flex gap-5 relative h-[calc(100vh_-_100px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_152px)]'}`}>
+           <div className={`chat-div flex gap-5 relative h-[calc(100vh_-_115px)] ${config.menu === 'horizontal' && 'lg:h-[calc(100vh_-_170px)]'}`}>
 
                 <Friends 
                     data={data} setData={setData} room={room} setRoom={setRoom} users={users} setUsers={setUsers} 

@@ -1,10 +1,11 @@
 "use client";
-import { lower, storage, alert_msg, read_file, fix_date, fix_number, print, copy, parse } from "@/public/script/main";
+import { lower, storage, alert_msg, read_file, fix_date, fix_number, print, copy } from "@/public/script/main";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux';
 import { Countries } from "@/utils/countries";
 import { Languages } from "@/utils/languages";
 import { Currencies } from "@/utils/currencies";
+import { Keys } from "@/utils/keys";
 import Link from "next/link";
 import Dropdown from './menu';
 import Quill from './quill';
@@ -12,21 +13,23 @@ import Select from './select';
 import Slider from './slider';
 import Icons from './icons';
 import Chart from "./chart";
+import Includes_List from "./includes_list";
+import Times_List from "./times_list";
 
 export default function Elements ( props ) {
 
     const {
         element, value, name, label, type, rows, visible, readOnly, className='',
         onChange, onClick, children, button, multiple, focus, roles, slider,
-        color, icon, height, copyable, onKeyUp, inputRef,
+        color, icon, height, copyable, onKeyUp, inputRef, no_translate, items,
     } = props
     const config = useSelector((state) => state.config);
     const ref = useRef(null);
     const [visibility, setVisibility] = useState(visible || false);
     const [model, setModel] = useState(false);
     const [src, setSrc] = useState(`${storage}/${value}`);
-    const [count, setCount] = useState(1);
-    const [list, setList] = useState([]);
+    const [langs, setLangs] = useState([]);
+    const [lang, setLang] = useState('ar');
 
     const change_file = async( f, type ) => {
 
@@ -45,17 +48,12 @@ export default function Elements ( props ) {
     }
     useEffect(() => {
 
+        setLangs(['ar', 'en', 'fr', 'ru', 'it']);
+        setLang(localStorage.getItem('lang') || 'ar');
         setSrc(`${storage}/${value}`);
         if ( focus ) setTimeout(_ => ref.current?.focus(), 100);
 
-        if ( ['time_list', 'include_list', 'expected_list'].includes(element) ) {
-            
-            setList(parse(value) || []);
-            setCount(parse(value)?.length || 1);
-            
-        }
-
-    }, [value]);
+    }, []);
 
     return (
 
@@ -73,7 +71,7 @@ export default function Elements ( props ) {
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark ${type !== 'md' ? 'rounded-full' : 'rounded-sm'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark ${type !== 'md' ? 'rounded-full' : 'rounded-md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
                     <img 
                         src={src} 
                         className={`object-cover ${type === 'md' ? 'w-full h-full md' : 'w-full h-full'}`} 
@@ -82,7 +80,7 @@ export default function Elements ( props ) {
                     />
                     {
                         !readOnly &&
-                        <div onClick={() => ref.current?.click()} className='absolute top-0 left-0 w-full h-full cursor-pointer justify-center items-center flex-col bg-black/25 dark:bg-black/75 text-white hidden group-hover:flex space-y-2'>
+                        <div onClick={() => ref.current?.click()} className='absolute top-0 left-0 w-full h-full cursor-pointer flex justify-center items-center flex-col bg-black/25 dark:bg-black/75 text-white duration-300 opacity-0 group-hover:opacity-[1] space-y-2'>
                             <Icons icon='edit'/>
                             <span>{config.text.edit}</span>
                             <input type="file" ref={ref} onChange={(e) => on_file(e.target.files || [], 'image')} className="hidden"/>
@@ -106,7 +104,7 @@ export default function Elements ( props ) {
             {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
                     <input id={name} type={type || 'text'} onKeyUp={onKeyUp} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={focus ? ref : inputRef} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
@@ -122,86 +120,43 @@ export default function Elements ( props ) {
                             <span className="material-symbols-outlined icon">visibility_off</span>
                         </div>
                     }
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={visibility ? 'text' : 'password'} value={value || ''} onChange={(e) => onChange(e.target.value)} ref={ref} className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
-                </div>
-            }
-            {
-                element === 'select' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        <option value="0">--</option>
-                        { children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'select_rate' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((item, index) => <option key={index} value={item}>{fix_number(item, true).replace('00', '0')}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'select_status' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { ['pending', 'request', 'confirmed', 'cancelled'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'select_gender' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { ['male', 'female', 'none'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'select_currency' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'USD'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { Currencies?.map((item, index) => <option key={index} value={item.code}>{item.name}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'countries' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'EG'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { Countries?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
-                    </select>
-                </div>
-            }
-            {
-                element === 'languages' &&
-                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <select id={name} value={value || 'ar'} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
-                        { Languages?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) }
-                    </select>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
+                    <input id={name} type={visibility ? 'text1' : 'password'} value={value || ''} onChange={(e) => onChange(e.target.value)} ref={ref} className={`form-input flex-1 ${readOnly ? 'cursor-default': ''} !font-nunito`} autoComplete="off"/>
                 </div>
             }
             {
                 element === 'textarea' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
                     <textarea id={name} value={value || ''} readOnly={readOnly} onChange={(e) => onChange(e.target.value)} rows={rows || 5} ref={ref} className={`form-textarea min-h-[80px] resize-none ${readOnly && 'cursor-default'}`}></textarea>
                 </div>
             }
             {
                 element === 'editor' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} small ${className}`}>
-                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
                     <Quill value={value || ''} onChange={onChange}/>
+                </div>
+            }
+            {
+                element === 'select' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
+                    <select id={name} value={value || ''} onChange={(e) => onChange(e.target.value)} disabled={readOnly} ref={ref} className={`flex-1 ${readOnly ? 'form-input cursor-default': 'form-select cursor-pointer'}`} autoComplete="off">
+                        <option value="">--</option>
+                        {
+                            type === 'country' ? Countries?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) :
+                            type === 'phone' ? Keys?.map((item, index) => <option key={index} value={item.code}>({item.code}) {config.lang === 'ar' ? item.ar_name : item.en_name}</option>) :
+                            type === 'language' ? Languages?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) :
+                            type === 'baseLanguage' ? Languages?.slice(0, 6)?.map((item, index) => <option key={index} value={item.code}>{config.lang === 'ar' ? item.ar_name : item.en_name}</option>) :
+                            type === 'currency' ? Currencies?.map((item, index) => <option key={index} value={item.code}>{item.name}</option>) :
+                            type === 'rate' ? [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((item, index) => <option key={index} value={item}>{fix_number(item, true).replace('00', '0')}</option>) :
+                            type === 'status' ? ['pending', 'request', 'confirmed', 'cancelled'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
+                            type === 'gender' ? ['male', 'female'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
+                            type === 'genders' ? ['male', 'female', 'all'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
+                            children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
+                        }
+                    </select>
                 </div>
             }
             {
@@ -215,46 +170,46 @@ export default function Elements ( props ) {
                             before:transition-all before:duration-300">
                         </span>
                     </label>
-                    <label htmlFor={name} className="ltr:pl-3 rtl:pr-3 cursor-pointer max-w-[60%] overflow-hidden">{config.text[lower(label || name)]}</label>
+                    <label htmlFor={name} className="ltr:pl-3 rtl:pr-3 cursor-pointer max-w-[60%] overflow-hidden !text-[1rem]">{config.text[lower(label || name)]}</label>
                 </div>
             }
             {
                 element === 'button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-2 shadow-none select-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-2 shadow-none select-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <span>{config.text[lower(name || 'button')]}</span>
                 </button>
             }
             {
                 element === 'add_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-1 shadow-none select-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full gap-1 shadow-none select-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <Icons icon='add'/>
                     <span>{config.text[lower(name || 'add_new')]}</span>
                 </button>
             }
             {
                 element === 'save_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-success w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-success w-full select-none gap-2 shadow-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <Icons icon='save'/>
                     <span>{config.text[lower(name || 'save')]}</span>
                 </button>
             }
             {
                 element === 'cancel_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-warning w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-warning w-full select-none gap-2 shadow-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <Icons icon='cancel'/>
                     <span>{config.text[lower(name || 'cancel')]}</span>
                 </button>
             }
             {
                 element === 'delete_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-danger w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-danger w-full select-none gap-2 shadow-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <Icons icon='delete'/>
                     <span>{config.text[lower(name || 'delete')]}</span>
                 </button>
             }
             {
                 element === 'upload_button' &&
-                <button type="button" onClick={onClick} className={`btn btn-primary w-full select-none gap-2 shadow-none hover:opacity-[.8] ${className}`}>
+                <button type="button" onClick={onClick} className={`btn btn-primary w-full select-none gap-2 shadow-none hover:opacity-[.8] text-[1rem] !py-2.5 ${className}`}>
                     <Icons icon='upload'/>
                     <span>{config.text.upload_file}</span>
                 </button>
@@ -269,7 +224,7 @@ export default function Elements ( props ) {
                         </div> : ''
                     }
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-4'}`}>{config.text[lower(label || name)]}</label>
-                    <input id={name} type={'text'} value={children.find(_ => _.id == value)?.name || children.find(_ => _.id == value)?.title || children.find(_ => _.id == value)?.content || '--'} readOnly={true} onClick={() => !readOnly && setModel(true)} className={`form-input flex-1 ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}/>
+                    <input id={name} type={'text'} value={children.find(_ => _.id == value)?.name || children.find(_ => _.id == value)?.title || children.find(_ => _.id == value)?.content || '--'} readOnly={true} onClick={() => !readOnly && setModel(true)} className={`form-input flex-1 for-select-menu ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}/>
                     { !readOnly && <Select model={model} setModel={setModel} data={children} label={lower(label || name)} onChange={onChange} roles={roles} type={(name.includes('client') || name.includes('vendor') || name.includes('admin') || name.includes('user')) ? '' : 'md'}/> }
                 </div>
             }
@@ -309,7 +264,7 @@ export default function Elements ( props ) {
             {
                 element === 'scroll_down' &&
                 <div onClick={onClick} className={`absolute right-[1.3rem] bottom-[5rem] rtl:left-[1.3rem] rtl:right-auto w-[2.2rem] h-[2.2rem] text-white bg-primary rounded-full flex justify-center items-center cursor-pointer border border-primary hover:opacity-[.8] ${className}`}>
-                    <span className="material-symbols-outlined icon mt-[2px]">expand_more</span>
+                    <span className="material-symbols-outlined icon mt-[2px] !text-[1.6rem]">expand_more</span>
                 </div>
             }
             {
@@ -368,7 +323,7 @@ export default function Elements ( props ) {
             {
                 element === 'tabs' &&
                 <div className={`panel panel-tabs w-full p-0 rounded-md overflow-hidden flex justify-start items-center gap-x-3 ${className}`}>
-                    <ul className="w-full flex font-semibold whitespace-nowrap tracking-wide overflow-x-auto select-none">
+                    <ul className="w-full flex font-semibold whitespace-nowrap lg:flex-wrap tracking-wide overflow-x-auto select-none">
                         {children}
                     </ul>
                 </div>
@@ -386,17 +341,17 @@ export default function Elements ( props ) {
             }
             {
                 element === 'page_title' &&
-                <div className="panel !p-6 flex justify-between items-center gap-4 cursor-default !bg-primary/10 dark:!bg-[#1b3c48]/50">
+                <div className="panel !p-6 flex justify-between items-center gap-4 cursor-default !bg-white dark:!bg-[#1b3c48]/50">
 
-                    <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col gap-5 px-2'>
 
-                        <p className='text-[1.1rem] font-semibold dark:text-white tracking-wide'>
+                        <p className='text-[1.2rem] font-semibold dark:text-white tracking-wide'>
                             {config.text[label]}
                         </p>
                         
-                        <div className='flex items-center gap-2 text-[.9rem]'>
-                            <Link href='/' className='dark:text-white-light/75 hover:underline'>{config.text.home}</Link>
-                            <span>•</span>
+                        <div className='flex items-center gap-2 text-[.95rem]'>
+                            <Link href='/' className='dark:text-white-light/75 hover:underline select-none'>{config.text.home}</Link>
+                            <span className="select-none">•</span>
                             <p className='dark:text-white-light'>
                                 {config.text[name]}
                             </p>
@@ -404,7 +359,7 @@ export default function Elements ( props ) {
 
                     </div>
 
-                    <div className='w-[6rem] h-[6rem] sm:w-[8rem] sm:h-[8rem] absolute -bottom-8 ltr:right-8 rtl:left-8'>
+                    <div className='w-[6rem] h-[6rem] sm:w-[9rem] sm:h-[8rem] absolute -bottom-4 ltr:right-5 rtl:left-5'>
                         <div className='layer-div'>
                             <img src="/media/layout/chatbc.png" className='max-w-full h-full'/>
                         </div>
@@ -414,180 +369,170 @@ export default function Elements ( props ) {
             }
             {
                 element === 'time_list' &&
-                <div className="flex flex-col gap-4">
-
-                    <label className='cursor-default line-clamp-1'>{config.text.available_times}</label>
-
-                    <div className="panel !px-6 !py-8 w-full grid grid-cols-2 md:grid-cols-2 gap-5 duration-300 transition-all">
-                        {
-                            Array.from({ length: count }, (_, i) => 
-                                <div key={i} className="w-full relative px-4 py-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
-
-                                    <label htmlFor={i} className='cursor-default line-clamp-1 mb-4'>{config.text.time} {i+1}</label>
-
-                                    <input 
-                                        id={i}
-                                        type="time" 
-                                        className="form-input" 
-                                        value={list[i] || ''} 
-                                        onChange={(e) => {
-                                            const newValues = [...list];
-                                            newValues[i] = e.target.value;
-                                            onChange(JSON.stringify(newValues));
-                                        }} 
-                                    />
-
-                                    <div onClick={() => { onChange(JSON.stringify(list.filter((_, index) => index !== i))); setCount( count-1 || 1); }} className="absolute top-4 ltr:right-4 rtl:left-4 w-[1.7rem] h-[1.7rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]">
-                                        <Icons icon='close' className='!w-4 -h-4'/>
-                                    </div>
-
-                                </div>
-                            )
-                        }
-                    </div>
-
-                    <div className="w-full flex justify-end items-center gap-3 pt-2 select-none">
-
-                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
-                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
-                            <span>{config.text.add_new}</span>
-                        </button>
-
-                    </div>
-
+                <div className="flex flex-col gap-5">
+                    <label className='cursor-default line-clamp-1 mb-1'>{config.text.available_times}</label>
+                    <Times_List value={value} onChange={onChange}/>
                 </div>
             }
             {
                 element === 'include_list' &&
                 <div className="flex flex-col gap-5">
-
-                    <label className='cursor-default line-clamp-1 mb-4'>{config.text.what_include}</label>
-
-                    <div className="panel !px-6 !py-8 w-full grid grid-cols-2 md:grid-cols-2 gap-5 duration-300 transition-all">
-
-                        {
-                            Array.from({ length: count }, (_, i) => 
-                                <div key={i} className="w-full relative px-4 py-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
-
-                                    <input 
-                                        id={i}
-                                        type="text" 
-                                        className="form-input !py-3 !px-5" 
-                                        value={list[i] || ''} 
-                                        onChange={(e) => {
-                                            const newValues = [...list];
-                                            newValues[i] = e.target.value;
-                                            onChange(JSON.stringify(newValues));
-                                        }} 
-                                    />
-
-                                    <div onClick={() => { onChange(JSON.stringify(list.filter((_, index) => index !== i))); setCount( count-1 || 1); }} className="absolute top-7 ltr:right-7 rtl:left-7 w-[1.7rem] h-[1.7rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]">
-                                        <Icons icon='close' className='!w-4 -h-4'/>
-                                    </div>
-
-                                </div>
-                            )
-                        }
-
-                    </div>
-
-                    <div className="w-full flex justify-end items-center gap-3 select-none">
-
-                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
-                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
-                            <span>{config.text.add_new}</span>
-                        </button>
-
-                    </div>
-
+                    <label className='cursor-default line-clamp-1 mb-2'>{config.text.what_include}</label>
+                    <Includes_List value={value} onChange={onChange}/>
                 </div>
             }
             {
-                element === 'expected_list' &&
-                <div className="flex flex-col gap-5">
-
-                    <label className='cursor-default line-clamp-1 mb-4'>{config.text.what_expected}</label>
-
-                    <div className="panel !px-6 !py-8 w-full grid grid-cols-1 gap-5 duration-300 transition-all">
-
+                element === 'json_input' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'}`}>{config.text[lower(label || name)]}</label>
+                    <ul className="w-full pb-6 flex items-center gap-2.5">
                         {
-                            Array.from({ length: count }, (_, i) => 
-                                <div key={i} className="w-full relative p-5 px-6 space-y-5 rounded-sm border border-border dark:border-menu-dark duration-300 transition-all bg-gray-50 dark:bg-dark/20">
-                                    
-                                    <div className="w-full flex justify-between items-center">
-                                        
-                                        <label className='cursor-default line-clamp-1 w-[5.5rem] text-[1.2rem] font-semibold'>{i+1}</label>
+                            langs.map((item, index) =>
+                                <li key={index} onClick={() => setLang(item)} className={`py-1.5 px-3.5 rtl:pb-2 rounded-[.5rem] cursor-pointer border border-border dark:border-border-dark font-semibold tracking-wide text-[.9rem] select-none bg-white-light/30 dark:bg-black/20 duration-300 hover:bg-white-light dark:hover:bg-menu-dark ${lang === item && '!bg-white-light dark:!bg-menu-dark shadow-md dark:!text-white-light'}`}>
+                                    {config.text[item]}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    {
+                        langs.map((item, index) => 
+                            <input 
+                                key={index}
+                                id={name} 
+                                type={type || 'text'} 
+                                onKeyUp={onKeyUp} 
+                                onFocus={(e) => copyable ? copy(value, e.target) : ''} 
+                                readOnly={readOnly} 
+                                ref={focus ? ref : inputRef} 
+                                autoComplete="off"
+                                value={JSON.parse(value || '{}')[item] || ''} 
+                                onChange={(e) => {
+                                    let _value_ = JSON.parse(value || '{}');
+                                    _value_[item] = e.target.value;
+                                    onChange(JSON.stringify(_value_));
+                                }}
+                                className={`form-input flex-1 ${readOnly ? 'cursor-default': ''} ${lang !== item && 'hidden'}`} 
+                            />
+                        )
+                    }
+                </div>
+            }
+            {
+                element === 'json_textarea' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'}`}>{config.text[lower(label || name)]}</label>
+                    <ul className="w-full pb-6 flex items-center gap-2.5">
+                        {
+                            langs.map((item, index) =>
+                                <li key={index} onClick={() => setLang(item)} className={`py-1.5 px-3.5 rtl:pb-2 rounded-[.5rem] cursor-pointer border border-border dark:border-border-dark font-semibold tracking-wide text-[.9rem] select-none bg-white-light/30 dark:bg-black/20 duration-300 hover:bg-white-light dark:hover:bg-menu-dark ${lang === item && '!bg-white-light dark:!bg-menu-dark shadow-md dark:!text-white-light'}`}>
+                                    {config.text[item]}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    {
+                        langs.map((item, index) => 
+                            <textarea 
+                                key={index}
+                                id={name} 
+                                readOnly={readOnly} 
+                                rows={rows || 5} 
+                                ref={ref} 
+                                value={JSON.parse(value || '{}')[item] || ''} 
+                                onChange={(e) => {
+                                    let _value_ = JSON.parse(value || '{}');
+                                    _value_[item] = e.target.value;
+                                    onChange(JSON.stringify(_value_));
+                                }}
+                                className={`form-textarea min-h-[80px] resize-none ${readOnly && 'cursor-default'} ${lang !== item && 'hidden'}`}
+                                >
+                            </textarea>
+                        )
+                    }
+                </div>
+            }
+            {
+                element === 'json_editor' &&
+                <div className={`w-full ${className.includes('flex') && 'flex justify-center items-start'} small ${className}`}>
+                    <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[5.5rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'}`}>{config.text[lower(label || name)]}</label>
+                    <ul className="w-full pb-6 flex items-center gap-2.5">
+                        {
+                            langs.map((item, index) =>
+                                <li key={index} onClick={() => setLang(item)} className={`py-1.5 px-3.5 rtl:pb-2 rounded-[.5rem] cursor-pointer border border-border dark:border-border-dark font-semibold tracking-wide text-[.9rem] select-none bg-white-light/30 dark:bg-black/20 duration-300 hover:bg-white-light dark:hover:bg-menu-dark ${lang === item && '!bg-white-light dark:!bg-menu-dark shadow-md dark:!text-white-light'}`}>
+                                    {config.text[item]}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    {
+                        langs.map((item, index) => 
+                            <Quill 
+                                key={index}
+                                focus
+                                className={`${lang !== item && 'hidden'}`}
+                                value={JSON.parse(value || '{}')[item]} 
+                                onChange={(content, text) => {
+                                    let _value_ = JSON.parse(value || '{}');
+                                    _value_[item] = content;
+                                    onChange(JSON.stringify(_value_));
+                                }}
+                            />
+                        )
+                    }
+                </div>
+            }
+            {
+                element === 'json_include_list' &&
+                <div className="flex flex-col gap-4">
+                    <label className='cursor-default line-clamp-1'>{config.text.what_include}</label>
+                    <ul className="w-full pb-3 flex items-center gap-2.5">
+                        {
+                            langs.map((item, index) =>
+                                <li key={index} onClick={() => setLang(item)} className={`py-1.5 px-3.5 rtl:pb-2 rounded-[.5rem] cursor-pointer border border-border dark:border-border-dark font-semibold tracking-wide text-[.9rem] select-none bg-white-light/30 dark:bg-black/20 duration-300 hover:bg-white-light dark:hover:bg-menu-dark ${lang === item && '!bg-white-light dark:!bg-menu-dark shadow-md dark:!text-white-light'}`}>
+                                    {config.text[item]}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    {
+                        langs.map((item, index) =>
+                            <Includes_List 
+                                key={index}
+                                value={JSON.stringify(JSON.parse(value || '{}')[item] || [])} 
+                                onChange={(e) => {
+                                    let _value_ = JSON.parse(value || '{}');
+                                    _value_[item] = JSON.parse(e);
+                                    onChange(JSON.stringify(_value_));
+                                }}
+                                className={`${lang !== item && 'hidden'}`}
+                            />
+                        )
+                    }
+                </div>
+            }
+            {
+                element === 'choice' &&
+                <div className="w-full">
 
-                                        <div className="w-[1.8rem] h-[1.8rem] border border-border dark:border-border-dark flex justify-center items-center rounded-full dark:text-white-light cursor-pointer bg-menu dark:bg-menu-dark duration-300 hover:scale-[1.1]"
-                                            onClick={() => { 
-                                                onChange(JSON.stringify(list.filter((_, index) => index !== i))); 
-                                                setList(list.filter((_, index) => index !== i)); 
-                                                setCount(count-1 || 1);
-                                            }}>
+                    <label className='cursor-default text-[1.2rem]'>{config.text[label || name]}</label>
 
-                                            <Icons icon='close' className='!w-5 -h-5'/>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-5">
-
-                                        <input 
-                                            type="text" 
-                                            className="form-input" 
-                                            placeholder={config.text.place_name}
-                                            value={list[i]?.name || ''} 
-                                            onChange={(e) => {
-                                                const newValues = [...list];
-                                                newValues[i] = {...list[i], name: e.target.value};
-                                                onChange(JSON.stringify(newValues));
-                                                setList(newValues);
-                                            }} 
-                                        />
-
-                                        <input 
-                                            type="text" 
-                                            className="form-input" 
-                                            placeholder={config.text.expected_time}
-                                            value={list[i]?.time || ''} 
-                                            onChange={(e) => {
-                                                const newValues = [...list];
-                                                newValues[i] = {...list[i], time: e.target.value};
-                                                onChange(JSON.stringify(newValues));
-                                                setList(newValues);
-                                            }} 
-                                        />
-
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <Quill 
-                                            className='ql-editor-small' 
-                                            value={list[i]?.content || ''} 
-                                            onChange={(e, text) => {
-                                                const newValues = [...list];
-                                                newValues[i] = {...list[i], content: e, description: text};
-                                                onChange(JSON.stringify(newValues));
-                                                setList(newValues);
-                                            }} 
-                                        />
-                                    </div>
-
+                    <ul className="w-full pt-5 flex items-center gap-5">
+                        {
+                            items?.map((item, index) =>
+                                <div key={index} className='w-full flex justify-start items-center select-none'>
+                                    <label className="w-12 h-6 relative">
+                                        <input id={item.name} checked={value === item.id} onChange={() => onChange(item.id)} ref={ref} type="checkbox" className="absolute w-full h-full opacity-0 z-10 cursor-pointer peer"/>
+                                        <span className="bg-[#ebedf2] dark:bg-menu-dark block h-full rounded-full before:absolute before:left-1 
+                                            before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 
+                                            before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary 
+                                            before:transition-all before:duration-300">
+                                        </span>
+                                    </label>
+                                    <label htmlFor={item.name} className="ltr:pl-4 rtl:pr-4 cursor-pointer max-w-[60%] overflow-hidden !text-[1.05rem]">{config.text[lower(item.name)]}</label>
                                 </div>
                             )
                         }
-
-                    </div>
-
-                    <div className="w-full flex justify-end items-center gap-3 select-none">
-
-                        <button onClick={() => setCount(count+1)} className="w-[9rem] py-2.5 text-[.95rem] font-semibold cursor-pointer bg-primary text-white rounded-md duration-300 hover:opacity-[.8] flex justify-center items-center gap-2">
-                            <span className="material-symbols-outlined !text-[1.2rem]">add_circle</span>
-                            <span>{config.text.add_new}</span>
-                        </button>
-
-                    </div>
+                    </ul>
 
                 </div>
             }

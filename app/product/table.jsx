@@ -16,12 +16,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             searchParams={params} item_filters={item_filters} {...options}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'info', title: 'name', hidden: false, render: ({ info }) => (
+                    accessor: 'info', label: 'name', hidden: false, render: ({ info }) => (
                         <div>
                             <Elements element='image' value={info.image} type='md'/>
                             <span>{info.name}</span>
@@ -29,7 +29,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'vendor', title: 'vendor', hidden: item_filters, render: ({ vendor }) => (
+                    accessor: 'vendor', label: 'vendor', hidden: item_filters?.vendor_id, render: ({ vendor }) => (
                         <div className='max-w-[12rem]'>
                             { vendor && <Elements element='image' value={vendor.image}/> }
                             { vendor ? <Link href={`/vendor?edit=${vendor.id}`}>{vendor.name}</Link> : <span>--</span> }
@@ -37,7 +37,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'category', title: 'category', hidden: item_filters, render: ({ category }) => (
+                    accessor: 'category', label: 'category', hidden: item_filters?.category_id, render: ({ category }) => (
                         <div className='max-w-[12rem]'>
                             { category && <Elements element='image' value={category.image} type='md'/> }
                             { category ? <Link href={`/category?edit=${category.id}`}>{category.name}</Link> : <span>--</span> }
@@ -45,22 +45,25 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'new_price', title: 'price', hidden: false, render: ({ new_price }) => (
-                        <span>{fix_number(new_price, true)}&nbsp;{config.text.curr}</span>
+                    accessor: 'new_price', label: 'price', hidden: false, render: ({ new_price }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(new_price, true)}</span>
+                            <span>{config.text.curr}</span>
+                        </span>
                     )
                 },
                 {
-                    accessor: 'orders', title: 'orders', hidden: false, render: ({ orders }) => (
-                        <span>{orders}</span>
+                    accessor: 'orders', label: 'orders', hidden: false, render: ({ orders }) => (
+                        <span className='!font-nunito'>{fix_number(orders)}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

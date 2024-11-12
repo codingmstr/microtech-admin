@@ -80,10 +80,10 @@ export default function Form ({ data, setData, users, setTab, setType }) {
                             <Elements element='file_type' label='attachements' children={files}/>
                         </div>
                             
-                        <div className="w-full flex justify-end items-center gap-4">
+                        <div className="w-full flex justify-end items-center gap-3">
 
-                            <button onClick={() => setTab('table')} className="btn btn-danger shadow-none hover:opacity-[.8] w-full sm:w-[9rem] tracking-wide">Cancel</button>
-                            <button onClick={() => _send_()} className="btn btn-success shadow-none hover:opacity-[.8] w-full sm:w-[9rem] tracking-wide">Submit</button>
+                            <button onClick={() => _send_()} className="btn btn-success shadow-none hover:opacity-[.8] !py-2.5 text-[1rem] w-full sm:w-[9rem] tracking-wide">{config.text.submit}</button>
+                            <button onClick={() => setTab('table')} className="btn btn-danger shadow-none hover:opacity-[.8] !py-2.5 text-[1rem] w-full sm:w-[9rem] tracking-wide">{config.text.cancel}</button>
 
                         </div>
 

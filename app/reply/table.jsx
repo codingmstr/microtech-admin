@@ -1,5 +1,5 @@
 "use client";
-import { fix_date, fix_number } from '@/public/script/main';
+import { fix_date } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
 import Elements from "@/components/elements";
@@ -16,12 +16,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             searchParams={params} item_filters={item_filters} {...options}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'client', title: 'client', hidden: item_filters, render: ({ client }) => (
+                    accessor: 'client', label: 'client', hidden: item_filters?.client_id, render: ({ client }) => (
                         <div className='max-w-[12rem]'>
                             { client && <Elements element='image' value={client.image}/> }
                             { client ? <Link href={`/client?edit=${client.id}`}>{client.name}</Link> : <span>--</span> }
@@ -29,24 +29,24 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'comment', title: 'comment', hidden: item_filters, render: ({ comment }) => (
+                    accessor: 'comment', label: 'comment', hidden: item_filters?.comment_id, render: ({ comment }) => (
                         <div className='max-w-[12rem]'>
                             { comment ? <Link href={`/comment?edit=${comment.id}`}>{comment.content}</Link> : <span>--</span> }
                         </div>
                     )
                 },
                 {
-                    accessor: 'content', title: 'content', hidden: false, render: ({ content }) => (
+                    accessor: 'content', label: 'content', hidden: false, render: ({ content }) => (
                         <span>{content || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

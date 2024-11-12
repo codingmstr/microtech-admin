@@ -67,7 +67,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
                         <Elements element='image' value={config.user.image} className='w-8 h-8'/>
 
-                        <span className='px-[.85rem] -mt-[3px] truncate max-w-[9rem] tracking-wide'>{config.user.name}</span>
+                        <span className='px-[.9rem] -mt-[3px] truncate max-w-[9rem] tracking-wide'>{config.user.name}</span>
 
                     </div>
 
@@ -90,11 +90,11 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                 <div className='w-full select-none'>
                     {
                         contacts.length ?
-                        <div className="contacts outline-none border-none perfect-scrollbar relative h-[calc(100vh_-_300px)] space-y-0.5 pr-3.5 -mr-4 overflow-y-auto overflow-x-hidden">
+                        <div className="contacts outline-none border-none perfect-scrollbar relative h-[calc(100vh_-_300px)] space-y-2 pr-3.5 -mr-4 overflow-y-auto overflow-x-hidden">
                             {
                                 contacts.map((item, index) =>
                                 
-                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex justify-between items-center w-full border-primary/20 m-0 p-[.8rem] group relative cursor-pointer outline-none chat-user hover:bg-[#eee]/50 dark:hover:bg-menu-dark/30 ${index > 0 && 'border-t'} ${room.id === item.id && 'bg-[#eee]/50 dark:bg-menu-dark/30'}`}>
+                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex mt-2 justify-between items-center w-full border border-border dark:border-border-dark m-0 p-[.8rem] bg-[#eee]/20 dark:bg-menu-dark/20 group rounded-sm relative cursor-pointer outline-none chat-user hover:bg-[#eee]/30 dark:hover:bg-menu-dark/40 ${index > 0 && ''} ${room.id === item.id && '!bg-[#eee]/40 dark:!bg-menu-dark/50'}`}>
                                                     
                                         <div className="flex flex-1 items-center">
                         
@@ -106,11 +106,11 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                         
                                             </div>
                         
-                                            <div className="mx-3 ltr:text-left rtl:text-right">
+                                            <div className="mx-3 ltr:text-left rtl:text-right rtl:-mt-[2px]">
                         
                                                 <p className="font-semibold max-w-[8rem] truncate dark:text-white-light/75">{item.user.name}</p>
                         
-                                                <p className="flex text-xs text-white-dark truncate max-w-[8rem] mt-[.2rem]">
+                                                <p className="flex text-xs text-[.9rem] text-white-dark truncate max-w-[8rem] mt-[.35rem]">
                                                     {
                                                         item.messages.slice(-1)[0]?.sender_id === current_user.id &&
                                                         <span className={`material-symbols-outlined ltr:mr-[2px] rtl:ml-[2px] ${item.messages.slice(-1)[0]?.readen && 'text-primary'}`} style={{ fontSize: '1rem' }}>check</span>
@@ -129,13 +129,13 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                             
                                         <div className="font-semibold whitespace-nowrap text-xs space-y-1">
                             
-                                            <p>{ fix_date(item.messages.slice(-1)[0]?.created_at || item.created_at, true) }</p>
+                                            <p className='text-[.75rem] !font-nunito'>{ fix_date(item.messages.slice(-1)[0]?.created_at || item.created_at, true) }</p>
                             
                                             <div className='flex justify-end'>
                             
                                                 { 
                                                     item.unreaden ?
-                                                    <div className="flex justify-center items-center w-[1rem] h-[1rem] rounded-full bg-[green] mt-[2px] text-white text-[.6rem] overflow-hidden">
+                                                    <div className="flex justify-center items-center w-[1.2rem] h-[1.2rem] rounded-full bg-success mt-[2px] text-white text-[.7rem] !font-nunito overflow-hidden">
                                                         {item.unreaden}
                                                     </div>: ''
                                                 }
@@ -164,10 +164,9 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                         </div> :
                         <div className="empty mt-4">
 
-                            <div className="w-full flex justify-center items-center py-10 no-select">
-
-                                <p className="tracking-wide">{config.text.no_data}</p>
-
+                            <div className="w-full h-[calc(100vh_-_350px)] flex justify-center items-center flex-col gap-4 py-10 no-select layer-div">
+                                <img src="/media/layout/empty-chat.png" className='w-[5rem] opacity-[.8]' style={{ filter: 'sepia(1) saturate(2) hue-rotate(-25deg) brightness(1.1)' }}/>
+                                <p className='text-[.95rem]'>{config.text.no_data}</p>
                             </div>
 
                         </div>

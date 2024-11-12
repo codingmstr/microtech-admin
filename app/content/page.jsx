@@ -38,7 +38,7 @@ export default function Content () {
 
     return (
 
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-5">
 
             <Elements element='page_title' label='content_manager' name='content_manager'/>
 
@@ -84,34 +84,38 @@ export default function Content () {
                     }
                 </div>
 
-                <div className='flex flex-col gap-5 xl:w-[28%]'>
+                <div className='flex flex-col xl:w-[28%]'>
 
-                    <div className='panel'>
-                            
-                        <h6 className="text-[1rem] -mt-[3px] font-semibold mb-4 select-none dark:text-white-light/75">{config.text.logo}</h6>
+                    <div className='space-y-5 select-none sticky top-[1.5rem]'>
 
-                        <div className="w-full grid grid-cols-1">
-                            <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e.file})}/>
+                        <div className='panel'>
+                                
+                            <h6 className="text-[1rem] -mt-[3px] font-semibold mb-4 select-none dark:text-white-light/75">{config.text.logo}</h6>
+
+                            <div className="w-full grid grid-cols-1">
+                                <Elements element='image_edit' name='logo' className='h-[11rem]' type='md' value={data.logo} onChange={(e) => setData({...data, logo_file: e.file})}/>
+                            </div>
+                        
                         </div>
-                    
-                    </div>
 
-                    <div className="panel">
+                        <div className="panel">
 
-                        <h1 className='flex items-center opacity-[.8] select-none'>
+                            <h1 className='flex items-center opacity-[.8] select-none'>
 
-                            <Icons icon='setting' className='dark:!text-white-light'/>
+                                <Icons icon='setting' className='dark:!text-white-light'/>
 
-                            <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
+                                <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
-                        </h1>
+                            </h1>
 
-                        <Elements element='hr' className='my-7 mt-5'/>
+                            <Elements element='hr' className='my-7 mt-5'/>
 
-                        <div className='grid grid-cols-2 gap-4 pb-2'>
+                            <div className='grid grid-cols-2 gap-4 pb-2'>
 
-                            <Elements element='save_button' onClick={_save_}/>
-                            <Elements element='cancel_button' onClick={() => {}}/>
+                                <Elements element='save_button' onClick={_save_}/>
+                                <Elements element='cancel_button' onClick={() => {}}/>
+
+                            </div>
 
                         </div>
 

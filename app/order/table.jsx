@@ -17,12 +17,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             filters={['pending', 'confirmed', 'cancelled', 'request']}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'client', title: 'client', hidden: item_filters, render: ({ client }) => (
+                    accessor: 'client', label: 'client', hidden: item_filters?.client_id, render: ({ client }) => (
                         <div className='max-w-[12rem]'>
                             { client && <Elements element='image' value={client.image}/> }
                             { client ? <Link href={`/client?edit=${client.id}`}>{client.name}</Link> : <span>--</span> }
@@ -30,7 +30,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'product', title: 'product', hidden: item_filters, render: ({ product }) => (
+                    accessor: 'product', label: 'product', hidden: item_filters?.product_id, render: ({ product }) => (
                         <div className='max-w-[12rem]'>
                             { product && <Elements element='image' value={product.image} type='md'/> }
                             { product ? <Link href={`/product?edit=${product.id}`}>{product.name}</Link> : <span>--</span> }
@@ -38,19 +38,22 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'price', title: 'price', hidden: false, render: ({ price }) => (
-                        <span>{fix_number(price, true)}&nbsp;{config.text.curr}</span>
+                    accessor: 'price', label: 'price', hidden: false, render: ({ price }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(price, true)}</span>
+                            <span>{config.text.curr}</span>
+                        </span>
                     )
                 },
                 {
-                    accessor: 'paid', title: 'paid', hidden: false, render: ({ paid }) => (
+                    accessor: 'paid', label: 'paid', hidden: false, render: ({ paid }) => (
                         <span className={`badge ${paid ? 'badge-success' : 'badge-danger'}`}>
                             { paid ? config.text.paid : config.text.not_paid }
                         </span>
                     )
                 },
                 {
-                    accessor: 'status', title: 'status', hidden: false, render: ({ status }) => (
+                    accessor: 'status', label: 'status', hidden: false, render: ({ status }) => (
                         <div>
                             {
                                 status === 'confirmed' ?
@@ -66,12 +69,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

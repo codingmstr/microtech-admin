@@ -35,7 +35,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     options: {cols: 2, gap: 5, hr: true},
                     inputs: [
                         {element: 'input', type: 'number', name: 'id', label: 'item_id', readOnly: true},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', readOnly: true},
                     ],
                 },
                 {

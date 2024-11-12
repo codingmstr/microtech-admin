@@ -29,7 +29,7 @@ export default function Error ({ error, reset }) {
                     <span>{config.text.wrong2}</span>
                 </p>
 
-                <button className="btn btn-primary btn-badge shadow-none hover:opacity-[.8]" onClick={reset}>{config.text.refresh}</button>
+                <button className="btn btn-primary btn-badge shadow-none hover:opacity-[.8] text-[1rem] !py-2.5" onClick={reset}>{config.text.refresh}</button>
                 
             </div>
 

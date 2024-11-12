@@ -18,6 +18,8 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
             matching(`--${item.id}`, search) ||
             matching(item.name, search) ||
             matching(item.title, search) ||
+            matching(item.country, search) ||
+            matching(item.location, search) ||
             matching(item.email, search) ||
             matching(item.created_at, search) ||
             matching(fix_date(item.created_at), search) ||
@@ -61,7 +63,7 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                 { config.text.select } { config.text[label || 'user'] }
             </div>
 
-            <div className="p-5 min-h-[21rem]">
+            <div className="p-5">
 
                 <div className="relative mb-5">
 
@@ -69,25 +71,25 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
 
                 </div>
 
-                <div className="all-data max-h-[calc(100vh_-_250px)] pb-2 overflow-auto select-none">
+                <div className="all-data min-h-[20rem] max-h-[calc(100vh_-_250px)] pb-2 overflow-auto select-none">
                     {
                         items.length ? items.map((item, index) => 
 
                             <div key={index} onClick={() => { setModel(false); onChange(item.id); }} className="flex border-t items-start border-border dark:border-border-dark hover:bg-[#eee] dark:hover:bg-[#eee]/5 pointer contact-item" style={{ padding: '.6rem .5rem' }}>
                                 
-                                <Elements element='image' value={item.image} type={type} className="w-10 h-10 ltr:mr-3 rtl:ml-3 mt-[3px] flex justify-center items-center"/>
+                                <Elements element='image' value={item.image} type={type} className="w-10 h-10 ltr:mr-4 rtl:ml-4 mt-[3px] flex justify-center items-center"/>
 
                                 <div className="flex-1 font-semibold max-w[80%]">
                                     
-                                    <h6 className="text-base name text-[.9rem]">
+                                    <h6 className="text-base name text-[1rem]">
                                         
                                         <p className='line-clamp-2 text-ellipsis'>{item.name || item.title || item.content || ''}</p>
                                         
                                     </h6>
 
-                                    <div className="flex text-xs tell text-[.7rem] mt-[3px] opacity-[.8]">
+                                    <div className="flex text-xs tell !text-[.9rem] mt-[5px] opacity-[.8]">
                                  
-                                        <div className='flex justify-start items-center ltr:mr-2 rtl:ml-2 space-x-1'>
+                                        <div className='flex justify-start items-center ltr:mr-2 rtl:ml-2 space-x-1 !font-nunito !font-semibold'>
                                                 
                                             { item.created_at && <span>{fix_date(item.created_at)}</span> }
                                             { item.new_price && <span>~&nbsp;{fix_number(item.new_price, true)} {config.text.currency}</span> }
@@ -105,14 +107,13 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                             </div>
 
                         ) :
-                        <div className="w-full">
+                        <div className="w-full h-[17rem]">
 
-                            <div className="h-px w-full border-b border-border dark:border-border-dark"></div>
+                            {/* <div className="h-px w-full border-b border-border dark:border-border-dark"></div> */}
                             
-                            <div className="w-full flex justify-center items-center py-10 no-select">
-
-                                <p className='text-[.8rem]'>{config.text.no_data}</p>
-
+                            <div className="w-full h-full flex justify-center items-center flex-col gap-4 py-10 no-select layer-div">
+                                <img src="/media/layout/empty-data.png" className='w-[5rem] opacity-[.8]'/>
+                                <p className='text-[.95rem]'>{config.text.no_data}</p>
                             </div>
 
                         </div>

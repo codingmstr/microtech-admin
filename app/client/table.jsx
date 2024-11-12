@@ -1,5 +1,5 @@
 "use client";
-import { fix_date } from '@/public/script/main';
+import { fix_date, fix_number } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
 import Elements from "@/components/elements";
@@ -15,12 +15,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             searchParams={params} item_filters={item_filters} {...options}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'info', title: 'name', hidden: false, render: ({ info }) => (
+                    accessor: 'info', label: 'name', hidden: false, render: ({ info }) => (
                         <div>
                             <Elements element='image' value={info.image}/>
                             <span>{info.name}</span>
@@ -28,27 +28,27 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'email', title: 'email', hidden: false, render: ({ email }) => (
-                        <span>{email}</span>
+                    accessor: 'email', label: 'email', hidden: false, render: ({ email }) => (
+                        <span className='!font-nunito'>{email}</span>
                     )
                 },
                 {
-                    accessor: 'phone', title: 'phone', hidden: false, render: ({ phone }) => (
-                        <span>{phone}</span>
+                    accessor: 'phone', label: 'phone', hidden: false, render: ({ phone }) => (
+                        <span className='!font-nunito'>{phone}</span>
                     )
                 },
                 {
-                    accessor: 'orders', title: 'orders', hidden: false, render: ({ orders }) => (
-                        <span>{orders}</span>
+                    accessor: 'orders', label: 'orders', hidden: false, render: ({ orders }) => (
+                        <span className='!font-nunito'>{fix_number(orders)}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false , render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false , render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

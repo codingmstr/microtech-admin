@@ -15,37 +15,37 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             add={false}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'name', title: 'name', hidden: false, render: ({ name }) => (
+                    accessor: 'name', label: 'name', hidden: false, render: ({ name }) => (
                         <span>{name || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'email', title: 'email', hidden: false, render: ({ email }) => (
-                        <span>{email || '--'}</span>
+                    accessor: 'email', label: 'email', hidden: false, render: ({ email }) => (
+                        <span className='!font-nunito'>{email || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'phone', title: 'phone', hidden: false, render: ({ phone }) => (
-                        <span>{phone || '--'}</span>
+                    accessor: 'phone', label: 'phone', hidden: false, render: ({ phone }) => (
+                        <span className='!font-nunito'>{phone || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'content', title: 'content', hidden: false, render: ({ content }) => (
+                    accessor: 'content', label: 'content', hidden: false, render: ({ content }) => (
                         <span>{content || '--'}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'active', title: 'status', hidden: false, render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

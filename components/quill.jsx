@@ -12,7 +12,7 @@ const ReactQuill = dynamic(
 );
 const modules = {
     toolbar: [
-        [{'font': []}],
+        // [{'font': []}],
         [{size: []}],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{'list': 'ordered'}, {'list': 'bullet'}, 

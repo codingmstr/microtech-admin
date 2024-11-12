@@ -1,5 +1,5 @@
 "use client";
-import { fix_date } from '@/public/script/main';
+import { fix_date, fix_number } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
 import Elements from "@/components/elements";
@@ -17,12 +17,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
             edit={false}
             columns={[
                 {
-                    accessor: 'id', title: 'id', hidden: false, render: ({ id }) => (
-                        <span>{id}</span>
+                    accessor: 'id', label: 'id', hidden: false, render: ({ id }) => (
+                        <span className='!font-nunito !text-[1rem]'>{id}</span>
                     )
                 },
                 {
-                    accessor: 'user', title: 'user', hidden: item_filters, render: ({ user }) => (
+                    accessor: 'user', label: 'user', hidden: item_filters, render: ({ user }) => (
                         <div className='max-w-[12rem]'>
                             { user && <Elements element='image' value={user.image}/> }
                             <span>{user.name || '--'}</span>
@@ -30,12 +30,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'info', title: 'process', hidden: false, render: ({ info }) => (
+                    accessor: 'info', label: 'process', hidden: false, render: ({ info }) => (
                         <span>{config.text[info.process]} {config.text[info.table]}</span>
                     )
                 },
                 {
-                    accessor: 'item', title: 'item', hidden: item_filters, render: ({ item }) => (
+                    accessor: 'item', label: 'item', hidden: item_filters?.vendor_id || item_filters?.client_id, render: ({ item }) => (
                         <div className='max-w-[12rem]'>
                             { item?.image && <Elements element='image' value={item.image} type={item.role ? '' : 'md'}/> }
                             { item ? <span>{item.name || item.title || item.content || '--'}</span> : '--' }
@@ -43,22 +43,22 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'price', title: 'price', hidden: false, render: ({ price }) => (
-                        <span>{price ? `${price} ${config.text.curr}` : '--'}</span>
+                    accessor: 'price', label: 'price', hidden: false, render: ({ price }) => (
+                        <span className='!font-nunito'>{price ? `${fix_number(price, true)} ${config.text.curr}` : '--'}</span>
                     )
                 },
                 {
-                    accessor: 'amount', title: 'amount', hidden: false, render: ({ amount }) => (
-                        <span>{amount ? `${amount} ${config.text.curr}` : '--'}</span>
+                    accessor: 'amount', label: 'amount', hidden: false, render: ({ amount }) => (
+                        <span className='!font-nunito'>{amount ? `${fix_number(amount, true)} ${config.text.curr}` : '--'}</span>
                     )
                 },
                 {
-                    accessor: 'created_at', title: 'date', hidden: false, render: ({ created_at }) => (
-                        <span>{fix_date(created_at)}</span>
+                    accessor: 'created_at', label: 'date', hidden: false, render: ({ created_at }) => (
+                        <span className='!font-nunito'>{fix_date(created_at)}</span>
                     )
                 },
                 {
-                    accessor: 'status', title: 'status', hidden: false, render: ({ status }) => (
+                    accessor: 'status', label: 'status', hidden: false, render: ({ status }) => (
                         <div>
                             {
                                 status === 'confirmed' ?

@@ -38,7 +38,7 @@ export default function Info ({ data, setData }) {
 
     return (
 
-        <div className="flex justify-between xl:flex-row flex-col gap-5">
+        <div className={`flex justify-between xl:flex-row flex-col gap-5 ${config.animation} animate__animated`}>
 
             <div className="flex flex-col space-y-5 flex-1 cursor-default xl:w-[72%]">
 
@@ -48,7 +48,7 @@ export default function Info ({ data, setData }) {
 
                     <h5 className="font-semibold text-lg mb-5 select-none dark:text-white-light/75">{config.text.general_information}</h5>
 
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-5 pb-8">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-y-7 pb-8">
 
                         <Elements element='input' type='text' name='name' value={data.name} onChange={(e) => setData({...data, name: e})}/>
                         <Elements element='input' type='email' name='email' value={data.email} onChange={(e) => setData({...data, email: e})}/>
@@ -56,13 +56,13 @@ export default function Info ({ data, setData }) {
                         <Elements element='input' type='text' name='company' value={data.company} onChange={(e) => setData({...data, company: e})}/>
                         <Elements element='input' type='number' name='age' value={data.age} onChange={(e) => setData({...data, age: e})}/>
 
-                        <Elements element='languages' name='language' value={data.language || 'ar'} onChange={(e) => setData({...data, language: e})}/>
-                        <Elements element='select_currency' name='currency' value={data.currency || 'usd'} onChange={(e) => setData({...data, currency: e})}/>
-                        <Elements element='countries' name='country' value={data.country || 'EG'} onChange={(e) => setData({...data, country: e})}/>
+                        <Elements element='select' type='language' name='language' value={data.language || 'ar'} onChange={(e) => setData({...data, language: e})}/>
+                        <Elements element='select' type='currency' name='currency' value={data.currency || 'usd'} onChange={(e) => setData({...data, currency: e})}/>
+                        <Elements element='select' type='country' name='country' value={data.country || 'EG'} onChange={(e) => setData({...data, country: e})}/>
                         <Elements element='input' type='text' name='city' value={data.city} onChange={(e) => setData({...data, city: e})}/>
 
-                        <Elements element='input' name='device' value={data.ip} readOnly/>
-                        <Elements element='input' name='last_login' value={fix_date(data.login_at)} readOnly/>
+                        <Elements element='input' type='d' name='device' value={data.ip} readOnly/>
+                        <Elements element='input' type='d' name='last_login' value={fix_date(data.login_at)} readOnly/>
 
                     </div>
 
@@ -86,7 +86,7 @@ export default function Info ({ data, setData }) {
 
                         <Icons icon='setting' className='dark:!text-white-light'/>
 
-                        <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
+                        <span className='font-semibold text-[1.05rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
                     </h1>
 

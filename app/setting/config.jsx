@@ -49,7 +49,7 @@ export default function Configrations ({ data, setData }) {
 
     return (
 
-        <div className="w-full flex flex-col cursor-default">
+        <div className={`w-full flex flex-col cursor-default ${config.animation} animate__animated`}>
 
             <div className="relative w-full min-h-[80vh]">
 

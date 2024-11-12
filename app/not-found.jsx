@@ -30,7 +30,7 @@ export default function NotFound () {
                     <span>{config.text.wrong3}</span>
                 </p>
 
-                <a href="/" className="btn btn-primary btn-badge shadow-none hover:opacity-[.8]">{config.text.take_me_home}</a>
+                <a href="/" className="btn btn-primary btn-badge shadow-none hover:opacity-[.8] text-[1rem] !py-2.5">{config.text.take_me_home}</a>
                 
             </div>
 

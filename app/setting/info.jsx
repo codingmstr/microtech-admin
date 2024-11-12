@@ -27,7 +27,7 @@ export default function Info ({ data, setData }) {
 
     return (
 
-        <div className="w-full flex xl:flex-row flex-col gap-6 cursor-default">
+        <div className={`w-full flex xl:flex-row flex-col gap-6 cursor-default ${config.animation} animate__animated`}>
 
             <div className="flex flex-col flex-1 gap-5">
 
@@ -40,9 +40,9 @@ export default function Info ({ data, setData }) {
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
                         <Elements element='input' type='text' name='name' className='flex' value={data.name} onChange={(e) => setData({...data, name: e})}/>
-                        <Elements element='languages' className='flex' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
+                        <Elements element='select' type='language' className='flex' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
                         <Elements element='input' type='text' name='email' className='flex' value={data.email} onChange={(e) => setData({...data, email: e})}/>
-                        <Elements element='select_currency' className='flex' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
+                        <Elements element='select' type='currency' className='flex' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
                         <Elements element='input' type='text' name='phone' className='flex' value={data.phone} onChange={(e) => setData({...data, phone: e})}/>
 
                     </div>
@@ -51,7 +51,7 @@ export default function Info ({ data, setData }) {
 
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
-                        <Elements element='countries' type='text' name='country' className='flex' value={data.country} onChange={(e) => setData({...data, country: e})}/>
+                        <Elements element='select' type='country' name='country' className='flex' value={data.country} onChange={(e) => setData({...data, country: e})}/>
                         <Elements element='input' type='text' name='city' className='flex' value={data.city} onChange={(e) => setData({...data, city: e})}/>
                         <Elements element='input' type='text' name='street' className='flex' value={data.street} onChange={(e) => setData({...data, street: e})}/>
                         <Elements element='input' type='text' name='location' className='flex' value={data.location} onChange={(e) => setData({...data, location: e})}/>
@@ -77,24 +77,28 @@ export default function Info ({ data, setData }) {
 
             </div>
 
-            <div className='flex flex-col gap-5 xl:w-[28%]'>
+            <div className='flex flex-col xl:w-[28%]'>
 
-                <div className="panel">
+                <div className='space-y-5 select-none sticky top-[1.5rem]'>
 
-                    <h1 className='flex items-center opacity-[.8] select-none'>
+                    <div className="panel">
 
-                        <Icons icon='setting' className='dark:!text-white-light'/>
+                        <h1 className='flex items-center opacity-[.8] select-none'>
 
-                        <span className='font-semibold text-[.95rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
+                            <Icons icon='setting' className='dark:!text-white-light'/>
 
-                    </h1>
+                            <span className='font-semibold text-[1.05rem] px-2 dark:text-white-light'>{config.text.invoice}</span>
 
-                    <Elements element='hr' className='my-7 mt-5'/>
+                        </h1>
 
-                    <div className='grid grid-cols-2 gap-4 pb-2'>
+                        <Elements element='hr' className='my-7 mt-5'/>
 
-                        <Elements element='save_button' onClick={_save_}/>
-                        <Elements element='cancel_button'/>
+                        <div className='grid grid-cols-2 gap-4 pb-2'>
+
+                            <Elements element='save_button' onClick={_save_}/>
+                            <Elements element='cancel_button'/>
+
+                        </div>
 
                     </div>
 

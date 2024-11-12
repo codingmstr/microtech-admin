@@ -200,7 +200,7 @@
         @apply block;
     }
     .collapsible-vertical .main-content {
-        @apply lg:w-[calc(100%-70px)] lg:ltr:ml-[70px] lg:rtl:mr-[70px];
+        @apply lg:w-[calc(100%-80px)] lg:ltr:ml-[80px] lg:rtl:mr-[80px];
     }
 
     .collapsible-vertical .sidebar .collapse-icon,
@@ -338,10 +338,10 @@
     .form-textarea,
     .form-select,
     .form-multiselect {
-        @apply w-full rounded-md border border-border bg-input px-4 py-2 text-sm font-semibold text-black dark:text-white-light !outline-none focus:border-primary focus:ring-transparent dark:border-border-dark dark:bg-input-dark dark:focus:border-primary/50 rtl:text-right;
+        @apply w-full rounded-md border border-border bg-input px-4 py-2 text-[.95rem] font-semibold text-black dark:text-white-light !outline-none focus:border-primary focus:ring-transparent dark:border-border-dark dark:bg-input-dark dark:focus:border-primary/50 rtl:text-right;
     }
     .form-textarea{
-        @apply !py-4 !rounded-sm;
+        @apply !py-4 !rounded-sm text-[1rem];
         scroll-padding-block: 1rem;
     }
     .form-input-lg,
@@ -356,8 +356,11 @@
     .form-multiselect-sm {
         @apply py-1.5 text-xs;
     }
+    .form-input:read-only:not(.for-select-menu), .form-select:disabled, .form-input:disabled{
+        @apply bg-primary/10 !cursor-not-allowed border-primary/30 focus:border-primary;
+    }
     label {
-        @apply mb-1.5 block font-semibold dark:text-white-light/75;
+        @apply mb-1.5 block font-semibold dark:text-white-light/75 text-[1rem];
     }
     [dir='rtl'] select {
         background-position: left 0.5rem center;
@@ -688,4 +691,8 @@ pre.hljs {
 }
 .swal2-container .swal2-popup.swal2-toast.color-success {
     @apply bg-success;
+}
+.left-panel label{
+    font-size: .95rem !important;
+    margin-bottom: .9rem !important;
 }

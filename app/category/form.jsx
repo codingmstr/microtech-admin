@@ -25,23 +25,21 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     inputs: [
                         {element: 'input', type: 'text', name: 'id', label: 'item_id', class: 'flex', readOnly: true},
                         {element: 'input', type: 'number', name: 'products', class: 'flex', readOnly: true},
-                        {element: 'input', type: 'text', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
+                        {element: 'input', type: 'text1', name: 'created_at', label: 'date', class: 'flex', readOnly: true},
                     ],
                 },
                 {
-                    options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
+                    options: {cols: 1, gap: 5, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
-                        {element: 'input', type: 'text', name: 'name', class: 'flex', required: true},
-                        {element: 'input', type: 'text', name: 'slug', class: 'flex', readOnly: true},
-                        {element: 'input', type: 'text', name: 'company', class: 'flex'},
-                        {element: 'input', type: 'phone', name: 'phone', class: 'flex'},
-                        {element: 'input', type: 'text', name: 'location', class: 'flex'},
+                        {element: 'json_textarea', rows: 2, name: 'name', required: true},
+                        {element: 'json_textarea', rows: 2, name: 'company'},
+                        {element: 'json_textarea', rows: 2, name: 'location'},
+                        {element: 'json_textarea', name: 'description'},
                     ],
                 },
                 {
-                    options: {cols: 2, gap: 6, hr: false},
+                    options: {cols: 1, gap: 1, hr: false},
                     inputs: [
-                        {element: 'textarea', name: 'description'},
                         {element: 'textarea', name: 'notes'},
                     ],
                 },
