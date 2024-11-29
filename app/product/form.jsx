@@ -67,7 +67,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     options: {cols: 2, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
                     inputs: [
                         {element: 'input', type: 'phone', name: 'phone', class: 'flex', hidden_when: {type: 'online'}},
-                        {element: 'input', type: 'whatsapp', name: 'whatsapp', class: 'flex', hidden_when: {type: 'online'}},
+                        {element: 'input', type: 'phone', name: 'whatsapp', class: 'flex', hidden_when: {type: 'online'}},
                         {element: 'select', type: 'language', name: 'language', class: 'flex', value: 'ar'},
                         {element: 'select', type: 'genders', name: 'gender', class: 'flex', value: 'all'},
                         {element: 'select', type: 'country', name: 'country', class: 'flex', value: 'EG', hidden_when: {type: 'online'}},
@@ -142,6 +142,9 @@ export default function _Form_ ({ system, id, setForm, params }) {
                         {element: 'toggle', name: 'allow_coupons'},
                         {element: 'toggle', name: 'allow_orders'},
                         {element: 'toggle', name: 'allow_cancel'},
+                        {element: 'toggle', name: 'allow_notifications'},
+                        {element: 'toggle', name: 'allow_messages'},
+                        {element: 'toggle', name: 'private', value: false},
                         {element: 'toggle', name: 'allow'},
                         {element: 'toggle', name: 'active'},
                     ],

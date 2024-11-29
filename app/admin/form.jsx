@@ -9,7 +9,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
     return (
 
         <Form
-            id={id} system={system} setForm={setForm}
+            id={id} system={system} setForm={setForm} mailbox={true}
             related={[
                 {
                     name: 'report',
@@ -87,6 +87,18 @@ export default function _Form_ ({ system, id, setForm, params }) {
                         {element: 'toggle', name: 'allow_messages'},
                         {element: 'toggle', name: 'allow_statistics'},
                         {element: 'toggle', name: 'allow_login'},
+                        {element: 'toggle', name: 'allow_referrals'},
+                        {element: 'toggle', name: 'allow_transactions'},
+                        {element: 'toggle', name: 'allow_levels'},
+                        {element: 'toggle', name: 'allow_contents'},
+                        {element: 'toggle', name: 'allow_payments'},
+                        {element: 'toggle', name: 'allow_commissions'},
+                        {element: 'toggle', name: 'allow_qrcodes'},
+                        {element: 'toggle', name: 'allow_followers'},
+                        {element: 'toggle', name: 'allow_chats'},
+                        {element: 'toggle', name: 'allow_notifications'},
+                        {element: 'toggle', name: 'allow_manual_notifications'},
+                        {element: 'toggle', name: 'allow_private_services'},
                         {element: 'toggle', name: 'allow_vendors_wallet', value: false},
                         {element: 'toggle', name: 'allow_clients_wallet', value: false},
                         {element: 'toggle', name: 'allow_reports', value: false},

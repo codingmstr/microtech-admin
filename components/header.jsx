@@ -378,9 +378,9 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.supervisor ? <li><Link href="/admin" rel="preload">{config.text.admins}</Link></li> : '' }
-                                { config.user.allow_vendors ? <li><Link href="/vendor" rel="preload">{config.text.vendors}</Link></li> : '' }
-                                { config.user.allow_clients ? <li><Link href="/client" rel="preload">{config.text.clients}</Link></li> : '' }
+                                { config.user.supervisor ? <li><Link href="/admin">{config.text.admins}</Link></li> : '' }
+                                { config.user.allow_vendors ? <li><Link href="/vendor">{config.text.vendors}</Link></li> : '' }
+                                { config.user.allow_clients ? <li><Link href="/client">{config.text.clients}</Link></li> : '' }
                                 
                             </ul>
 
@@ -407,16 +407,16 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
-                                { config.user.allow_categories ? <li><Link href="/category" rel="preload">{config.text.categories}</Link></li> : '' }
-                                { config.user.allow_products ? <li><Link href="/product" rel="preload">{config.text.products}</Link></li> : '' }
-                                { config.user.allow_coupons ? <li><Link href="/coupon" rel="preload">{config.text.coupons}</Link></li> : '' }
-                                { config.user.allow_orders ? <li><Link href="/order" rel="preload">{config.text.orders}</Link></li> : '' }
-                                { config.user.allow_reviews ? <li><Link href="/review" rel="preload">{config.text.reviews}</Link></li> : '' }
+                                { config.user.allow_categories ? <li><Link href="/category">{config.text.categories}</Link></li> : '' }
+                                { config.user.allow_products ? <li><Link href="/product">{config.text.products}</Link></li> : '' }
+                                { config.user.allow_coupons ? <li><Link href="/coupon">{config.text.coupons}</Link></li> : '' }
+                                { config.user.allow_orders ? <li><Link href="/order">{config.text.orders}</Link></li> : '' }
+                                { config.user.allow_reviews ? <li><Link href="/review">{config.text.reviews}</Link></li> : '' }
                                 <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.allow_blogs ? <li><Link href="/blog">{config.text.blogs}</Link></li> : '' }
-                                { config.user.allow_comments ? <li><Link href="/comment" rel="preload">{config.text.comments}</Link></li> : '' }
-                                { config.user.allow_replies ? <li><Link href="/reply" rel="preload">{config.text.replies}</Link></li> : '' }
-                                
+                                { config.user.allow_comments ? <li><Link href="/comment">{config.text.comments}</Link></li> : '' }
+                                { config.user.allow_replies ? <li><Link href="/reply">{config.text.replies}</Link></li> : '' }
+                    
                             </ul>
 
                         </li> : ''
@@ -442,11 +442,15 @@ export default function Header () {
 
                             <ul className="sub-menu">
 
+                                { config.user.allow_levels ? <li><Link href="/level">{config.text.levels}</Link></li> : '' }
+                                { config.user.allow_commissions ? <li><Link href="/commission">{config.text.commissions}</Link></li> : '' }
+                                { config.user.allow_transactions ? <li><Link href="/transaction">{config.text.transactions}</Link></li> : '' }
                                 { config.user.allow_reports ? <li><Link href="/report">{config.text.reports}</Link></li> : '' }
-                                { config.user.super ? <li><Link href="/setting">{config.text.settings}</Link></li> : '' }
+                                <hr className="border-border dark:border-border-dark my-2 m-auto"/>
                                 { config.user.super ? <li><Link href="/payment">{config.text.payments}</Link></li> : '' }
-                                { config.user.super ? <li><Link href="/content">{config.text.content_manager}</Link></li> : '' }
-                                
+                                { config.user.super ? <li><Link href="/setting">{config.text.settings}</Link></li> : '' }
+                                { config.user.allow_contents ? <li><Link href="/content">{config.text.contents}</Link></li> : '' }
+
                             </ul>
 
                         </li> : ''

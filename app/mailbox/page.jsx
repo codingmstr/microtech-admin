@@ -2,6 +2,7 @@
 import { api, matching, fix_date_time, print } from "@/public/script/main";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'next/navigation';
 import Table from "./table";
 import Form from "./form";
 import Display from "./display";
@@ -23,6 +24,8 @@ export default function Mailbox () {
     const [selected, setSelected] = useState({});
     const [loader, setLoader] = useState(true);
     const [checked, setChecked] = useState([]);
+    const searchParams = useSearchParams();
+    const [opened, setOpened] = useState(0);
 
     const _get_ = async() => {
 
@@ -106,6 +109,14 @@ export default function Mailbox () {
     }
     useEffect(() => {
 
+        if ( opened || !users.length ) return;
+        const params_data = {};
+        for (const [key, value] of searchParams.entries()) params_data[key] = value;
+        if ( params_data.user ) { setTab('form'); setOpened(parseInt(params_data.user) || 0) }
+
+    }, [data]);
+    useEffect(() => {
+
         if ( selected?.id ) _open_();
         else setTab('table');
 
@@ -138,9 +149,9 @@ export default function Mailbox () {
                 
                 { tab === 'table' && <Table mails={mails} rows={rows} data={data} setData={setData} setSelected={setSelected} setTab={setTab} type={type} setType={setType} loader={loader} pager={pager} setPager={setPager} checked={checked} setChecked={setChecked} search={search} setSearch={setSearch} setStar={_star_} setImportant={_important_} reload={_get_}/> }
 
-                { tab === 'display' && <Display  mail={selected} setSelected={setSelected} setTab={setTab} setStar={_star_} setImportant={_important_}/> }
+                { tab === 'display' && <Display mail={selected} setSelected={setSelected} setTab={setTab} setStar={_star_} setImportant={_important_}/> }
 
-                { tab === 'form' && <Form data={data} setData={setData} setTab={setTab} setType={setType} users={users}/> }
+                { tab === 'form' && <Form data={data} setData={setData} setTab={setTab} setType={setType} users={users} opened={opened}/> }
 
                 <Broadcast data={data} setData={setData} current_user={config.user}/>
 

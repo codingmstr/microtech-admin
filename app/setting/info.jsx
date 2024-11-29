@@ -22,7 +22,9 @@ export default function Info ({ data, setData }) {
 
     }
     useEffect(() => {
+
         document.title = `${config.text.information} | ${config.text.settings}`;
+
     }, []);
 
     return (
@@ -39,38 +41,11 @@ export default function Info ({ data, setData }) {
 
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
 
-                        <Elements element='input' type='text' name='name' className='flex' value={data.name} onChange={(e) => setData({...data, name: e})}/>
-                        <Elements element='select' type='language' className='flex' name='language' value={data.language} onChange={(e) => setData({...data, language: e})}/>
-                        <Elements element='input' type='text' name='email' className='flex' value={data.email} onChange={(e) => setData({...data, email: e})}/>
-                        <Elements element='select' type='currency' className='flex' name='currency' value={data.currency} onChange={(e) => setData({...data, currency: e})}/>
-                        <Elements element='input' type='text' name='phone' className='flex' value={data.phone} onChange={(e) => setData({...data, phone: e})}/>
+                        <Elements element='input' type='number' name='commission_amount' className='flex free-label' value={data.commission_amount} onChange={(e) => setData({...data, commission_amount: e})}/>
+                        <Elements element='input' type='number' name='commission_percentage' className='flex free-label' value={data.commission_percentage} onChange={(e) => setData({...data, commission_percentage: e})}/>
+                        <Elements element='input' type='number' name='referral_amount' className='flex free-label' value={data.referral_amount} onChange={(e) => setData({...data, referral_amount: e})}/>
+                        <Elements element='input' type='number' name='referral_percentage' className='flex free-label' value={data.referral_percentage} onChange={(e) => setData({...data, referral_percentage: e})}/>
 
-                    </div>
-
-                    <Elements element='hr' className='my-7'/>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
-
-                        <Elements element='select' type='country' name='country' className='flex' value={data.country} onChange={(e) => setData({...data, country: e})}/>
-                        <Elements element='input' type='text' name='city' className='flex' value={data.city} onChange={(e) => setData({...data, city: e})}/>
-                        <Elements element='input' type='text' name='street' className='flex' value={data.street} onChange={(e) => setData({...data, street: e})}/>
-                        <Elements element='input' type='text' name='location' className='flex' value={data.location} onChange={(e) => setData({...data, location: e})}/>
-                        <Elements element='input' type='text' name='code' className='flex' value={data.code} onChange={(e) => setData({...data, code: e})}/>
-
-                    </div>
-
-                    <Elements element='hr' className='my-7'/>
-
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 px-2">
-
-                        <Elements element='input' type='text' name='whatsapp' className='flex' value={data.whatsapp} onChange={(e) => setData({...data, whatsapp: e})}/>
-                        <Elements element='input' type='text' name='telegram' className='flex' value={data.telegram} onChange={(e) => setData({...data, telegram: e})}/>
-                        <Elements element='input' type='text' name='twitter' className='flex' value={data.twitter} onChange={(e) => setData({...data, twitter: e})}/>
-                        <Elements element='input' type='text' name='facebook' className='flex' value={data.facebook} onChange={(e) => setData({...data, facebook: e})}/>
-                        <Elements element='input' type='text' name='instagram' className='flex' value={data.instagram} onChange={(e) => setData({...data, instagram: e})}/>
-                        <Elements element='input' type='text' name='linkedin' className='flex' value={data.linkedin} onChange={(e) => setData({...data, linkedin: e})}/>
-                        <Elements element='input' type='text' name='youtube' className='flex' value={data.youtube} onChange={(e) => setData({...data, youtube: e})}/>
-                    
                     </div>
 
                 </div>

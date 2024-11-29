@@ -1,6 +1,6 @@
 "use client";
 import { api, date, fix_time, storage, fix_date, sound, scroll_down, is_down, scroll_to, print } from '@/public/script/main';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Loader from "@/components/loader";
@@ -8,19 +8,16 @@ import Elements from '@/components/elements';
 import Icons from '@/components/icons';
 import Link from 'next/link';
 
-export default function Form ({ room, data, setData, menu, setMenu, loader, setLoader, current_user }) {
+export default function Form ({ room, data, setData, menu, setMenu, loader, setLoader, current_user, setCurrentUser }) {
 
     const config = useSelector((state) => state.config);
     const router = useRouter();
-    const [last, setLast] = useState('');
-    const [content, setContent] = useState('');
     const [scroller, setScroller] = useState(false);
-    const ref = useRef(null);
 
     const _start_room_ = ( messages ) => {
 
         let new_messages = messages.filter(_ => _.sender_id !== 'system');
-        let last_date = '', unread = 0, unreadIndex = 0;
+        let last_date = '';
 
         messages.forEach((message) => {
 
@@ -29,80 +26,29 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
                 let new_msg = {sender_id: 'system', created_at: date(), content: fix_date(message.created_at)};
                 last_date = message.created_at?.split(' ')[0];
                 new_messages.splice(new_messages.indexOf(message), 0, new_msg);
-                setLast(last_date);
-
-            }
-            if ( !message.readen && message.sender_id !== current_user.id ){
-
-                unread++;
-                unreadIndex = unreadIndex || new_messages.indexOf(message);
 
             }
 
         });
        
-        let unread_msg = {id: 'unread-message', sender_id: 'unreaden', created_at: date(), content: `${unread} ${config.text.unreaden_messages}`};
-        if ( unread ) new_messages.splice(unreadIndex, 0, unread_msg);
-        
         room.messages = new_messages;
         room.opened = true;
-        room.unreaden = 0;
         setData([...data]);
-        
-        if ( unread ) scroll_to('unread-message');
-        else scroll_down('.display-content');
-        setTimeout(() => setLoader(false), 200);
 
-    }
-    const _update_room_ = ( message ) => {
-
-        if ( date('date') !== last ) {
-            room.messages.push({sender_id: 'system', created_at: date(), content: fix_date(message.created_at)});
-            setLast(date('date'));
-        }
-        room.messages = room.messages.filter(_ => !_.unread);
-        room.messages.push(message);
-        setData([...data]);
         scroll_down('.display-content');
-        sound('send');
+        setTimeout(() => setLoader(false), 200);
 
     }
     const _get_ = async() => {
 
-        const response = await api(`chat/friends/${room.user.id}`);
+        const response = await api(`chats/${room.id}`);
         _start_room_(response.messages || []);
-
-    }
-    const _send_ = async( file ) => {
-
-        let id = date();
-        let message = {
-            id: id,
-            created_at: date(),
-            sender_id: current_user.id,
-            receiver_id: room.user.id,
-            type: file ? 'file' : 'text',
-            content: ref.current?.value || '',
-            file: file,
-            local: true,
-        }
-        _update_room_(message);
-        setContent('');
-
-        let request = { content: message.content, type: message.type, file: message.file?.file }
-        const response = await api(`chat/friends/${room.user.id}/send`, request);
-
-        if ( response.message ) {
-            room.messages = room.messages.map(_ => _.id === id ? response.message : _);
-            setData([...data]);
-        }
 
     }
     useEffect(() => {
 
         if ( !room?.user?.id ) return;
-        ref.current?.focus();
-        setContent('');
+        setCurrentUser(room.client || {});
 
         if ( room.opened ) {
             if ( room.unreaden ) scroll_to('unread-message');
@@ -124,32 +70,37 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
                     room.user ?
                     <div className="h-full">
 
-                        <div className="flex items-center px-5 py-3 gap-3 border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
+                        <div className="flex items-center px-5 py-3 gap-4 border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
 
                             <button onClick={() => setMenu(!menu)} type="button" className="xl:hidden hover:text-primary">
                                 <Icons icon='menu' className='w-7 h-7'/>
                             </button>
 
-                            <div className="relative">
-                                
-                                <Elements element='image' value={room.user.image} className='w-10 h-10'/>
+                            <div className='w-full flex justify-center items-center'>
 
-                                { room.user.online && <Icons icon='online' /> }
+                                <div className='w-full sm:w-[70%] flex justify-between items-center gap-5'>
 
-                            </div>
+                                    <div className="flex items-center gap-3">
+                                        <Elements element='image' value={room.user?.image} className='w-10 h-10'/>
+                                        <div onClick={() => router.push(`/vendor?edit=${room.user?.id}`)} className="font-semibold truncate flex items-center tracking-wide default gap-x-1 duration-300 hover:underline cursor-pointer select-none">
+                                            <span className='max-w-[10rem] dark:text-white-light/75 text-[.9rem]'>{room.user?.name}</span>
+                                            <Elements element='user_role' value={2}/>
+                                        </div>
+                                    </div>
 
-                            <div>
+                                    <div className='flex items-center'>
+                                        <Icons icon='message' className='!w-6 !h-6 dark:text-white-light/75 opacity-[.6]'/>
+                                    </div>
 
-                                <div onClick={() => router.push(`${room.user.role == 2 ? `/vendor?edit=${room.user.id}` : `/client?edit=${room.user.id}`}`)} className="font-semibold truncate flex items-center tracking-wide default gap-x-1 duration-300 hover:underline cursor-pointer select-none">
-                                    <span className='max-w-[10rem] dark:text-white-light/75 text-[.9rem]'>{room.user.name}</span>
-                                    <Elements element='user_role' value={room.user.role}/>
+                                    <div className="flex items-center gap-3">
+                                        <Elements element='image' value={room.client?.image} className='w-10 h-10'/>
+                                        <div onClick={() => router.push(`/client?edit=${room.client?.id}`)} className="font-semibold truncate flex items-center tracking-wide default gap-x-1 duration-300 hover:underline cursor-pointer select-none">
+                                            <span className='max-w-[10rem] dark:text-white-light/75 text-[.9rem]'>{room.client?.name}</span>
+                                            <Elements element='user_role' value={3}/>
+                                        </div>
+                                    </div>
+
                                 </div>
-
-                                <p className="text-white-dark text-xs mt-[.15rem] flex items-center select-none tracking-wide">
-
-                                    { room.user.online ? config.text.online : config.text.offline }
-
-                                </p>
 
                             </div>
 
@@ -264,36 +215,8 @@ export default function Form ({ room, data, setData, menu, setMenu, loader, setL
 
                         <div className="px-5 py-2 sm:py-5 absolute bottom-0 left-0 w-full select-none">
 
-                            <div className="flex w-full gap-x-3 rtl:space-x-reverse items-center">
-
-                                <form className="relative flex-1 input" onSubmit={(e) => { e.preventDefault(); _send_(); }}>
-
-                                    <input ref={ref} type='text' value={content} onChange={(e) => setContent(e.target.value)} className="form-input rounded-full bg-[#f4f4f4] px-12 py-2.5 text-[.9rem] border !border-border dark:!border-border-dark" placeholder={config.text.type_msg} autoComplete='off' required/>
-
-                                    <button type="button" className="absolute ltr:left-4 rtl:right-4 top-1/2 -translate-y-1/2 hover:text-primary no-outline">
-                                        <Icons icon='face' className='!w-6 !h-6'/>
-                                    </button>
-
-                                    <button type="submit" className="absolute ltr:right-4 rtl:left-4 -translate-y-1/2 hover:text-primary top-[1.25rem] rtl:rotate-[-90deg] outline-none">
-                                        <Icons icon='send'/>
-                                    </button>
-
-                                </form>
-
-                                <div className="flex items-center gap-x-3 rtl:space-x-reverse sm:py-0 py-3">
-
-                                    <button className="record-voice bg-input dark:bg-input-dark hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none hidden sm:block border border-border dark:border-border-dark">
-                                        <Icons icon='voice'/>
-                                    </button>
-
-                                    <Elements element='upload' multiple={true} onChange={_send_}>
-                                        <button className="attach-file bg-input dark:bg-input-dark hover:bg-primary-light rounded-md p-2 hover:text-primary outline-none border border-border dark:border-border-dark">
-                                            <Icons icon='folder'/>
-                                        </button>
-                                    </Elements>
-
-                                </div>
-
+                            <div className="w-full flex justify-center items-center text-warning text-[.9rem] tracking-wide cursor-default">
+                                {config.text.cannot_reply}
                             </div>
 
                         </div>

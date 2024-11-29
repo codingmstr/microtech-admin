@@ -9,12 +9,18 @@ import Elements from './elements';
 import Icons from './icons';
 import Panel from "./panel";
 import Wallet from "./wallet";
+import Referrals from "./referrals";
+import Qrcode from "./qrcode";
 
 export default function Form ( props ) {
 
     const config = useSelector((state) => state.config);
     const router = useRouter();
-    const { system='', id=0, save=true, wallet, general=[], sidebar=[], settings=[], statistics=[], bring=[], related=[], setForm } = props
+    const {
+        system='', id=0, save=true, wallet, referrals, general=[], sidebar=[],
+        settings=[], statistics=[], bring=[], related=[], setForm, bring_values,
+        chatbox, mailbox, qrcode
+    } = props;
     const [loader, setLoader] = useState(true);
     const [items, setItems] = useState([...general, ...settings, ...sidebar]);
     const [data, setData] = useState({});
@@ -61,6 +67,7 @@ export default function Form ( props ) {
         if ( bring.length ) {
             const response = await api(`${system}/default`);
             bring.forEach(_ => _data_[_] = response[_] || []);
+            bring_values?.forEach(_ => _data_[_] = response[_] || '');
             setLoader(false)
         }
         else {
@@ -95,7 +102,7 @@ export default function Form ( props ) {
 
         setLoader(true);
         const response = await api(id ? `${system}/${id}/update` : `${system}/store`, {...data, ...fix_files(data)});
-        
+
         if ( response.status ) {
             setData({...data, new_files: null, deleted_files: null, slider: {files: data.slider?.files || []}});
             if ( id ) alert_msg(`${config.text.item} ( ${id} ) - ${config.text.updated_successfully}`);
@@ -172,6 +179,13 @@ export default function Form ( props ) {
                                     </li> : ''
                                 }
                                 {
+                                    referrals && id && config.user[`allow_reports`] ?
+                                    <li onClick={() => setTab('referrals')} className={`${tab === 'referrals' && 'active'}`}>
+                                        <Icons icon='users'/>
+                                        <span>{config.text.referrals}</span>
+                                    </li> : ''
+                                }
+                                {
                                     settings.length ?
                                     <li onClick={() => setTab('settings')} className={`${tab === 'settings' && 'active'}`}>
                                         <Icons icon='setting'/>
@@ -204,6 +218,7 @@ export default function Form ( props ) {
                                 { tab === 'info' && <div className={`panel p-6 ${config.animation} animate__animated`}><Panel items={general} data={data} setData={setData} system={system}/></div> }
                                 { tab === 'wallet' && <div className={`panel p-6 ${config.animation} animate__animated`}><Wallet system={system} id={id}/></div> }
                                 { tab === 'settings' && <div className={`panel p-6 ${config.animation} animate__animated`}><Panel items={settings} data={data} setData={setData} system={system}/></div> }
+                                { tab === 'referrals' && <div className={`${config.animation} animate__animated`}><Referrals system={system} id={id}/></div> }
                                 { tab === 'statistics' && <div className={`${config.animation} animate__animated`}><Panel items={statistics} data={data.statistics || {}} setData={setData} system={system}/></div> }
 
                                 {
@@ -235,11 +250,8 @@ export default function Form ( props ) {
                             <div className="panel">
 
                                 <h1 className='flex items-center opacity-[.8] select-none'>
-
                                     <Icons icon='setting' className='dark:!text-white-light'/>
-
                                     <span className='font-semibold text-[1.05rem] px-2.5 dark:text-white-light'>{config.text.invoice}</span>
-
                                 </h1>
 
                                 <Elements element='hr' className='mt-5'/>
@@ -248,6 +260,26 @@ export default function Form ( props ) {
 
                                     { save && <Elements element='save_button' onClick={_save_}/> }
                                     <Elements element='cancel_button' onClick={_cancel_}/>
+
+                                    {
+                                        chatbox && id ?
+                                        <button onClick={() => router.push(`/chatbox?user=${id}`)} className='w-full py-2.5 text-[1rem] flex justify-center items-center gap-3 rounded-md cursor-pointer duration-300 border border-info text-info hover:bg-info hover:text-white'>
+                                            <Icons icon='message'/>
+                                            {config.text.send_message}
+                                        </button> : ''
+                                    }
+                                    {
+                                        mailbox && id ?
+                                        <button onClick={() => router.push(`/mailbox?user=${id}`)} className='w-full py-2.5 text-[1rem] flex justify-center items-center gap-3 rounded-md cursor-pointer duration-300 border border-info text-info hover:bg-info hover:text-white'>
+                                            <Icons icon='mail'/>
+                                            {config.text.a_mail}
+                                        </button> : ''
+                                    }
+                                    {
+                                        qrcode && id ?
+                                        <Qrcode data={data}/> : ''
+                                    }
+
                                     { id ? <Elements element='delete_button' onClick={_delete_}/> : '' }
 
                                 </div>

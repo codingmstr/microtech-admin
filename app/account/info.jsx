@@ -53,7 +53,6 @@ export default function Info ({ data, setData }) {
                         <Elements element='input' type='text' name='name' value={data.name} onChange={(e) => setData({...data, name: e})}/>
                         <Elements element='input' type='email' name='email' value={data.email} onChange={(e) => setData({...data, email: e})}/>
                         <Elements element='input' type='phone' name='phone' value={data.phone} onChange={(e) => setData({...data, phone: e})}/>
-                        <Elements element='input' type='text' name='company' value={data.company} onChange={(e) => setData({...data, company: e})}/>
                         <Elements element='input' type='number' name='age' value={data.age} onChange={(e) => setData({...data, age: e})}/>
 
                         <Elements element='select' type='language' name='language' value={data.language || 'ar'} onChange={(e) => setData({...data, language: e})}/>

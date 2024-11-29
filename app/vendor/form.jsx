@@ -9,7 +9,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
     return (
 
         <Form
-            id={id} system={system} setForm={setForm} wallet={true} 
+            id={id} system={system} setForm={setForm} wallet={true} referrals={true} chatbox={true}
             related={[
                 {
                     name: 'product',
@@ -42,6 +42,14 @@ export default function _Form_ ({ system, id, setForm, params }) {
                         {element: 'input', type: 'email', name: 'email', class: 'flex', required: true},
                         {element: 'input', type: 'phone', name: 'phone', class: 'flex'},
                         {element: 'password', name: 'password', class: 'flex', visible: true, required: id ? false : true},
+                    ],
+                },
+                {
+                    options: {cols: 1, gap: 6, hr: true, class: 'gap-x-[2.5rem] gap-y-7'},
+                    inputs: [
+                        {element: 'json_textarea', rows: 1, name: 'company', required: true},
+                        {element: 'json_textarea', rows: 1, name: 'location', required: true},
+                        {element: 'json_textarea', rows: 2, name: 'description', required: true},
                     ],
                 },
                 {
@@ -80,13 +88,28 @@ export default function _Form_ ({ system, id, setForm, params }) {
                     options: {cols: 3, gap: 1, hr: false, class: 'gap-y-6'},
                     inputs: [
                         {element: 'toggle', name: 'allow_products'},
-                        {element: 'toggle', name: 'allow_coupons'},
                         {element: 'toggle', name: 'allow_orders'},
+                        {element: 'toggle', name: 'allow_coupons'},
                         {element: 'toggle', name: 'allow_reviews'},
-                        {element: 'toggle', name: 'allow_reports'},
                         {element: 'toggle', name: 'allow_messages'},
+                        {element: 'toggle', name: 'allow_reports'},
+                        {element: 'toggle', name: 'allow_blogs'},
+                        {element: 'toggle', name: 'allow_comments'},
+                        {element: 'toggle', name: 'allow_replies'},
+                        {element: 'toggle', name: 'allow_likes'},
+                        {element: 'toggle', name: 'allow_dislikes'},
+                        {element: 'toggle', name: 'allow_transactions'},
+                        {element: 'toggle', name: 'allow_referrals'},
                         {element: 'toggle', name: 'allow_statistics'},
                         {element: 'toggle', name: 'allow_login'},
+                        {element: 'toggle', name: 'allow_withdraws'},
+                        {element: 'toggle', name: 'allow_deposits'},
+                        {element: 'toggle', name: 'allow_pay_later'},
+                        {element: 'toggle', name: 'allow_notifications'},
+                        {element: 'toggle', name: 'allow_manual_notifications'},
+                        {element: 'toggle', name: 'allow_qrcodes'},
+                        {element: 'toggle', name: 'allow_followers'},
+                        {element: 'toggle', name: 'allow_private_services'},
                         {element: 'toggle', name: 'available'},
                         {element: 'toggle', name: 'active'},
                     ],

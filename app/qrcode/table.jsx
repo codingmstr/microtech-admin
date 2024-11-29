@@ -3,6 +3,7 @@ import { fix_date, fix_number } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
 import Elements from "@/components/elements";
+import Link from 'next/link';
 
 export default function _Table_ ({ system, id, setId, setForm, params, item_filters, options }) {
 
@@ -20,31 +21,24 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'info', label: 'name', hidden: false, render: ({ info }) => (
+                    accessor: 'info', label: 'title', hidden: false, render: ({ info }) => (
                         <div>
-                            <Elements element='image' value={info.image}/>
-                            <span>{info.name}</span>
+                            <Elements element='image' value={info.image} type='qr'/>
+                            <span>{info.title}</span>
                         </div>
                     )
                 },
                 {
-                    accessor: 'company', label: 'company', hidden: false, render: ({ company }) => (
-                        <span>{company}</span>
+                    accessor: 'vendor', label: 'vendor', hidden: item_filters?.vendor_id, render: ({ vendor }) => (
+                        <div className='max-w-[12rem]'>
+                            { vendor && <Elements element='image' value={vendor.image}/> }
+                            { vendor ? <Link href={`/vendor?edit=${vendor.id}`}>{vendor.name}</Link> : <span>--</span> }
+                        </div>
                     )
                 },
                 {
-                    accessor: 'email', label: 'email', hidden: false, render: ({ email }) => (
-                        <span className='!font-nunito'>{email}</span>
-                    )
-                },
-                {
-                    accessor: 'phone', label: 'phone', hidden: false, render: ({ phone }) => (
-                        <span className='!font-nunito'>{phone}</span>
-                    )
-                },
-                {
-                    accessor: 'products', label: 'products', hidden: false, render: ({ products }) => (
-                        <span className='!font-nunito'>{fix_number(products)}</span>
+                    accessor: 'details', label: 'details', hidden: false, render: ({ details }) => (
+                        <span>{details || '--'}</span>
                     )
                 },
                 {
@@ -53,7 +47,12 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'active', label: 'status', hidden: false , render: ({ active }) => (
+                    accessor: 'expired_at', label: 'expired_at', hidden: false, render: ({ expired_at }) => (
+                        <span className='!font-nunito'>{fix_date(expired_at)}</span>
+                    )
+                },
+                {
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

@@ -10,13 +10,15 @@ export default function Danger ({ data, setData }) {
     const [loader, setLoader] = useState(false);
 
     const [items, setItems] = useState([
-        'mails', 'messages', 'notifications', 'products',
+        'mails', 'messages', 'products',
         'coupons', 'orders', 'reviews', 'blogs', 'comments', 'replies',
         'contacts', 'reports', 'admins', 'vendors', 'clients',
+        'commissions', 'levels', 'contents', 'transactions',
+        'qrcodes', 'referrals', 'private_services', 'followers',
     ]);
     const _delete_ = async( item ) => {
 
-        if ( !confirm(`${config.text.ask_delete} ${config.text.all} ${config.text[item]} ⚡ ?`) ) return;
+        if ( !confirm(`${config.text.ask_delete} ${config.text.all} ${config.text[item]} ⚡ ${config.text.question_mark}`) ) return;
         setLoader(true);
         const response = await api('setting/delete', {item: item});
         setLoader(false);
@@ -26,7 +28,9 @@ export default function Danger ({ data, setData }) {
 
     }
     useEffect(() => {
+
         document.title = `${config.text.danger_zone} | ${config.text.settings}`;
+        
     }, []);
 
     return (

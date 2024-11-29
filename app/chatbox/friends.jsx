@@ -1,6 +1,7 @@
 "use client";
 import { api, date, diff_date, fix_date, matching, print } from '@/public/script/main';
 import { Fragment, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Elements from '@/components/elements';
@@ -14,6 +15,8 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
     const [model, setModel] = useState(false);
     const [search, setSearch] = useState('');
     const [contacts, setContacts] = useState([]);
+    const searchParams = useSearchParams();
+    const [opened, setOpened] = useState(false);
 
     const _delete_ = async( id, destroy ) => {
 
@@ -22,26 +25,38 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
         setData(data.filter(_ => _.id !== id));
 
         let user_id = data.find(_ => _.id === id).user?.id || 0;
-        const response = await api(`chat/friends/${user_id}/delete`, {destroy: destroy});
+        const response = await api(`chat/friends/${user_id}/delete`, { for_all: destroy || false });
 
     }
     const _new_chat_ = ( id ) => {
         
         setMenu(false);
-        let item = data.find(_ => _.user.id === id);
+        let item = data.find(_ => _.user?.id == id);
         if ( item?.id !== room.id ) setLoader(true);
         if ( item?.id ) return setRoom(item);
+        if ( !users.find(_ => _.id == id) ) return;
 
-        item = { id: date(), created_at: date(), messages: [], user: users.find(_ => _.id === id) }
+        item = { id: date(), created_at: date(), messages: [], user: users.find(_ => _.id == id) }
         setData([item, ...data]);
         setRoom(item);
+        setOpened(true);
 
     }
+    useEffect(() => {
+
+        if ( opened ) return;
+        const params_data = {};
+        for (const [key, value] of searchParams.entries()) params_data[key] = value;
+        if ( params_data.user ) _new_chat_(params_data.user);
+
+    }, [data, users]);
     useEffect(() => {
 
         let _data_ = data.filter(_ => 
             matching(`--${_.user?.id}`, search) ||
             matching(_.user?.name, search) ||
+            matching(_.user?.email, search) ||
+            matching(_.user?.phone, search) ||
             matching(_.messages.slice(-1)[0]?.created_at, search) ||
             matching(_.messages.slice(-1)[0]?.content, search) ||
             matching(_.user?.id, search) ||
@@ -50,7 +65,6 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
         );
 
         _data_ = _data_.sort((a, b) => diff_date(a.messages.slice(-1)[0]?.created_at, b.messages.slice(-1)[0]?.created_at));
-
         setContacts(_data_);
 
     }, [data, search]);
@@ -94,7 +108,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                             {
                                 contacts.map((item, index) =>
                                 
-                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex mt-2 justify-between items-center w-full border border-border dark:border-border-dark m-0 p-[.8rem] bg-[#eee]/20 dark:bg-menu-dark/20 group rounded-sm relative cursor-pointer outline-none chat-user hover:bg-[#eee]/30 dark:hover:bg-menu-dark/40 ${index > 0 && ''} ${room.id === item.id && '!bg-[#eee]/40 dark:!bg-menu-dark/50'}`}>
+                                    <div key={index} onClick={() => { setMenu(false); setRoom(item); room.id !== item.id && setLoader(true); }} className={`flex mt-2 justify-between items-center w-full border border-border dark:border-border-dark m-0 p-[.8rem] bg-[#eee]/25 dark:bg-menu-dark/20 group rounded-sm relative cursor-pointer outline-none chat-user hover:bg-[#eee]/40 dark:hover:bg-menu-dark/40 ${index > 0 && ''} ${room.id === item.id && '!bg-[#eee]/40 dark:!bg-menu-dark/50'}`}>
                                                     
                                         <div className="flex flex-1 items-center">
                         
@@ -149,6 +163,12 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
                                                                 <span className="px-2 mt-[2px] text-[.85rem] tracking-wide">{config.text.delete}</span>
                                                             </button>
                                                         </li>
+                                                        <li onClick={(e) => _delete_(item.id, true)}>
+                                                            <button>
+                                                                <Icons icon='delete' className='max-w-4.5 max-h-4.5'/>
+                                                                <span className="px-2 mt-[2px] text-[.85rem] tracking-wide">{config.text.delete_for_all}</span>
+                                                            </button>
+                                                        </li>
                                                     </ul>
 
                                                 </Elements>
@@ -177,7 +197,7 @@ export default function Friends ({ data, setData, room, setRoom, users, menu, se
 
             <div className={`absolute z-[5] hidden h-full w-full rounded-md bg-black/60 ${menu && '!block xl:!hidden'}`} onClick={() => setMenu(!menu)}></div>
 
-            <Select model={model} setModel={setModel} data={users} onChange={_new_chat_}/>
+            <Select model={model} setModel={setModel} data={users} onChange={_new_chat_} roles/>
 
         </Fragment>
 

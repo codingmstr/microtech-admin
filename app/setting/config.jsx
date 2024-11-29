@@ -13,7 +13,6 @@ export default function Configrations ({ data, setData }) {
     const [items, setItems] = useState([
         {name: 'allow_mails', label: 'mails'},
         {name: 'allow_messages', label: 'messages'},
-        {name: 'allow_notifications', label: 'notifications'},
         {name: 'allow_categories', label: 'categories'},
         {name: 'allow_products', label: 'products'},
         {name: 'allow_coupons', label: 'coupons'},
@@ -24,7 +23,15 @@ export default function Configrations ({ data, setData }) {
         {name: 'allow_replies', label: 'replies'},
         {name: 'allow_contacts', label: 'contacts'},
         {name: 'allow_reports', label: 'reports'},
-        {name: 'allow_emails', label: 'emails'},
+        {name: 'allow_referrals', label: 'referrals'},
+        {name: 'allow_levels', label: 'levels'},
+        {name: 'allow_commissions', label: 'commissions'},
+        {name: 'allow_qrcodes', label: 'qrcodes'},
+        {name: 'allow_followers', label: 'followers'},
+        {name: 'allow_chats', label: 'chats'},
+        {name: 'allow_private_services', label: 'private_services'},
+        {name: 'allow_notifications', label: 'notifications'},
+        {name: 'allow_manual_notifications', label: 'manual_notifications'},
         {name: 'allow_vendors', label: 'vendors'},
         {name: 'allow_clients', label: 'clients'},
         {name: 'allow_logins', label: 'logins'},
@@ -44,7 +51,9 @@ export default function Configrations ({ data, setData }) {
 
     }
     useEffect(() => {
+
         document.title = `${config.text.configrations} | ${config.text.settings}`;
+        
     }, []);
 
     return (

@@ -60,22 +60,22 @@ export default function Elements ( props ) {
         <div>
             {
                 element === 'image' &&
-                <div className={`image overflow-hidden bg-white-dark dark:bg-menu-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem]'} ${className || 'w-full h-full'}`}>
+                <div className={`image overflow-hidden bg-white-dark dark:bg-menu-dark object-cover layer-div select-none flex justify-center items-center p-[1.5px] ${type !== 'md' && type !== 'qr' ? 'rounded-full' : type === 'md' ? 'rounded-[.3rem] md' : '!p-0'} ${className || 'w-full h-full'}`}>
                     <img 
                         src={`${storage}/${value}`} 
-                        className={`w-full h-full object-cover ${type !== 'md' ? 'rounded-full' : 'rounded-[.3rem] md'}`} 
-                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
+                        className={`w-full h-full object-cover ${type !== 'md' && type !== 'qr' ? 'rounded-full' : type === 'md' ? 'rounded-[.3rem] md' : ''}`} 
+                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' && type !== 'qr' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
                 </div>
             }
             {
                 element === 'image_edit' &&
-                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark ${type !== 'md' ? 'rounded-full' : 'rounded-md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
+                <div className={`relative group flex justify-center items-center select-none overflow-hidden bg-[#fafafa] dark:bg-black/20 m-auto border border-border dark:border-border-dark ${type !== 'md' && type !== 'qr' ? 'rounded-full' : 'rounded-md md'} ${className || 'w-[8rem] h-[8rem]'} ${readOnly && 'layer-div'}`}>
                     <img 
                         src={src} 
-                        className={`object-cover ${type === 'md' ? 'w-full h-full md' : 'w-full h-full'}`} 
-                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' ? 'user' : 'error'}_icon.png`} 
+                        className={`object-cover ${type === 'md' ? 'w-full h-full md' : type === 'qr' ? 'object-fill max-w-auto h-[80%]' : 'w-full h-full'}`} 
+                        onError={(e) => e.target.src = `/media/layout/${type !== 'md' && type !== 'qr' ? 'user' : 'error'}_icon.png`} 
                         onLoad={(e) => e.target.src.includes('_icon') ? e.target.classList.add('empty-image') : e.target.classList.remove('empty-image')}
                     />
                     {
@@ -105,7 +105,7 @@ export default function Elements ( props ) {
                 element === 'input' &&
                 <div className={`w-full ${className.includes('flex') && 'flex justify-center items-center'} ${className}`}>
                     <label htmlFor={name} className={`cursor-default line-clamp-1 ${className.includes('free-label') || !className.includes('flex') ? 'w-[9rem]' : 'w-[6rem]'} ${className.includes('flex') ? 'mb-0 ltr:mr-1 rtl:ml-1' : 'mb-5'} ${no_translate && '!font-nunito'}`}>{no_translate ? label || name : config.text[lower(label || name)]}</label>
-                    <input id={name} type={type || 'text'} onKeyUp={onKeyUp} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && type !== 'date' ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={focus ? ref : inputRef} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
+                    <input id={name} type={type || 'text'} onKeyUp={onKeyUp} onFocus={(e) => copyable ? copy(value, e.target) : ''} value={name?.includes('_at') && !type.includes('date') ? fix_date(value) : value || (value === 0 ? 0 : '')} onChange={(e) => onChange(e.target.value)} readOnly={readOnly} ref={focus ? ref : inputRef} min='0' className={`form-input flex-1 ${readOnly ? 'cursor-default': ''}`} autoComplete="off"/>
                 </div>
             }
             {
@@ -152,6 +152,7 @@ export default function Elements ( props ) {
                             type === 'currency' ? Currencies?.map((item, index) => <option key={index} value={item.code}>{item.name}</option>) :
                             type === 'rate' ? [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((item, index) => <option key={index} value={item}>{fix_number(item, true).replace('00', '0')}</option>) :
                             type === 'status' ? ['pending', 'request', 'confirmed', 'cancelled'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
+                            type === 'service' ? [{id: 'online', name: 'online_service'}, {id: 'offline', name: 'offline_service'}].map((item, index) => <option key={index} value={item.id}>{config.text[item.name]}</option>) :
                             type === 'gender' ? ['male', 'female'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
                             type === 'genders' ? ['male', 'female', 'all'].map((item, index) => <option key={index} value={item}>{config.text[item]}</option>) :
                             children?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
@@ -246,18 +247,18 @@ export default function Elements ( props ) {
             {
                 element === 'user_role' &&
                 <span className={`select-none ${className}`}>
-                    ~&nbsp;
+                    - &nbsp; 
                     {
                         value == 1 && type == 'super' ?
-                        <span className='text-[.7rem] text-danger'>{config.text.super_admin}</span>
+                        <span className='text-[.75rem] text-danger'>{config.text.super_admin}</span>
                         : value == 1 && type == 'supervisor' ?
-                        <span className='text-[.7rem] text-orange-600'>{config.text.supervisor}</span>
+                        <span className='text-[.75rem] text-orange-600'>{config.text.supervisor}</span>
                         : value == 1 ?
-                        <span className='text-[.7rem] text-warning'>{config.text.admin}</span>
+                        <span className='text-[.75rem] text-warning'>{config.text.a_admin}</span>
                         : value == 2 ?
-                        <span className='text-[.7rem] text-primary'>{config.text.vendor}</span>
+                        <span className='text-[.75rem] text-primary'>{config.text.a_vendor}</span>
                         :
-                        <span className='text-[.7rem] text-success'>{config.text.client}</span>
+                        <span className='text-[.75rem] text-success'>{config.text.a_client}</span>
                     }
                 </span>
             }

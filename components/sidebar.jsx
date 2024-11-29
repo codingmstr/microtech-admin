@@ -254,10 +254,23 @@ export default function Sidebar () {
                                         { config.user.allow_blogs ? <li><Link href='/blog'>{config.text.blogs}</Link></li> : '' }
                                         { config.user.allow_comments ? <li><Link href='/comment'>{config.text.comments}</Link></li> : '' }
                                         { config.user.allow_replies ? <li><Link href='/reply'>{config.text.replies}</Link></li> : '' }
+                                        { config.user.allow_levels ? <li><Link href='/level'>{config.text.levels}</Link></li> : '' }
+                                        { config.user.allow_commissions ? <li><Link href='/commission'>{config.text.commissions}</Link></li> : '' }
                                     </ul>
                                 </AnimateHeight>
 
                             </li>
+                            {
+                                config.user.allow_transactions ?
+                                <li className="nav-item">
+                                    <Link href="/transaction">
+                                        <div className="flex items-center gap-3">
+                                            <Icons icon='report' className='dark:!text-white-light/75'/>
+                                            <span>{config.text.transactions}</span>
+                                        </div>
+                                    </Link>
+                                </li> : ''
+                            }
                             {
                                 config.user.allow_reports ?
                                 <li className="nav-item">
@@ -292,7 +305,7 @@ export default function Sidebar () {
                                 </li> : ''
                             }
                             {
-                                config.user.super ?
+                                config.user.allow_contents ?
                                 <li className="nav-item">
                                     <Link href="/content">
                                         <div className="flex items-center gap-3">

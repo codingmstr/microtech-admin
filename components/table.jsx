@@ -27,9 +27,9 @@ export default function Table ( props ) {
     const [tab, setTab] = useState('');
     
     const {
-        system='', columns=[], add=true, edit=true, deletes=true, search=true, searchParams={},
+        system='', system_id, columns=[], add=true, edit=true, deletes=true, follower=false, search=true,
         filters=[], use_filters=true, settings=true, rows=5, checkbox=true,
-        pagination=true, start_loader=false,
+        pagination=true, start_loader=false, searchParams={},
         item_filters, setForm, setId, label, push_url
     } = props;
     const options = {
@@ -46,7 +46,7 @@ export default function Table ( props ) {
         
         set_my_loader(true);
         const request = {page: current_page, limit: limit, search: query, filter: filter, filters: JSON.stringify(item_filters || {})};
-        const response = await api(`${system}`, request);
+        const response = await api(`${system_id ? `${system}/${system_id}` : system}`, request);
 
         set_my_data(response.items || []);
         setTags(response.tags || []);
@@ -114,6 +114,16 @@ export default function Table ( props ) {
         }
 
     }
+    const _status_ = async( id, key, value ) => {
+
+        set_my_data(my_data.map(_ => { _.id === id ? _[key] = value : ''; return _ }));
+        alert_msg(config.text.status_changed);
+        
+        const request = {};
+        request[key] = value;
+        const response = await api(`${system}/${id}/status`, request);
+        
+    }
     const _download_ = async() => {
 
         // const response = await api(`${system}/download`, {query: query, filter: filter});
@@ -153,11 +163,11 @@ export default function Table ( props ) {
 
         <div className={`w-full space-y-5 ${config.animation} animate__animated`}>
             {
-                !item_filters &&
-                <Elements element='page_title' label={`all_${system}s`} name={`all_${system}s`}/>
+                !item_filters && !system_id ?
+                <Elements element='page_title' label={`all_${system}s`} name={`all_${system}s`}/> : ''
             }
             {
-                (!item_filters && Object.keys(tags).length > 0) &&
+                (!item_filters && Object.keys(tags).length > 0) && !system_id ?
                 <div className='w-full hidden lg:grid grid-cols-4 gap-4'>
                     {
                         Object.keys(tags).length > 0 &&
@@ -239,7 +249,7 @@ export default function Table ( props ) {
 
                         </div>
                     }
-                </div>
+                </div> : ''
             }
             {
                 loader ? <Loader className='container'/> :
@@ -398,6 +408,35 @@ export default function Table ( props ) {
                                                                     {config.text.delete}
                                                                 </button>
                                                             }
+                                                        </div>
+                                                    ),
+                                                },
+                                            ] :
+                                            follower ? [
+                                                ...columns.map(_ => {
+                                                    _.sortable = true;
+                                                    _.textAlignment = config.dir === 'rtl' ? 'right' : 'left';
+                                                    _.title = config.text[lower(_.label)] || '';
+                                                    return _;
+                                                }).filter(_ => !_.hidden),
+                                                {
+                                                    accessor: 'action', sortable: false,
+                                                    title: config.text.invoice,
+                                                    textAlignment: config.dir === 'rtl' ? 'right' : 'left',
+                                                    render: ({ id }) => (
+                                                        <div className="buttons mx-auto flex w-full items-center !gap-3 select-none">
+                                                            {
+                                                                my_data.find(_ => _.id === id)?.active ?
+                                                                <button type="button" onClick={() => _status_(id, 'active', false)} className="btn rounded-md text-warning border-warning shadow-none hover:bg-warning hover:text-white px-4 py-[5px] text-[.8rem] tracking-wide">
+                                                                    {config.text.ban}
+                                                                </button> : 
+                                                                <button type="button" onClick={() => _status_(id, 'active', true)} className="btn rounded-md text-success border-success shadow-none hover:bg-success hover:text-white px-4 py-[5px] text-[.8rem] tracking-wide">
+                                                                    {config.text.activate}
+                                                                </button>
+                                                            }
+                                                            <button type="button" onClick={() => _delete_one_(id)} className="btn rounded-md text-danger border-danger shadow-none hover:bg-danger hover:text-white px-4 py-[5px] text-[.8rem] tracking-wide">
+                                                                {config.text.delete}
+                                                            </button>
                                                         </div>
                                                     ),
                                                 },

@@ -9,7 +9,7 @@ export default function _Form_ ({ system, id, setForm, params }) {
     return (
 
         <Form
-            id={id} system={system} setForm={setForm} wallet={true}
+            id={id} system={system} setForm={setForm} wallet={true} chatbox={true}
             related={[
                 {
                     name: 'order',
@@ -89,8 +89,14 @@ export default function _Form_ ({ system, id, setForm, params }) {
                         {element: 'toggle', name: 'allow_dislikes'},
                         {element: 'toggle', name: 'allow_messages'},
                         {element: 'toggle', name: 'allow_reports'},
+                        {element: 'toggle', name: 'allow_transactions'},
+                        {element: 'toggle', name: 'allow_referrals'},
                         {element: 'toggle', name: 'allow_statistics'},
                         {element: 'toggle', name: 'allow_login'},
+                        {element: 'toggle', name: 'allow_withdraws'},
+                        {element: 'toggle', name: 'allow_deposits'},
+                        {element: 'toggle', name: 'allow_pay_later'},
+                        {element: 'toggle', name: 'allow_notifications'},
                         {element: 'toggle', name: 'active'},
                     ],
                 },

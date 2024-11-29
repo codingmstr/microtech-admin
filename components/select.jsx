@@ -30,9 +30,9 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
             matching(
                 item.role == 1 && item.super ? config.text.super_admin : 
                 item.role == 1 && item.supervisor ? config.text.supervisor : 
-                item.role == 1 ? config.text.admin : 
-                item.role == 2 ? config.text.vendor : 
-                item.role == 3 ? config.text.client : '', search
+                item.role == 1 ? config.text.a_admin : 
+                item.role == 2 ? config.text.a_vendor : 
+                item.role == 3 ? config.text.a_client : '', search
             ) ||
             matching(item.online ? config.text.online : config.text.offline, search)
         );
@@ -81,10 +81,15 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
 
                                 <div className="flex-1 font-semibold max-w[80%]">
                                     
-                                    <h6 className="text-base name text-[1rem]">
+                                    <h6 className="text-base flex items-center gap-2 name text-[1rem]">
                                         
                                         <p className='line-clamp-2 text-ellipsis'>{item.name || item.title || item.content || ''}</p>
                                         
+                                        {
+                                            roles && !type ?
+                                            <Elements element='user_role' value={item.role} type={item.super ? 'super' : item.supervisor ? 'supervisor' : ''}/> : ''
+                                        }
+
                                     </h6>
 
                                     <div className="flex text-xs tell !text-[.9rem] mt-[5px] opacity-[.8]">
@@ -93,10 +98,6 @@ export default function Select ({ model, setModel, data, onChange, label, type, 
                                                 
                                             { item.created_at && <span>{fix_date(item.created_at)}</span> }
                                             { item.new_price && <span>~&nbsp;{fix_number(item.new_price, true)} {config.text.currency}</span> }
-                                            {
-                                                roles && !type ?
-                                                <Elements element='user_role' value={item.role} type={item.super ? 'super' : item.supervisor ? 'supervisor' : ''}/> : ''
-                                            }
                                         
                                         </div>
 

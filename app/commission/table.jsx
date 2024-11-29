@@ -2,7 +2,6 @@
 import { fix_date, fix_number } from '@/public/script/main';
 import { useSelector } from 'react-redux';
 import Table from "@/components/table";
-import Elements from "@/components/elements";
 
 export default function _Table_ ({ system, id, setId, setForm, params, item_filters, options }) {
 
@@ -20,31 +19,33 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'info', label: 'name', hidden: false, render: ({ info }) => (
-                        <div>
-                            <Elements element='image' value={info.image}/>
-                            <span>{info.name}</span>
-                        </div>
+                    accessor: 'amount', label: 'a_amount', hidden: false, render: ({ amount }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(amount, true)}</span>
+                            <span>{config.text.curr}</span>
+                        </span>
                     )
                 },
                 {
-                    accessor: 'company', label: 'company', hidden: false, render: ({ company }) => (
-                        <span>{company}</span>
+                    accessor: 'percentage', label: 'percentage', hidden: false, render: ({ percentage }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(percentage, true)} %</span>
+                        </span>
                     )
                 },
                 {
-                    accessor: 'email', label: 'email', hidden: false, render: ({ email }) => (
-                        <span className='!font-nunito'>{email}</span>
+                    accessor: 'orders', label: 'orders', hidden: false, render: ({ orders }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(orders)}</span>
+                        </span>
                     )
                 },
                 {
-                    accessor: 'phone', label: 'phone', hidden: false, render: ({ phone }) => (
-                        <span className='!font-nunito'>{phone}</span>
-                    )
-                },
-                {
-                    accessor: 'products', label: 'products', hidden: false, render: ({ products }) => (
-                        <span className='!font-nunito'>{fix_number(products)}</span>
+                    accessor: 'earnings', label: 'earnings', hidden: false, render: ({ earnings }) => (
+                        <span className='!flex items-center gap-1.5'>
+                            <span className='!font-nunito'>{fix_number(earnings, true)}</span>
+                            <span>{config.text.curr}</span>
+                        </span>
                     )
                 },
                 {
@@ -53,7 +54,7 @@ export default function _Table_ ({ system, id, setId, setForm, params, item_filt
                     )
                 },
                 {
-                    accessor: 'active', label: 'status', hidden: false , render: ({ active }) => (
+                    accessor: 'active', label: 'status', hidden: false, render: ({ active }) => (
                         <span className={`badge ${active ? 'badge-success' : 'badge-danger'}`}>
                             { active ? config.text.active : config.text.stopped }
                         </span>

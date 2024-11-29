@@ -6,10 +6,10 @@ import Elements from "@/components/elements";
 import Icons from "@/components/icons";
 import Loader from "@/components/loader";
 
-export default function Form ({ data, setData, users, setTab, setType }) {
+export default function Form ({ data, setData, users, setTab, setType, opened }) {
 
     const config = useSelector((state) => state.config);
-    const [mail, setMail] = useState({});
+    const [mail, setMail] = useState({user_id: opened});
     const [files, setFiles] = useState([]);
     const [loader, setLoader] = useState(false);
 

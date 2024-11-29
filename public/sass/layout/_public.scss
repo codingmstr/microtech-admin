@@ -182,7 +182,7 @@ body{
     *:not(.material-symbols-outlined){
         font-family: 'Tajawal', sans-serif;
         font-weight: 500;
-        input:not([type="text"]){ font-family: 'Nunito', 'sans-serif'; }
+        input:not([type="text"]){ font-family: 'Nunito', 'sans-serif'; direction: ltr; }
     }
 }
 
